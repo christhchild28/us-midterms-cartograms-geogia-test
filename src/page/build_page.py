@@ -1,4 +1,4 @@
-"""Assemble elections/<id>/index.html from lens.template.html + rings.json + lens-fields.json + config text."""
+"""Assemble elections/<id>/outline.html from lens.template.html + rings.json + lens-fields.json + config text."""
 import html, json, os, re, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
 from common import cfg as cfg_
@@ -38,5 +38,5 @@ meta_js = json.dumps(meta).replace('</', '<\\/')
 assert '/*DATA*/' in t and '/*LENS*/' in t and '/*META*/' in t
 t = t.replace('/*DATA*/', D).replace('/*LENS*/', L).replace('/*META*/', meta_js)
 pre = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-open(cfg.out('index.html'), 'w').write(pre + t + '</html>')
-print('wrote index.html', round(os.path.getsize(cfg.out('index.html')) / 1e6, 2), 'MB; lens starts at', start)
+open(cfg.out('outline.html'), 'w').write(pre + t + '</html>')
+print('wrote outline.html', round(os.path.getsize(cfg.out('outline.html')) / 1e6, 2), 'MB; lens starts at', start)

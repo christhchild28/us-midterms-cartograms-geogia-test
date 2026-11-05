@@ -46,7 +46,7 @@ check(all(len(c['hex']) == len(c['real']) == len(c['hex2']) for c in cs), 'real 
 check(lens['minDet'] > 0, 'lens warps never fold (min Jacobian %.3f > 0)' % lens['minDet'])
 st = lay['stats']; print('  info  border pairs kept: %d of %d (%.1f%%), %d spurious touches' % (st['kept'], st['real'], 100 * st['kept'] / st['real'], st['spurious']))
 
-pg = open(cfg.out('index.html')).read()
+pg = open(cfg.out('outline.html')).read()
 check(not re.findall(r'\{\{[A-Z_]+\}\}|/\*(DATA|LENS|META)\*/', pg), 'page has no unfilled placeholders')
 check(len(pg) < 16e6, 'page size %.2f MB (limit 16 MB)' % (len(pg) / 1e6))
 js = re.search(r'<script>([\s\S]*)</script>', pg).group(1)

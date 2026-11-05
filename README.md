@@ -2,7 +2,7 @@
 
 Interactive county maps that show election results two ways: by land area, and by the people who live there. A land map of a close statewide race looks lopsided because empty counties are big. These pages put population back in, with three views: **Land**, **People** (one hexagon per 10,000 residents) and **Lens** (a population magnifier you move over the map, or snap to the whole map).
 
-`index.html` is a gallery of every election built so far. Each election has two self-contained pages in `elections/<id>/`: `warp.html` (the current one: real map, lens warp, and a hexmap built on that warp) and `index.html` (the earlier version whose hexmap holds the state's real outline).
+`index.html` is a gallery of every election built so far. Each election is a self-contained page in `elections/<id>/index.html`: real map, lens warp, and a hexmap built on that warp. The earlier version, whose hexmap holds the state's real outline, is kept in `elections/<id>/archive/` and can still be built with `--outline`.
 
 | Election | Page |
 |---|---|
@@ -12,10 +12,10 @@ Interactive county maps that show election results two ways: by land area, and b
 
 Scope today: **one US state, county level, exactly two candidates.** (Any number of parties and non-US elections are planned, not built.)
 
-1. Copy `elections/ga-2026-senate/` to `elections/<id>/` (for example `pa-2026-senate`), drop the generated files (`layout.json`, `rings.json`, `lens-fields.json`, `index.html`, `media/`, `archive/`).
+1. Copy `elections/ga-2026-senate/` to `elections/<id>/` (for example `pa-2026-senate`), drop the generated files (`warp-layout.json`, `warp-rings.json`, `layout.json`, `rings.json`, `lens-fields.json`, `index.html`, `media/`, `archive/`).
 2. Put county results in `results.csv` (a `county` column of names, or a `fips` column, plus one vote column per candidate).
 3. Edit `config.json` (reference below).
-4. Run `python3 build.py elections/<id>/config.json --warp` for the warp page (`warp.html`, about 1 to 3 minutes for a mid-size state), or without `--warp` for the outline-holding page (`index.html`, about 3 to 10 minutes). Resume with `--from <step>`; add `--gif` for a 720x900 GIF and MP4 for social media (with `--warp` they are named `<id>-warp`).
+4. Run `python3 build.py elections/<id>/config.json` (about 1 to 3 minutes for a mid-size state). It writes `index.html`. Resume with `--from <step>`; add `--gif` for a 720x900 GIF and MP4 for social media. Add `--outline` to build the older outline-holding page instead (`outline.html`, 3 to 10 minutes).
 
 Needs Python 3 with numpy, scipy, shapely and matplotlib; `node` with Playwright and `ffmpeg` only for `--gif`.
 
@@ -41,7 +41,18 @@ Optional keys: `results.fips_col` (join by FIPS instead of names); `population` 
 
 ## How it works
 
-`build.py` runs seven steps; each script reads the same config (`src/common/cfg.py`) and writes next to it. Caches live in `elections/<id>/.cache/` (safe to delete).
+Three views of one map, in this order: **Land** (real counties), **Lens** (Magnify, or Whole map: every county sized by its residents) and **People** (one hexagon per 10,000 residents). The Land to People morph travels through the lens warp, so counties stretch to their warped shape first and then turn into hexagons. A pale copy of the real map sits behind Lens and People so you can see what moved.
+
+Steps: join, **warpack** (`src/hexpack/warpack.py`), **warprings** (`build_warp_rings.py`), lens, **warppage** (`src/page/build_warp_page.py`), **warpverify** (`src/verify_warp.py`).
+
+- **warpack** flows each county's outline through a density-equalizing diffusion (`src/lens/warpflow.py`) until its area is proportional to its hexagon count, then assigns hexagons to counties with one exact capacitated assignment (`scipy.optimize.linear_sum_assignment`). Counties get their exact hexagon counts, stay connected after a swap repair, and the result is deterministic. Knobs under `hex`: `warp_grid` (default 0.015 degrees), `warp_sea` (default 1.0), `polish_pull` (default 0.25).
+- The hexmap follows the warped shapes, not the real outline, so it overlaps the real state by only about 73%. Georgia keeps 305 of 414 real county borders (73.7%), against 321 (77.5%) in the outline-holding layout.
+- **County card:** tapping a county opens a bottom sheet on phones (a side panel on desktop, where hovering previews) with a More button for the vote table. Set `lens.card` to `"live"` in the config for a card that follows the lens as you drag instead of changing on tap.
+- Borders follow one hierarchy: white county borders, a bold white border around each county's hexagons on the hexmap, a lighter tint of the county's color between hexagons, and light lines on the pale background map.
+
+## Older outline-holding build (`--outline`)
+
+`build.py --outline` runs seven steps; each script reads the same config (`src/common/cfg.py`) and writes next to it. Caches live in `elections/<id>/.cache/` (safe to delete).
 
 1. **join** (`src/page/join.py`): geometry + population + results into one county table. Stops if any county is unmatched.
 2. **hexpack** (`src/hexpack/hexpack.py`): packs one hexagon per 10,000 residents (at least one per county) into the state's outline so every county is one connected piece and the outline still reads as the state. Counties land on average 0.5 to 0.8 degrees from their real position at a fixed outline; the build prints how many real borders survive.
@@ -50,17 +61,6 @@ Optional keys: `results.fips_col` (join by FIPS instead of names); `population` 
 5. **page** (`src/page/build_page.py`): fills `lens.template.html` with the data, names, text and colors.
 6. **verify** (`src/verify.py`): connected counties, hexagon counts, ring areas, no folded warps, page parses. The build fails if any check does.
 7. **gallery** (`src/site_index.py`): regenerates the root `index.html`.
-
-## The warp page (`--warp`)
-
-Three views of one map, in this order: **Land** (real counties), **Lens** (Magnify, or Whole map: every county sized by its residents) and **People** (one hexagon per 10,000 residents). The Land to People morph travels through the lens warp, so counties stretch to their warped shape first and then turn into hexagons. A pale copy of the real map sits behind Lens and People so you can see what moved.
-
-Steps (`--warp`): join, **warpack** (`src/hexpack/warpack.py`), **warprings** (`build_warp_rings.py`), lens, **warppage** (`src/page/build_warp_page.py`), **warpverify** (`src/verify_warp.py`).
-
-- **warpack** flows each county's outline through a density-equalizing diffusion (`src/lens/warpflow.py`) until its area is proportional to its hexagon count, then assigns hexagons to counties with one exact capacitated assignment (`scipy.optimize.linear_sum_assignment`). Counties get their exact hexagon counts, stay connected after a swap repair, and the result is deterministic. Knobs under `hex`: `warp_grid` (default 0.015 degrees), `warp_sea` (default 1.0), `polish_pull` (default 0.25).
-- The hexmap follows the warped shapes, not the real outline, so it overlaps the real state by only about 73%. Georgia keeps 305 of 414 real county borders (73.7%), against 321 (77.5%) in the outline-holding layout.
-- **County card:** tapping a county opens a bottom sheet on phones (a side panel on desktop, where hovering previews) with a More button for the vote table. Set `lens.card` to `"live"` in the config for a card that follows the lens as you drag instead of changing on tap.
-- Borders follow one hierarchy: white county borders, a bold white border around each county's hexagons on the hexmap, a lighter tint of the county's color between hexagons, and light lines on the pale background map.
 
 ## Reproducibility
 

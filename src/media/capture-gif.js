@@ -1,5 +1,5 @@
 // Renders the share GIF/MP4 (720x900, 20 fps). Usage: node capture-gif.js <config.json> [page.html] [out-suffix]
-// Default page is index.html (outline hexmap); pass warp.html and -warp for the warp-following page.
+// Default page is index.html (the warp page); for the older outline-holding page pass outline.html and -outline.
 // Needs: playwright (chromium) and ffmpeg on PATH. Text and colours come from the config and the page's own numbers.
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path'); const { execSync } = require('child_process');
 const cfgPath = path.resolve(process.argv[2] || process.env.CARTOGRAM_CONFIG);
