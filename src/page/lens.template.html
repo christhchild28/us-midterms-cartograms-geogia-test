@@ -1,0 +1,579 @@
+<title>Georgia Population Lens</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout: phone is one column (toggle, map, county card, chips, bars, legend, table); from 880px the map sits left and the readout right. */
+:root {
+  --bg: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --ink-3: #75746f;
+  --hair: #e3e2de; --raised: #ffffff; --edge: rgba(11,11,11,.16);
+  --n: #e5e3dd; --b-mid: #6da7ec; --b-deep: #104281; --r-mid: #ee7a77; --r-deep: #9b1c1c;
+  --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #9a9990;
+    --hair: #343432; --raised: #262625; --edge: rgba(240,239,236,.2);
+    --n: #4a4a46; --b-mid: #2a78d6; --b-deep: #9ec5f4; --r-mid: #d04a49; --r-deep: #ffa19d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #9a9990;
+  --hair: #343432; --raised: #262625; --edge: rgba(240,239,236,.2);
+  --n: #4a4a46; --b-mid: #2a78d6; --b-deep: #9ec5f4; --r-mid: #d04a49; --r-deep: #ffa19d;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 40px;
+}
+.wrap { max-width: 1040px; margin: 0 auto; }
+header { margin-bottom: 16px; }
+.kicker { font: 500 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 10px; }
+h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2vw, 42px); line-height: 1.04; letter-spacing: -.02em; margin: 0 0 10px; text-wrap: balance; }
+.dek { color: var(--ink-2); max-width: 64ch; margin: 0; text-wrap: pretty; }
+.dek b { color: var(--ink); font-weight: 700; }
+
+.controls { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 12px; margin: 14px 0 6px; }
+.seg { display: inline-flex; border: 1px solid var(--hair); border-radius: 8px; padding: 3px; gap: 2px; background: var(--bg); }
+.seg button { font: 500 15px/1 var(--f-body); color: var(--ink-2); background: transparent; border: 0; border-radius: 6px; padding: 11px 20px; cursor: pointer; min-height: 44px; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.seg button:focus-visible, .chip:focus-visible, .tog input:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.tog { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); cursor: pointer; min-height: 44px; }
+.tog input { width: 18px; height: 18px; accent-color: var(--ink); margin: 0; }
+.hint { color: var(--ink-2); font-size: 14px; max-width: 62ch; margin: 0 0 14px; min-height: 2.9em; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
+@media (min-width: 880px) { .grid { grid-template-columns: minmax(0, 1.45fr) minmax(300px, 1fr); gap: 36px; align-items: start; } .side { position: sticky; top: 16px; } }
+
+.mapwrap { position: relative; width: 100%; max-width: 640px; }
+svg.map { display: block; width: 100%; height: auto; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+.cp { stroke: var(--bg); stroke-width: .8px; vector-effect: non-scaling-stroke; stroke-linejoin: round; cursor: pointer; }
+.hxl { fill: none; stroke: var(--bg); stroke-width: .6px; stroke-opacity: .8; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.county.hl .cp, .county.sel .cp { stroke: var(--ink) !important; stroke-width: 2px !important; }
+.sf { stroke: none; pointer-events: none; }
+.seg button:disabled { opacity: .4; cursor: default; }
+.lensctl { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 8px; }
+.lensctl[hidden] { display: none; }
+.seg.sm button { padding: 8px 14px; font-size: 14px; min-height: 36px; }
+.rng { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); min-height: 44px; }
+.rng input { width: 96px; accent-color: var(--ink); }
+.rng output { font-family: var(--f-mono); font-size: 13px; min-width: 3.2em; color: var(--ink); }
+svg.map.lensmode { touch-action: none; cursor: grab; }
+.sout { fill: none; stroke: var(--ink-2); stroke-width: 1.2px; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; pointer-events: none; }
+.lring { fill: none; stroke: var(--ink); stroke-width: 1.2px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; pointer-events: none; }
+.gp { fill: none; stroke: var(--ink-2); stroke-width: .8px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.gt { fill: none; stroke: var(--ink); stroke-width: 1.4px; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.lab { font-family: var(--f-body); font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+
+.tip { position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none; background: var(--raised); color: var(--ink); border: 1px solid var(--hair); border-radius: 8px; padding: 10px 12px; width: max-content; max-width: min(260px, calc(100% - 8px)); box-shadow: 0 6px 24px rgba(0,0,0,.16); opacity: 0; transition: opacity .1s; font-size: 13px; line-height: 1.35; }
+.tip.on { opacity: 1; }
+.tip .nm { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
+.tip .mg { font: 500 17px/1.2 var(--f-mono); margin: 4px 0 6px; display: flex; align-items: center; gap: 8px; }
+.tip .sw { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+.tip dl { display: grid; grid-template-columns: auto auto; gap: 2px 14px; margin: 0; color: var(--ink-2); }
+.tip dd { margin: 0; text-align: right; font-family: var(--f-mono); color: var(--ink); font-variant-numeric: tabular-nums; }
+.tip .fx { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--hair); font-weight: 700; }
+
+h2 { font: 700 13px/1.2 var(--f-body); letter-spacing: .02em; margin: 0 0 4px; }
+.sub { color: var(--ink-3); font-size: 13px; margin: 0 0 12px; }
+.card { border: 1px solid var(--hair); border-radius: 10px; padding: 14px 16px; margin: 0 0 14px; min-height: 148px; }
+.card .nm { font-weight: 700; font-size: 17px; margin: 0 0 2px; }
+.card .fx { font: 500 22px/1.15 var(--f-mono); margin: 4px 0 10px; }
+.card .em { color: var(--ink-2); font-size: 14px; margin: 0; }
+.cb { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 13px; margin: 6px 0; }
+.cb i { display: block; height: 10px; border-radius: 3px; min-width: 2px; }
+.cb span:last-child { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
+.chips h3 { flex-basis: 100%; font: 500 11px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 6px 0 0; }
+.chip { font: 500 13px/1 var(--f-body); color: var(--ink); background: transparent; border: 1px solid var(--hair); border-radius: 999px; padding: 10px 12px; min-height: 40px; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline; }
+.chip b { font: 500 12px/1 var(--f-mono); color: var(--ink-2); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.chip[aria-pressed="true"] b { color: var(--bg); }
+
+.bars { display: grid; gap: 12px; margin: 0 0 22px; }
+.keyline { display: flex; gap: 16px; flex-wrap: wrap; font-size: 13px; color: var(--ink-2); margin: 0 0 8px; }
+.keyline span { display: inline-flex; align-items: center; gap: 6px; }
+.keyline i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.brow { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 12px; align-items: end; padding: 8px 10px; margin: 0 -10px; border-radius: 8px; }
+.brow.act { background: color-mix(in srgb, var(--ink) 6%, transparent); }
+.brow .l { font-size: 14px; font-weight: 500; }
+.brow .l small { display: block; font-weight: 400; color: var(--ink-3); font-size: 12px; }
+.brow .v { font: 500 18px/1 var(--f-mono); font-variant-numeric: tabular-nums; }
+.track { grid-column: 1 / -1; display: flex; gap: 2px; height: 12px; }
+.track i { display: block; height: 100%; }
+.track i:first-child { border-radius: 4px 0 0 4px; }
+.track i:last-child { border-radius: 0 4px 4px 0; }
+.brow.votes { border-top: 1px solid var(--hair); border-radius: 0; margin-top: 2px; padding-top: 16px; }
+.legend { margin: 0 0 6px; }
+.ramp { height: 10px; border-radius: 5px; border: 1px solid var(--edge); }
+.ticks { display: flex; justify-content: space-between; font: 400 11px/1 var(--f-mono); color: var(--ink-3); margin-top: 6px; }
+
+details { margin-top: 28px; border-top: 1px solid var(--hair); padding-top: 14px; }
+summary { cursor: pointer; font-weight: 700; font-size: 14px; padding: 6px 0; }
+.tw { overflow: auto; max-height: 420px; border: 1px solid var(--hair); border-radius: 8px; margin-top: 10px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; min-width: 560px; }
+th, td { padding: 8px 12px; text-align: right; border-bottom: 1px solid var(--hair); white-space: nowrap; font-variant-numeric: tabular-nums; }
+th:first-child, td:first-child { text-align: left; }
+thead th { position: sticky; top: 0; background: var(--bg); font-weight: 700; font-size: 12px; color: var(--ink-2); }
+td.m { font-family: var(--f-mono); }
+.foot { margin-top: 28px; color: var(--ink-3); font-size: 12.5px; max-width: 80ch; }
+.foot p { margin: 0 0 8px; }
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="kicker">Georgia · U.S. Senate · Nov 3, 2026</p>
+    <h1>Georgia, by land and by people</h1>
+    <p class="dek" id="dek"></p>
+  </header>
+
+  <div class="controls">
+    <div class="seg" role="group" aria-label="Map view">
+      <button type="button" data-m="land" aria-pressed="true">Land</button>
+      <button type="button" data-m="pop" aria-pressed="false">People</button>
+      <button type="button" data-m="lens" aria-pressed="false" id="bLens" disabled>Lens</button>
+    </div>
+    <label class="tog"><input type="checkbox" id="outline"> Land outlines</label>
+    <label class="tog"><input type="checkbox" id="tips" checked> Tooltips</label>
+  </div>
+  <div class="lensctl" id="lensctl" hidden>
+    <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="true">Magnify</button><button type="button" data-s="2" aria-pressed="false">Whole map</button></div>
+  </div>
+  <p class="hint" id="hint">Tap People to rebuild the map with one hexagon per 10,000 residents. Tap any county to grow or shrink it in place, or try Lens.</p>
+
+  <div class="grid">
+    <div class="mapwrap" id="mapwrap">
+      <svg class="map" id="map" role="img" aria-label="Georgia county map of the 2026 Senate result. Choose People to redraw each county in proportion to its residents. A table of all counties follows."></svg>
+      <div class="tip" id="tip" role="status" aria-live="polite"></div>
+    </div>
+
+    <aside class="side">
+      <div class="card" id="card" aria-live="polite"></div>
+      <div class="chips" id="chips"></div>
+      <h2>Share of Georgia that Ossoff won</h2>
+      <p class="sub">Same election, counted four ways.</p>
+      <div class="keyline"><span><i id="k-b"></i>Ossoff</span><span><i id="k-r"></i>Collins</span></div>
+      <div class="bars" id="bars"></div>
+      <div class="legend">
+        <h2>County margin</h2>
+        <div class="ramp" id="ramp"></div>
+        <div class="ticks"><span>Collins +60</span><span>Even</span><span>Ossoff +60</span></div>
+      </div>
+    </aside>
+  </div>
+
+  <details>
+    <summary>All 159 counties, largest first</summary>
+    <div class="tw"><table id="tbl">
+      <thead><tr><th>County</th><th>Residents</th><th>Ossoff</th><th>Collins</th><th>Margin</th><th>Land → people</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </details>
+
+  <div class="foot">
+    <p id="method"></p>
+    <p>Results: county returns from the Atlanta Journal-Constitution with 99% of precincts reporting on Nov 5, 2026, unofficial until certified. The AP has called the race for Ossoff. Residents: Census Bureau 2019 county estimates. Island fragments of coastal counties are left off the map.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var h0 = location.hash.replace('#', '');
+  var D = /*DATA*/;
+  var LENS = /*LENS*/;
+  var C = D.counties, NS = 'http://www.w3.org/2000/svg', RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var totPop = 0, totLand = 0, tot = { d: 0, r: 0, popD: 0, landD: 0, cD: 0 };
+  C.forEach(function (c) { totPop += c.pop; totLand += c.landArea; tot.d += c.d; tot.r += c.r; });
+  C.forEach(function (c, i) {
+    c.i = i; c.tot = c.d + c.r; c.m = (c.d - c.r) / c.tot; c.dem = c.d > c.r;
+    c.popS = c.pop / totPop; c.landS = c.landArea / totLand; c.f = c.popS / c.landS;
+    c.R = Int32Array.from(c.real); c.H = Int32Array.from(c.hex); c.H2 = Int32Array.from(c.hex2); c.K = c.R.length / 2;
+    if (c.dem) { tot.popD += c.pop; tot.landD += c.landS; tot.cD++; }
+    var x = 0, y = 0; c.cells.forEach(function (p) { x += p[0]; y += p[1]; }); c.hx = x / c.n; c.hy = y / c.n;
+    var rx = 0, ry = 0; for (var k = 0; k < c.K; k++) { rx += c.R[2 * k]; ry += c.R[2 * k + 1]; } c.rx = rx / c.K / 1000; c.ry = ry / c.K / 1000;
+  });
+  var shares = { land: tot.landD, tile: tot.cD / C.length, pop: tot.popD / totPop, votes: tot.d / (tot.d + tot.r) };
+  var pct = function (x) { return Math.round(x * 100); };
+  var fmt = function (n) { return n.toLocaleString('en-US'); };
+  var pct1 = function (x) { return (x * 100).toFixed(x < .01 ? 2 : 1) + '%'; };
+  var fx = function (c) { return c.f >= 1 ? 'Expands ' + (c.f >= 10 ? c.f.toFixed(0) : c.f.toFixed(1)) + '×' : 'Shrinks ' + (1 / c.f >= 10 ? (1 / c.f).toFixed(0) : (1 / c.f).toFixed(1)) + '×'; };
+
+  /* ---------- color ---------- */
+  var stops;
+  function cv(n) { return getComputedStyle(document.documentElement).getPropertyValue(n).trim(); }
+  function h2r(h) { h = h.replace('#', ''); return [0, 2, 4].map(function (i) { return parseInt(h.substr(i, 2), 16); }); }
+  function mix(a, b, t) { return a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }); }
+  function readStops() { stops = { n: h2r(cv('--n')), bm: h2r(cv('--b-mid')), bd: h2r(cv('--b-deep')), rm: h2r(cv('--r-mid')), rd: h2r(cv('--r-deep')) }; }
+  function colorAt(m) { var t = Math.max(-1, Math.min(1, m / .6)), a = Math.abs(t), mid = t >= 0 ? stops.bm : stops.rm, deep = t >= 0 ? stops.bd : stops.rd; return a < .5 ? mix(stops.n, mid, a / .5) : mix(mid, deep, (a - .5) / .5); }
+  function css(rgb) { return 'rgb(' + rgb.join(',') + ')'; }
+  function lum(rgb) { var f = rgb.map(function (v) { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * f[0] + .7152 * f[1] + .0722 * f[2]; }
+
+  /* ---------- svg ---------- */
+  var svg = document.getElementById('map'), B = D.bounds;
+  svg.setAttribute('viewBox', [B[0], B[1], B[2] - B[0], B[3] - B[1]].join(' '));
+  function mk(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+  var gGhost = mk('g', {}, svg), gC = mk('g', {}, svg), gTop = mk('g', {}, svg), gLab = mk('g', {}, svg);
+  var side = D.s / Math.sqrt(3);
+  function hexPath(cells) {
+    var d = '';
+    cells.forEach(function (p) {
+      for (var k = 0; k < 6; k++) { var a = (-90 + 60 * k) * Math.PI / 180; d += (k ? 'L' : 'M') + (p[0] + side * Math.cos(a)).toFixed(3) + ',' + (p[1] + side * Math.sin(a)).toFixed(3); }
+      d += 'Z';
+    });
+    return d;
+  }
+  function ringPath(arr, K) { var d = 'M'; for (var k = 0; k < K; k++) d += (k ? 'L' : '') + (arr[2 * k] / 1000).toFixed(3) + ',' + (arr[2 * k + 1] / 1000).toFixed(3); return d + 'Z'; }
+  C.forEach(function (c) {
+    var rp = ringPath(c.R, c.K);
+    c.sf = mk('path', { 'class': 'sf', d: rp }, gGhost); c.sf.style.opacity = 0;
+    c.gp = mk('path', { 'class': 'gp', d: rp }, gGhost);
+    c.gt = mk('path', { 'class': 'gt', d: rp }, gTop); c.gt.style.opacity = 0;
+    c.g = mk('g', { 'class': 'county', 'data-i': c.i }, gC);
+    c.p = mk('path', { 'class': 'cp', d: rp }, c.g);
+    c.hl = mk('path', { 'class': 'hxl', d: hexPath(c.cells) }, c.g); c.hl.style.opacity = 0;
+    c.hl2 = mk('path', { 'class': 'hxl', d: hexPath(c.cells2) }, c.g); c.hl2.style.opacity = 0;
+    if (c.n >= 60) { c.lb = mk('text', { 'class': 'lab', x: c.hx.toFixed(3), y: c.hy.toFixed(3), 'font-size': .14 }, gLab); c.lb.textContent = c.name; c.lb.style.opacity = 0; }
+  });
+  var order = C.slice().sort(function (a, b) { return b.pop - a.pop; });
+  function reorder() { order.forEach(function (c) { gC.appendChild(c.g); }); }
+  reorder();
+
+  function recolor() {
+    readStops();
+    C.forEach(function (c) { var rgb = colorAt(c.m); c.p.setAttribute('fill', css(rgb)); c.sf.setAttribute('fill', css(rgb)); c.dark = lum(rgb) < .3; if (c.lb) { c.lb.setAttribute('fill', c.dark ? '#ffffff' : '#0b0b0b'); c.lb.setAttribute('stroke', c.dark ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.7)'); c.lb.setAttribute('stroke-width', .03); c.lb.setAttribute('paint-order', 'stroke'); } });
+    var st = [], k; for (k = -1; k <= 1.001; k += .25) st.push(css(colorAt(k * .6)) + ' ' + Math.round((k + 1) * 50) + '%');
+    document.getElementById('ramp').style.background = 'linear-gradient(90deg,' + st.join(',') + ')';
+    document.getElementById('k-b').style.background = css(stops.bm);
+    document.getElementById('k-r').style.background = css(stops.rm);
+    drawBars(); if (selected != null) showCard(selected);
+  }
+
+  /* ---------- morph state ---------- */
+  var n0 = C.length;
+  var T = new Float32Array(n0), TT = new Float32Array(n0), FR = new Float32Array(n0), ST = new Float32Array(n0), DL = new Float32Array(n0), DR = new Float32Array(n0).fill(420);
+  var LAY = new Uint8Array(n0), WW = new Float32Array(n0), WF = new Float32Array(n0), WG = new Float32Array(n0);
+  var DUR_ALL = RM ? 1 : 420, DUR_ONE = RM ? 1 : 380, SPR = .3, raf = 0, ghostOn = false;
+  function eo(x) { return (1 - Math.pow(2, -11 * x)) / (1 - Math.pow(2, -11)); }
+  function ez(x, fwd) { return fwd ? eo(x) : 1 - eo(1 - x); }
+  function smooth(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
+  function draw(c) {
+    var i = c.i, t = T[i], w = WW[i], R = c.R, H = c.H, H2 = c.H2, K = c.K, d = '', k, a, b;
+    if (t <= 0) d = (lens.a > 0.0005 && LF) ? warpPath(c) : ringPath(R, K);
+    else if (t >= 1 && w <= 0) d = ringPath(H, K);
+    else if (t >= 1 && w >= 1) d = ringPath(H2, K);
+    else {
+      d = 'M';
+      for (k = 0; k < K; k++) {
+        a = 2 * k; b = a + 1;
+        var tx = w <= 0 ? H[a] : H[a] + (H2[a] - H[a]) * w, ty = w <= 0 ? H[b] : H[b] + (H2[b] - H[b]) * w;
+        d += (k ? 'L' : '') + ((R[a] + (tx - R[a]) * t) / 1000).toFixed(3) + ',' + ((R[b] + (ty - R[b]) * t) / 1000).toFixed(3);
+      }
+      d += 'Z';
+    }
+    c.p.setAttribute('d', d); c.p.style.strokeWidth = (.8 + 1.7 * smooth(t)) + 'px';
+    var hv = smooth((t - .65) / .35);
+    c.hl.style.opacity = hv * (1 - w); c.hl2.style.opacity = hv * w;
+    c.gp.style.opacity = ghostOn ? .55 * smooth(t * 1.6) * (1 - w) : 0;
+    c.gt.style.opacity = Math.min(1, t * 3) * w;
+    c.sf.style.opacity = .3 * smooth(t * 2.5) * w;
+    if (c.lb) { c.lb.style.opacity = smooth((t - .75) / .25); c.lb.setAttribute('x', (c.hx + (c.cx - c.hx) * w).toFixed(3)); c.lb.setAttribute('y', (c.hy + (c.cy - c.hy) * w).toFixed(3)); }
+  }
+  function frame(now) {
+    var active = false;
+    for (var i = 0; i < C.length; i++) {
+      if (T[i] === TT[i] && WW[i] === WG[i]) continue;
+      var p = (now - ST[i]) / DR[i] * (1 + SPR) - DL[i] * SPR;
+      if (p <= 0) { active = true; continue; }
+      if (p >= 1) { T[i] = TT[i]; WW[i] = WG[i]; }
+      else { active = true; T[i] = FR[i] + (TT[i] - FR[i]) * ez(p, TT[i] >= FR[i]); WW[i] = WF[i] + (WG[i] - WF[i]) * ez(p, WG[i] >= WF[i]); }
+      draw(C[i]);
+    }
+    raf = active ? requestAnimationFrame(frame) : 0;
+    if (!active) uiMode();
+  }
+  function go(i, target, w, dly, dur, now) { FR[i] = T[i]; TT[i] = target; WF[i] = WW[i]; WG[i] = w; ST[i] = now; DL[i] = dly; DR[i] = dur; }
+  function kick() { if (!raf) raf = requestAnimationFrame(frame); }
+  var CXY = (function () { var a = C.filter(function (c) { return c.name === 'Fulton'; })[0]; return [a.rx, a.ry]; })();
+  var maxD = Math.max.apply(null, C.map(function (c) { return Math.hypot(c.rx - CXY[0], c.ry - CXY[1]); }));
+  function setAll(v, instant) {
+    var now = performance.now();
+    LAY.fill(v);
+    C.forEach(function (c) {
+      var q = Math.hypot(c.rx - CXY[0], c.ry - CXY[1]) / maxD;
+      go(c.i, v, 0, RM || instant ? 0 : (v === 1 ? q : 1 - q), DUR_ALL, now);
+      if (instant) { T[c.i] = v; WW[c.i] = 0; }
+    });
+    setHot(null);
+    if (instant) { C.forEach(draw); } else kick();
+    uiMode(); chipsSync();
+  }
+  function toggleCounty(i) {
+    var c = C[i], now = performance.now(), grow = TT[i] ? 0 : 1;
+    go(i, grow, grow ? (LAY[i] ? 0 : 1) : WW[i], 0, DUR_ONE, now);
+    gC.appendChild(c.g); selected = i; showCard(i); kick(); uiMode(); chipsSync();
+  }
+
+  /* ---------- lens ---------- */
+  var view = 'land', LF = null, CK = null, NN = LENS.nx * LENS.ny, FLD = new Float32Array(2 * NN), FA = new Float32Array(2 * NN), FB = new Float32Array(2 * NN), tipsOn = true, startLens = h0 === 'lens', lensDrag = false, viewTok = 0, lensInit = false;
+  var lens = { x: 0, y: 0, tx: 0, ty: 0, a: 0, at: 0, b: 1, bt: 1, g: 0, gt: 0, raf: 0, last: 0 }, GF = null;
+  var LR = LENS.radii, vb0 = [B[0], B[1], B[2] - B[0], B[3] - B[1]];
+  var sOut = mk('path', { 'class': 'sout', d: ringPath(LENS.outline, LENS.outline.length / 2) }, gTop); sOut.style.opacity = 0;
+  var lensRing = mk('circle', { 'class': 'lring', r: LR[0], cx: 0, cy: 0 }, gTop); lensRing.style.opacity = 0;
+  C.forEach(function (c) {
+    var K = c.K; c.vi = new Int32Array(K); c.vfx = new Float32Array(K); c.vfy = new Float32Array(K);
+    for (var k = 0; k < K; k++) {
+      var gx = (c.R[2 * k] / 1000 - LENS.ox) / LENS.h, gy = (c.R[2 * k + 1] / 1000 - LENS.oy) / LENS.h;
+      gx = Math.max(0, Math.min(LENS.nx - 1.0001, gx)); gy = Math.max(0, Math.min(LENS.ny - 1.0001, gy));
+      var ix = Math.floor(gx), iy = Math.floor(gy);
+      c.vi[k] = iy * LENS.nx + ix; c.vfx[k] = gx - ix; c.vfy[k] = gy - iy;
+    }
+  });
+  function loadLens() {
+    var btn = document.getElementById('bLens');
+    if (!window.DecompressionStream) { btn.hidden = true; return; }
+    try {
+      var bin = atob(LENS.data), u8 = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
+      new Response(new Blob([u8]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer().then(function (buf) {
+        var raw = new Int16Array(buf), nx = LENS.nx, ny = LENS.ny, nf = raw.length / (2 * NN), f, y, x;
+        for (f = 0; f < nf; f++) for (y = 0; y < ny; y++) { var o = f * 2 * NN + y * nx * 2; for (x = 1; x < nx; x++) { raw[o + 2 * x] += raw[o + 2 * x - 2]; raw[o + 2 * x + 1] += raw[o + 2 * x - 1]; } }
+        var nc0 = LENS.centers.length, gb = nc0 * 2 * NN; GF = new Float32Array(2 * NN); for (var gi = 0; gi < 2 * NN; gi++) GF[gi] = raw[gb + gi] / LENS.scale;
+        LF = raw; CK = new Int16Array(LENS.gx * LENS.gy).fill(-1);
+        LENS.centers.forEach(function (c, k) { CK[c[1] * LENS.gx + c[0]] = k; });
+        btn.disabled = false; if (startLens) setView('lens');
+      }).catch(function () { btn.hidden = true; });
+    } catch (e) { btn.hidden = true; }
+  }
+  function fieldInto(out, x, y, ri) {
+    var fx = (x - LENS.sx) / LENS.sp, fy = (y - LENS.sy) / LENS.sp, i0 = Math.floor(fx), j0 = Math.floor(fy), tx = fx - i0, ty = fy - j0, ks = [], ws = [], tot = 0, a, b;
+    var cand = [[i0, j0, (1 - tx) * (1 - ty)], [i0 + 1, j0, tx * (1 - ty)], [i0, j0 + 1, (1 - tx) * ty], [i0 + 1, j0 + 1, tx * ty]];
+    for (a = 0; a < 4; a++) {
+      var ci = cand[a][0], cj = cand[a][1]; if (ci < 0 || cj < 0 || ci >= LENS.gx || cj >= LENS.gy) continue;
+      var k = CK[cj * LENS.gx + ci]; if (k >= 0 && cand[a][2] > 1e-4) { ks.push(k); ws.push(cand[a][2]); tot += cand[a][2]; }
+    }
+    if (!ks.length) {
+      var best = 0, bd = 1e9; LENS.centers.forEach(function (c, k) { var d = Math.hypot(LENS.sx + c[0] * LENS.sp - x, LENS.sy + c[1] * LENS.sp - y); if (d < bd) { bd = d; best = k; } });
+      ks = [best]; ws = [1]; tot = 1;
+    }
+    var nc = LENS.centers.length, sc = 1 / LENS.scale, n2 = 2 * NN;
+    out.fill(0);
+    for (a = 0; a < ks.length; a++) { var base = (ri * nc + ks[a]) * n2, w = ws[a] / tot * sc; for (b = 0; b < n2; b++) out[b] += w * LF[base + b]; }
+  }
+  function computeField() {
+    var b = lens.b, i, n2 = 2 * NN;
+    fieldInto(FLD, lens.x, lens.y, 0);
+    if (lens.g > .001 && GF) { var g = lens.g; for (i = 0; i < n2; i++) FLD[i] += (GF[i] - FLD[i]) * g; }
+  }
+  function warpPath(c) {
+    var R = c.R, K = c.K, nx = LENS.nx, a = lens.a, F = FLD, vi = c.vi, vfx = c.vfx, vfy = c.vfy, d = 'M', k, b, fx, fy, ux, uy;
+    for (k = 0; k < K; k++) {
+      b = vi[k] * 2; fx = vfx[k]; fy = vfy[k];
+      ux = (F[b] * (1 - fx) + F[b + 2] * fx) * (1 - fy) + (F[b + 2 * nx] * (1 - fx) + F[b + 2 * nx + 2] * fx) * fy;
+      uy = (F[b + 1] * (1 - fx) + F[b + 3] * fx) * (1 - fy) + (F[b + 2 * nx + 1] * (1 - fx) + F[b + 2 * nx + 3] * fx) * fy;
+      d += (k ? 'L' : '') + (R[2 * k] / 1000 + a * ux).toFixed(3) + ',' + (R[2 * k + 1] / 1000 + a * uy).toFixed(3);
+    }
+    return d + 'Z';
+  }
+  function lensTick(now) {
+    var dt = Math.min(60, now - (lens.last || now)); lens.last = now;
+    var kp = RM ? 1 : 1 - Math.exp(-dt / 70), ka = RM ? 1 : 1 - Math.exp(-dt / 150), kb = RM ? 1 : 1 - Math.exp(-dt / 120), kg = RM ? 1 : 1 - Math.exp(-dt / 170);
+    lens.x += (lens.tx - lens.x) * kp; lens.y += (lens.ty - lens.y) * kp; lens.a += (lens.at - lens.a) * ka; lens.b += (lens.bt - lens.b) * kb; lens.g += (lens.gt - lens.g) * kg;
+    if (Math.abs(lens.tx - lens.x) < 1e-4 && Math.abs(lens.ty - lens.y) < 1e-4) { lens.x = lens.tx; lens.y = lens.ty; }
+    if (Math.abs(lens.at - lens.a) < .002) lens.a = lens.at;
+    if (Math.abs(lens.bt - lens.b) < .002) lens.b = lens.bt;
+    if (Math.abs(lens.gt - lens.g) < .002) lens.g = lens.gt;
+    var on = lens.a > .0005 && LF;
+    if (on) computeField();
+    for (var i = 0; i < C.length; i++) { var c = C[i]; if (T[i] === 0 && TT[i] === 0) c.p.setAttribute('d', on ? warpPath(c) : ringPath(c.R, c.K)); }
+    var am = Math.min(1, lens.a), ge = lens.g * am, kz = 1 + .25 * am, w = vb0[2] * kz, h = vb0[3] * kz, lv = [vb0[0] + vb0[2] / 2 - w / 2, vb0[1] + vb0[3] / 2 - h / 2, w, h];
+    svg.setAttribute('viewBox', lv.map(function (v, j) { return v + (LENS.gvb[j] - v) * ge; }).join(' '));
+    sOut.style.opacity = .7 * ge;
+    lensRing.setAttribute('cx', lens.x.toFixed(3)); lensRing.setAttribute('cy', lens.y.toFixed(3));
+    lensRing.setAttribute('r', LR[0].toFixed(3)); lensRing.style.opacity = .6 * Math.min(1, lens.a * 3) * (1 - lens.g);
+    var moving = lens.tx !== lens.x || lens.ty !== lens.y || lens.a !== lens.at || lens.b !== lens.bt || lens.g !== lens.gt;
+    lens.raf = moving ? requestAnimationFrame(lensTick) : 0; if (!moving) lens.last = 0;
+  }
+  function lensKick() { if (!lens.raf) lens.raf = requestAnimationFrame(lensTick); }
+  function clearSel() { C.forEach(function (c) { c.g.classList.remove('sel'); }); }
+  function selectCounty(i) { clearSel(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
+  function act(i, fromChip) {
+    if (view === 'land') toggleCounty(i);
+    else if (view === 'pop') selectCounty(i);
+    else { if (fromChip) { lens.tx = C[i].cx; lens.ty = C[i].cy; lensKick(); } selected = i; showCard(i); }
+  }
+  function setView(m) {
+    var tok = ++viewTok, was = view; view = m; selected = null; clearSel(); showCard(null); hideTip();
+    svg.classList.toggle('lensmode', m === 'lens'); document.getElementById('lensctl').hidden = m !== 'lens';
+    if (m === 'lens') {
+      var settled = modeNow() === 'land'; if (!settled) setAll(0);
+      setTimeout(function () {
+        if (tok !== viewTok) return;
+        if (!lensInit) { var fu = C.filter(function (c) { return c.name === 'Fulton'; })[0]; lens.x = lens.tx = fu.cx; lens.y = lens.ty = fu.cy; lensInit = true; }
+        lens.at = 1; applySize(); uiMode();
+      }, settled ? 0 : (RM ? 10 : 560));
+    } else {
+      lens.at = 0; lensKick(); if (was === 'lens') reorder();
+      setTimeout(function () { if (tok !== viewTok) return; setAll(m === 'pop' ? 1 : 0); }, was === 'lens' && !RM ? 320 : 0);
+    }
+    uiMode();
+  }
+  function applySize() {
+    var s = +document.querySelector('#lsize [aria-pressed=true]').dataset.s;
+    lens.gt = s === 2 ? 1 : 0; lensKick(); uiMode(); if (selected == null) showCard(null);
+  }
+  function cAt(x, y) { var el = document.elementFromPoint(x, y), g = el && el.closest ? el.closest('.county') : null; return g ? C[+g.dataset.i] : null; }
+  function toMap(e) { var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; var m = svg.getScreenCTM(); return m ? pt.matrixTransform(m.inverse()) : null; }
+  function lensAim(e) {
+    var c0 = cAt(e.clientX, e.clientY); if (c0 && c0.i !== selected) { selected = c0.i; showCard(c0.i); }
+    if (lens.gt === 1) return;
+    var q = toMap(e); if (!q) return;
+    lens.tx = Math.max(vb0[0], Math.min(vb0[0] + vb0[2], q.x)); lens.ty = Math.max(vb0[1], Math.min(vb0[1] + vb0[3], q.y)); lensKick();
+    var c = cAt(e.clientX, e.clientY); if (c && c.i !== selected) { selected = c.i; showCard(c.i); }
+  }
+  document.querySelectorAll('#lsize button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.querySelectorAll('#lsize button').forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      applySize();
+    });
+  });
+  document.getElementById('tips').addEventListener('change', function (e) { tipsOn = e.target.checked; if (!tipsOn) hideTip(); });
+  function modeNow() { var s = 0, settled = true; for (var i = 0; i < C.length; i++) { s += TT[i]; if (T[i] !== TT[i]) settled = false; } return s === 0 ? 'land' : s === C.length ? 'pop' : 'mixed'; }
+  function uiMode() {
+    var m = view === 'lens' ? 'lens' : modeNow();
+    document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m ? 'true' : 'false'); });
+    var rows = document.querySelectorAll('.brow'); rows.forEach(function (r) { r.classList.toggle('act', (m === 'land' && r.dataset.k === 'land') || (m === 'pop' && r.dataset.k === 'pop')); });
+    document.getElementById('hint').textContent = m === 'lens' ? (lens.gt === 1 ? 'Every county sized by its residents. The dashed line is the real state outline.' : 'Move the lens over the map (drag on a phone). Counties under it resize by population.') : m === 'pop' ? 'One hexagon is about ' + fmt(D.unit) + ' residents. Tap a county for its numbers.' : m === 'mixed' ? 'Resized counties grow or shrink in place. Tap another, or use the buttons to flip them all.' : 'Tap People to rebuild the map with one hexagon per ' + fmt(D.unit) + ' residents. Tap any county to grow or shrink it in place.';
+    try { if (m !== 'mixed') history.replaceState(null, '', '#' + m); } catch (e) {}
+  }
+  document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
+  document.getElementById('outline').addEventListener('change', function (e) { ghostOn = e.target.checked; C.forEach(draw); });
+
+  /* ---------- share bars ---------- */
+  var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes cast' };
+  function drawBars() {
+    var box = document.getElementById('bars'); box.textContent = '';
+    ['land', 'tile', 'pop', 'votes'].forEach(function (k) {
+      var s = shares[k], row = document.createElement('div'); row.className = 'brow' + (k === 'votes' ? ' votes' : ''); row.dataset.k = k;
+      var l = document.createElement('div'); l.className = 'l'; l.textContent = bl[k];
+      var sm = document.createElement('small'); sm.textContent = k === 'land' ? 'Counties Ossoff carried, by area' : k === 'tile' ? tot.cD + ' of ' + C.length + ' counties' : k === 'pop' ? fmt(tot.popD) + ' of ' + fmt(totPop) + ' people' : fmt(tot.d) + ' of ' + fmt(tot.d + tot.r) + ' votes';
+      l.appendChild(sm);
+      var v = document.createElement('div'); v.className = 'v'; v.textContent = (s * 100).toFixed(k === 'votes' ? 1 : 0) + '%';
+      var tr = document.createElement('div'); tr.className = 'track';
+      var a = document.createElement('i'); a.style.width = 'calc(' + (s * 100) + '% - 1px)'; a.style.background = css(stops.bm);
+      var b = document.createElement('i'); b.style.flex = '1'; b.style.background = css(stops.rm);
+      tr.appendChild(a); tr.appendChild(b); row.appendChild(l); row.appendChild(v); row.appendChild(tr); box.appendChild(row);
+    });
+    uiMode();
+  }
+
+  /* ---------- county card + chips ---------- */
+  var selected = null;
+  function showCard(i) {
+    var card = document.getElementById('card'); card.textContent = '';
+    if (i == null) {
+      var h = document.createElement('p'); h.className = 'nm'; h.textContent = view === 'lens' ? (lens.gt === 1 ? 'Every county, sized by its people' : 'Roll the lens') : 'Tap a county'; card.appendChild(h);
+      var p = document.createElement('p'); p.className = 'em'; p.textContent = view === 'lens' ? (lens.gt === 1 ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Counties under the lens swell or shrink to match their share of Georgia\'s people. The county at the lens center is shown here.') : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.'; card.appendChild(p);
+      return;
+    }
+    var c = C[i];
+    var nm = document.createElement('p'); nm.className = 'nm'; nm.textContent = c.name + ' County'; card.appendChild(nm);
+    var f = document.createElement('p'); f.className = 'fx'; f.textContent = fx(c) + ' by people'; card.appendChild(f);
+    var mx = Math.max(c.landS, c.popS);
+    [['Land', c.landS, 'var(--ink-3)'], ['People', c.popS, css(colorAt(c.m))]].forEach(function (r) {
+      var row = document.createElement('div'); row.className = 'cb';
+      var a = document.createElement('span'); a.textContent = r[0];
+      var wrap = document.createElement('span'); var bar = document.createElement('i'); bar.style.width = (r[1] / mx * 100) + '%'; bar.style.background = r[2]; wrap.appendChild(bar);
+      var v = document.createElement('span'); v.textContent = pct1(r[1]);
+      row.appendChild(a); row.appendChild(wrap); row.appendChild(v); card.appendChild(row);
+    });
+    var e = document.createElement('p'); e.className = 'em'; e.textContent = (c.dem ? 'Ossoff +' : 'Collins +') + Math.round(Math.abs(c.m) * 100) + ' · ' + fmt(c.pop) + ' residents';
+    card.appendChild(e);
+  }
+  var up = C.slice().sort(function (a, b) { return b.f - a.f; }).slice(0, 5), down = C.slice().sort(function (a, b) { return a.f - b.f; }).slice(0, 5);
+  var chipBox = document.getElementById('chips');
+  function chip(c, label) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.i = c.i; b.setAttribute('aria-pressed', 'false');
+    b.textContent = c.name + ' '; var s = document.createElement('b'); s.textContent = label; b.appendChild(s);
+    b.addEventListener('click', function () { act(c.i, true); }); return b;
+  }
+  var h1 = document.createElement('h3'); h1.textContent = 'Biggest gains'; chipBox.appendChild(h1);
+  up.forEach(function (c) { chipBox.appendChild(chip(c, '×' + (c.f >= 10 ? c.f.toFixed(0) : c.f.toFixed(1)))); });
+  var h2 = document.createElement('h3'); h2.textContent = 'Biggest shrinks'; chipBox.appendChild(h2);
+  down.forEach(function (c) { chipBox.appendChild(chip(c, '÷' + (1 / c.f >= 10 ? (1 / c.f).toFixed(0) : (1 / c.f).toFixed(1)))); });
+  function chipsSync() { chipBox.querySelectorAll('.chip').forEach(function (b) { b.setAttribute('aria-pressed', TT[+b.dataset.i] ? 'true' : 'false'); }); }
+
+  /* ---------- tooltip ---------- */
+  var wrap = document.getElementById('mapwrap'), tip = document.getElementById('tip'), hot = null;
+  function setHot(c) { if (hot) hot.g.classList.remove('hl'); hot = c; if (c) { c.g.classList.add('hl'); if (view === 'lens') gC.appendChild(c.g); } }
+  function fillTip(c) {
+    tip.textContent = '';
+    var nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = c.name + ' County'; tip.appendChild(nm);
+    var mg = document.createElement('div'); mg.className = 'mg';
+    var sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = css(colorAt(c.m));
+    var mt = document.createElement('span'); mt.textContent = (c.dem ? 'Ossoff +' : 'Collins +') + Math.round(Math.abs(c.m) * 100);
+    mg.appendChild(sw); mg.appendChild(mt); tip.appendChild(mg);
+    var dl = document.createElement('dl');
+    [['Ossoff', fmt(c.d) + ' (' + pct(c.d / c.tot) + '%)'], ['Collins', fmt(c.r) + ' (' + pct(c.r / c.tot) + '%)'], ['Residents', fmt(c.pop)], ['Land', pct1(c.landS)], ['People', pct1(c.popS)]].forEach(function (r) {
+      var dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = r[0]; dd.textContent = r[1]; dl.appendChild(dt); dl.appendChild(dd);
+    });
+    tip.appendChild(dl);
+    var f = document.createElement('div'); f.className = 'fx'; f.textContent = fx(c) + ' by people'; tip.appendChild(f);
+  }
+  function place(cx, cy, touch) {
+    var wr = wrap.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight, gap = 14, x = cx - wr.left, y = cy - wr.top, left, top;
+    if (touch) { left = x - tw / 2; top = y - th - 26; if (top < 0) top = y + 26; }
+    else { left = x + gap; top = y + gap; if (left + tw > wr.width) left = x - tw - gap; if (top + th > wr.height) top = y - th - gap; }
+    left = Math.max(0, Math.min(left, wr.width - tw)); top = Math.max(0, Math.min(top, wr.height - th));
+    tip.style.transform = 'translate(' + left.toFixed(1) + 'px,' + top.toFixed(1) + 'px)';
+  }
+  function hideTip() { tip.classList.remove('on'); setHot(null); }
+  function cOf(e) { var g = e.target.closest ? e.target.closest('.county') : null; return g ? C[+g.dataset.i] : null; }
+  function showAt(c, e) { if (c !== hot) { setHot(c); fillTip(c); } if (!tipsOn) { tip.classList.remove('on'); return; } tip.classList.add('on'); place(e.clientX, e.clientY, e.pointerType === 'touch'); }
+  svg.addEventListener('pointerdown', function (e) { if (view !== 'lens' || !LF) return; if (e.pointerType === 'touch') { try { svg.setPointerCapture(e.pointerId); } catch (_) {} hideTip(); } lensDrag = true; lensAim(e); });
+  svg.addEventListener('pointerup', function (e) { lensDrag = false; if (view === 'lens' && e.pointerType === 'touch' && tipsOn) { var c = cAt(e.clientX, e.clientY); if (c) { setHot(c); fillTip(c); tip.classList.add('on'); place(e.clientX, e.clientY, true); } } });
+  svg.addEventListener('pointercancel', function () { lensDrag = false; });
+  svg.addEventListener('pointermove', function (e) { if (view === 'lens' && LF && (e.pointerType !== 'touch' || lensDrag)) lensAim(e); if (e.pointerType === 'touch') return; var c = cOf(e); if (c) showAt(c, e); else hideTip(); });
+  svg.addEventListener('pointerleave', function (e) { if (e.pointerType !== 'touch') hideTip(); });
+  svg.addEventListener('click', function (e) {
+    var c = cOf(e); if (!c) { hideTip(); return; }
+    act(c.i, false);
+    if (!tipsOn || view === 'lens') { return; }
+    if (e.pointerType === 'touch' || e.detail === 0 || true) { setHot(c); fillTip(c); tip.classList.add('on'); place(e.clientX, e.clientY, e.pointerType === 'touch' || (navigator.maxTouchPoints > 0 && !window.matchMedia('(hover: hover)').matches)); }
+  });
+  document.addEventListener('pointerdown', function (e) { if (!wrap.contains(e.target)) hideTip(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideTip(); });
+
+  /* ---------- copy + table ---------- */
+  var dek = document.getElementById('dek'), parts = [
+    ['t', 'Count by land and Mike Collins carried '], ['b', (C.length - tot.cD) + ' of 159 counties'], ['t', ' and ' + pct(1 - tot.landD) + '% of the area. Count by people and Jon Ossoff won with '], ['b', (tot.d / (tot.d + tot.r) * 100).toFixed(1) + '%'], ['t', ' of the vote, because ' + pct(tot.popD / totPop) + '% of Georgians live in the ' + tot.cD + ' counties he carried.']
+  ];
+  parts.forEach(function (p) { if (p[0] === 'b') { var b = document.createElement('b'); b.textContent = p[1]; dek.appendChild(b); } else dek.appendChild(document.createTextNode(p[1])); });
+  document.getElementById('method').textContent = 'The cartogram uses hexpack: ' + fmt(D.N) + ' hexagons (one per ' + fmt(D.unit) + ' residents, at least one per county) are packed into Georgia\'s outline so that every county is one connected piece. ' + D.stats.kept + ' of the ' + D.stats.real + ' county borders on the real map are still shared borders here (' + pct(D.stats.kept / D.stats.real) + '%). The misses are mostly tiny rural counties with one or two hexagons, which cannot touch all of their neighbors. In Lens view the warp is a density-equalizing flow computed for each lens position, so counties stretch and compress without overlapping.';
+  var tb = document.querySelector('#tbl tbody');
+  order.forEach(function (c) {
+    var tr = document.createElement('tr');
+    [c.name, fmt(c.pop), fmt(c.d), fmt(c.r), (c.dem ? 'Ossoff +' : 'Collins +') + Math.round(Math.abs(c.m) * 100), pct1(c.landS) + ' → ' + pct1(c.popS)].forEach(function (v, i) {
+      var td = document.createElement('td'); td.textContent = v; if (i === 4) td.className = 'm'; tr.appendChild(td);
+    }); tb.appendChild(tr);
+  });
+
+  /* ---------- boot ---------- */
+  showCard(null);
+  recolor();
+  C.forEach(draw);
+  loadLens();
+  if (h0 === 'pop' || h0 === 'people') { view = 'pop'; setAll(1, true); }
+  else uiMode();
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', recolor);
+  new MutationObserver(recolor).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  window.__ga = { setView: setView, lens: lens, setAll: setAll, toggle: toggleCounty, T: T, WW: WW, C: C, instant: function (v) { setAll(v, true); } };
+})();
+</script>
