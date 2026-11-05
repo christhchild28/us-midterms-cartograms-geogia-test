@@ -41,5 +41,6 @@ meta_js = json.dumps(meta).replace('</', '<\\/')
 assert '/*DATA*/' in t and '/*LENS*/' in t and '/*META*/' in t
 t = t.replace('/*DATA*/', D).replace('/*LENS*/', L).replace('/*META*/', meta_js)
 pre = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-open(cfg.out('warp.html'), 'w').write(pre + t + '</html>')
+open(cfg.out('warp.html'), 'w').write(pre + t.replace('/*LIVE*/true', 'true') + '</html>')
+open(cfg.out('warp-tap.html'), 'w').write(pre + t.replace('/*LIVE*/true', 'false') + '</html>')   # variant: card changes on tap only
 print('wrote warp.html', round(os.path.getsize(cfg.out('index.html')) / 1e6, 2), 'MB; lens starts at', start)

@@ -7,7 +7,7 @@
 :root {
   --bg: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --ink-3: #75746f;
   --hair: #e3e2de; --raised: #ffffff; --edge: rgba(11,11,11,.16);
-  --ghost: #e9e8e3; --n: #e5e3dd; --b-mid: {{A_MID_L}}; --b-deep: {{A_DEEP_L}}; --r-mid: {{B_MID_L}}; --r-deep: {{B_DEEP_L}};
+  --ghost: #e4e2da; --n: #e5e3dd; --b-mid: {{A_MID_L}}; --b-deep: {{A_DEEP_L}}; --r-mid: {{B_MID_L}}; --r-deep: {{B_DEEP_L}};
   --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -204,6 +204,7 @@ td.m { font-family: var(--f-mono); }
 
 <script>
 (function () {
+  var LIVE = /*LIVE*/true;   // true: card follows the lens as you drag; false: card changes only on tap (desktop: hover previews)
   var h0 = location.hash.replace('#', '');
   var D = /*DATA*/;
   var LENS = /*LENS*/;
@@ -357,7 +358,7 @@ td.m { font-family: var(--f-mono); }
   var sOut = mk('path', { 'class': 'sout', d: ringPath(LENS.outline, LENS.outline.length / 2) }, gTop); sOut.style.opacity = 0;
   function updSil(am, ge) {   // pale real-state silhouette + dashed real outline: shown whenever the map is away from the real shape
     var s = 0, i; for (i = 0; i < C.length; i++) s += T[i]; var k = Math.max(smooth(2 * s / C.length), .9 * am, ge);
-    silP.style.opacity = k; sOut.style.opacity = .85 * k;
+    silP.style.opacity = k; sOut.style.opacity = 0;
   }
   var lensRing = mk('circle', { 'class': 'lring', r: LR[0], cx: 0, cy: 0 }, gTop); lensRing.style.opacity = 0;
   var hlh = mk('path', { 'class': 'hlh' }, gTop), hlp = mk('path', { 'class': 'hlp' }, gTop);   // selected-county outline: surface halo under an ink line
@@ -485,11 +486,11 @@ td.m { font-family: var(--f-mono); }
   function cAt(x, y) { var el = document.elementFromPoint(x, y), g = el && el.closest ? el.closest('.county') : null; return g ? C[+g.dataset.i] : null; }
   function toMap(e) { var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; var m = svg.getScreenCTM(); return m ? pt.matrixTransform(m.inverse()) : null; }
   function lensAim(e) {
-    var c0 = cAt(e.clientX, e.clientY); if (c0 && c0.i !== selected) lensSel(c0.i);
+    var c0 = LIVE ? cAt(e.clientX, e.clientY) : null; if (c0 && c0.i !== selected) lensSel(c0.i);
     if (lens.gt === 1) return;
     var q = toMap(e); if (!q) return;
     lens.tx = Math.max(vb0[0], Math.min(vb0[0] + vb0[2], q.x)); lens.ty = Math.max(vb0[1], Math.min(vb0[1] + vb0[3], q.y)); lensKick();
-    var c = cAt(e.clientX, e.clientY); if (c && c.i !== selected) lensSel(c.i);
+    var c = LIVE ? cAt(e.clientX, e.clientY) : null; if (c && c.i !== selected) lensSel(c.i);
   }
   document.querySelectorAll('#lsize button').forEach(function (b) {
     b.addEventListener('click', function () {
@@ -502,7 +503,7 @@ td.m { font-family: var(--f-mono); }
     var m = view === 'lens' ? 'lens' : modeNow();
     document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m ? 'true' : 'false'); });
     var rows = document.querySelectorAll('.brow'); rows.forEach(function (r) { r.classList.toggle('act', (m === 'land' && r.dataset.k === 'land') || (m === 'pop' && r.dataset.k === 'pop')); });
-    document.getElementById('hint').textContent = m === 'lens' ? (lens.gt === 1 ? 'Every county sized by its residents. The dashed line is the real state outline.' : 'Move the lens over the map (drag on a phone). Counties under it resize by population.') : m === 'pop' ? 'One hexagon is about ' + fmt(D.unit) + ' residents. Tap a county for its numbers.' : m === 'mixed' ? 'Resized counties grow or shrink in place. Tap another, or use the buttons to flip them all.' : 'Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per ' + fmt(D.unit) + ' residents.';
+    document.getElementById('hint').textContent = m === 'lens' ? (lens.gt === 1 ? 'Every county sized by its residents. The pale shape is the real state.' : 'Move the lens over the map (drag on a phone). Counties under it resize by population.') : m === 'pop' ? 'One hexagon is about ' + fmt(D.unit) + ' residents. Tap a county for its numbers.' : m === 'mixed' ? 'Resized counties grow or shrink in place. Tap another, or use the buttons to flip them all.' : 'Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per ' + fmt(D.unit) + ' residents.';
     try { if (m !== 'mixed') history.replaceState(null, '', '#' + m); } catch (e) {}
   }
   document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
@@ -556,7 +557,7 @@ td.m { font-family: var(--f-mono); }
   function emptyHTML() {
     var lensMode = view === 'lens', whole = lens.gt === 1;
     var h = lensMode ? (whole ? 'Every county, sized by its people' : 'Roll the lens') : 'Tap a county';
-    var p = lensMode ? (whole ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Counties under the lens swell or shrink to match their share of ' + META.state + '\'s people. The county under the lens is shown here.') : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.';
+    var p = lensMode ? (whole ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Counties under the lens swell or shrink to match their share of ' + META.state + '\'s people. ' + (LIVE ? 'The county under the lens is shown here.' : 'Tap a county to see its numbers.')) : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.';
     return '<div class="pn-empty"><h2>' + h + '</h2><p>' + p + '</p></div>';
   }
   function showCard(i) {
@@ -593,11 +594,19 @@ td.m { font-family: var(--f-mono); }
   function setHot(c) { peekI = c ? c.i : null; showCard(peekI != null ? peekI : selected); }
   function hideTip() { if (peekI != null) setHot(null); }
   function cOf(e) { var g = e.target.closest ? e.target.closest('.county') : null; return g ? C[+g.dataset.i] : null; }
-  svg.addEventListener('pointerdown', function (e) { if (view !== 'lens' || !LF) return; if (e.pointerType === 'touch') { try { svg.setPointerCapture(e.pointerId); } catch (_) {} } lensDrag = true; lensAim(e); });
-  svg.addEventListener('pointerup', function () { lensDrag = false; });
+  var dn = null;
+  svg.addEventListener('pointerdown', function (e) { dn = [e.clientX, e.clientY]; if (view !== 'lens' || !LF) return; if (e.pointerType === 'touch') { try { svg.setPointerCapture(e.pointerId); } catch (_) {} } lensDrag = true; lensAim(e); });
+  svg.addEventListener('pointerup', function (e) {
+    lensDrag = false;
+    if (!LIVE && view === 'lens' && dn && Math.hypot(e.clientX - dn[0], e.clientY - dn[1]) < 8) { var c = cAt(e.clientX, e.clientY); if (c) { lensSel(c.i); peekI = null; } }   // a tap (not a drag) picks the county
+  });
   svg.addEventListener('pointercancel', function () { lensDrag = false; });
   svg.addEventListener('pointermove', function (e) {
-    if (view === 'lens' && LF) { if (e.pointerType !== 'touch' || lensDrag) lensAim(e); return; }
+    if (view === 'lens' && LF) {
+      if (e.pointerType !== 'touch' || lensDrag) lensAim(e);
+      if (!LIVE && e.pointerType !== 'touch') { var h = cOf(e); if (h && h.i !== peekI) setHot(h); else if (!h) hideTip(); }   // desktop: hover previews, click pins
+      return;
+    }
     if (e.pointerType === 'touch') return;
     var c = cOf(e); if (c && c.i !== peekI) setHot(c); else if (!c) hideTip();
   });
