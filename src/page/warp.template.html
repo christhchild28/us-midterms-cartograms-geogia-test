@@ -58,8 +58,6 @@ svg.map { display: block; width: 100%; height: auto; touch-action: manipulation;
 .hxl { fill: none; stroke-width: .9px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
 .sf { stroke: none; pointer-events: none; }
 .cpo { fill: none; stroke: #fff; stroke-width: 2.2px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
-.silo { fill: none; stroke: var(--ghost); stroke-width: 3px; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; opacity: 0; }
-.silh { fill: var(--ghost); stroke: none; pointer-events: none; opacity: 0; }
 .hlh { fill: none; stroke: var(--bg); stroke-width: 4px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
 .hlp { fill: none; stroke: var(--ink); stroke-width: 1.8px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
 /* county card: side panel on desktop, bottom sheet on phones */
@@ -107,7 +105,7 @@ svg.map { display: block; width: 100%; height: auto; touch-action: manipulation;
 svg.map.lensmode { touch-action: none; cursor: grab; }
 .sout { fill: none; stroke: var(--ink); stroke-width: 1.3px; stroke-dasharray: 5 4; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
 .lring { fill: none; stroke: var(--ink); stroke-width: 1.2px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; pointer-events: none; }
-.gp { fill: none; stroke: var(--ghost-line); stroke-width: 1.1px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.gp { fill: var(--ghost); stroke: var(--ghost-line); stroke-width: 1.1px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
 .gt { fill: none; stroke: var(--ink); stroke-width: 1.4px; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
 .lab { font-family: var(--f-body); font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
 
@@ -265,7 +263,6 @@ td.m { font-family: var(--f-mono); }
     c.po = mk('path', { 'class': 'cpo', d: rp }, c.g); c.po.style.opacity = 0;
     if (c.n >= 60) { c.lb = mk('text', { 'class': 'lab', x: c.hx.toFixed(3), y: c.hy.toFixed(3), 'font-size': .14 }, gLab); c.lb.textContent = c.name; c.lb.style.opacity = 0; }
   });
-  var silo = mk('path', { 'class': 'silo' }, gSil);   // painted over the ghost's outer edge so only the inner county lines remain
   var order = C.slice().sort(function (a, b) { return b.pop - a.pop; });
   function reorder() { order.forEach(function (c) { gC.appendChild(c.g); }); }
   reorder();
@@ -359,15 +356,10 @@ td.m { font-family: var(--f-mono); }
     return vb0.map(function (v, j) { return v + ta * (D.vbW[j] - v) + tb * (D.vbH[j] - D.vbW[j]); });
   }
   function vbMorph() { svg.setAttribute('viewBox', vbm().join(' ')); updSil(lens.a, lens.g * Math.min(1, lens.a)); }
-  var silP = mk('path', { 'class': 'silh', d: ringPath(LENS.outline, LENS.outline.length / 2) }); gSil.insertBefore(silP, gSil.firstChild);
-  silo.setAttribute('d', silP.getAttribute('d'));
-  var sOut = mk('path', { 'class': 'sout', d: ringPath(LENS.outline, LENS.outline.length / 2) }, gTop); sOut.style.opacity = 0;
   var GK = 0;
   function updSil(am, ge) {   // pale real-state silhouette + dashed real outline: shown whenever the map is away from the real shape
-    var s = 0, i; for (i = 0; i < C.length; i++) s += T[i]; var k = Math.max(smooth(2 * s / C.length), .9 * am, ge);
-    var tm = s / C.length, sh = Math.max(Math.min(1, tm / .5), ge);   // the warp/hex frame sits D.shift away from the real frame; the real-shape layer follows it
-    gSil.setAttribute('transform', 'translate(' + (-D.shift[0] * sh).toFixed(4) + ',' + (-D.shift[1] * sh).toFixed(4) + ')');
-    GK = k; silP.style.opacity = k; silo.style.opacity = k; sOut.style.opacity = 0;
+    var s = 0, i; for (i = 0; i < C.length; i++) s += T[i]; var k = Math.max(smooth(2 * s / C.length), am, ge);
+    GK = k;
     for (i = 0; i < C.length; i++) C[i].gp.style.opacity = ghostOn ? Math.max(smooth(T[i] * 1.6), k) * (1 - WW[i]) : 0;
   }
   var lensRing = mk('circle', { 'class': 'lring', r: LR[0], cx: 0, cy: 0 }, gTop); lensRing.style.opacity = 0;
