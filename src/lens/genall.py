@@ -26,8 +26,9 @@ def enc(a):
     return d.astype(np.int16).tobytes()
 blob = b''.join(enc(arr[n]) for n in range(len(centers)))
 
-# ---- global field (Whole map) ----
-U, det = L.field(0, 0, 1, glob=True)
+# ---- global field (Whole map of the outline-mode page; the warp page uses exact warp rings instead) ----
+HAVE_RINGS = os.path.exists(cfg.out('rings.json'))
+U, det = L.field(0, 0, 1, glob=True) if HAVE_RINGS else (np.zeros((L.ony, L.onx, 2)), np.ones((L.ony, L.onx)))
 print('global det min/max', round(det.min(), 3), round(det.max(), 3), 'max|U|', round(np.abs(U).max(), 3))
 assert det.min() > 0, 'global warp folds'
 assert dmin > 0, 'a local warp folds'
@@ -38,7 +39,7 @@ def warp(pts):
     return pts + np.stack([map_coordinates(U[:, :, 0], [iy, ix], order=1, mode='nearest'), map_coordinates(U[:, :, 1], [iy, ix], order=1, mode='nearest')], 1)
 wl = [warp(np.array(p.exterior.coords)) for ps in L.polys for p in ps]
 allw = np.vstack(wl); bx0, by0 = allw.min(0); bx1, by1 = allw.max(0)
-D = json.load(open(cfg.out('rings.json'))); B = D['bounds']; vw = B[2] - B[0]; vh = B[3] - B[1]
+D = json.load(open(cfg.out('rings.json') if HAVE_RINGS else cfg.out('warp-rings.json'))) if (HAVE_RINGS or os.path.exists(cfg.out('warp-rings.json'))) else dict(bounds=[x0, y0, x1, y1]); B = D['bounds']; vw = B[2] - B[0]; vh = B[3] - B[1]
 w = (bx1 - bx0) * 1.06; h = (by1 - by0) * 1.06; cx = (bx0 + bx1) / 2; cy = (by0 + by1) / 2
 if w / h < vw / vh: w = h * vw / vh
 else: h = w * vh / vw

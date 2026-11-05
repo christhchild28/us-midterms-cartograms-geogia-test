@@ -23,14 +23,14 @@ x0,y0,x1,y1=state.bounds
 F=cfg.lens_scale(max(x1-x0,y1-y0))   # all lens lengths scale with the state's extent (Georgia = 1.0)
 padx=(x1-x0)*0.45; pady=(y1-y0)*0.45
 X0,X1,Y0,Y1=x0-padx,x1+padx,y0-pady,y1+pady
-h=cfg.lens['grid']*F; NX=int((X1-X0)/h); NY=int((Y1-Y0)/h); hx=(X1-X0)/NX; hy=(Y1-Y0)/NY
+h=float(os.environ.get('LENS_GRID',cfg.lens['grid']))*F; NX=int((X1-X0)/h); NY=int((Y1-Y0)/h); hx=(X1-X0)/NX; hy=(Y1-Y0)/NY
 gx=X0+(np.arange(NX)+.5)*hx; gy=Y0+(np.arange(NY)+.5)*hy; GX,GY=np.meshgrid(gx,gy)
 meanD=nhex.sum()/allarea.sum()
-G=np.ones((NY,NX))
+G=np.ones((NY,NX)); LAB=-np.ones((NY,NX),int)   # LAB = county index per grid cell (-1 = none)
 for i,L in enumerate(polys):
     for p in L:
         m=shapely.contains_xy(p,GX.ravel(),GY.ravel()).reshape(NY,NX)
-        G[m]=(nhex[i]/allarea[i])/meanD
+        G[m]=(nhex[i]/allarea[i])/meanD; LAB[m]=i
 INS=shapely.contains_xy(state,GX.ravel(),GY.ravel()).reshape(NY,NX)
 G0=G.copy()
 Lx=X1-X0; Ly=Y1-Y0
