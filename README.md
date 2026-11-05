@@ -1,28 +1,69 @@
-# Georgia 2026 U.S. Senate: land vs. people
+# Land vs. people: county cartograms for US elections
 
-Interactive county cartograms of the Georgia Senate race (Ossoff vs. Collins). The point: a county-by-county map shows a lot of red because land votes don't count; people do.
+Interactive county maps that show election results two ways: by land area, and by the people who live there. A land map of a close statewide race looks lopsided because empty counties are big. These pages put population back in, with three views: **Land**, **People** (one hexagon per 10,000 residents) and **Lens** (a population magnifier you move over the map, or snap to the whole map).
 
-`index.html` is the current version (a copy of `pages/georgia-population-lens.html`), so the repo serves as a web page with GitHub Pages. Any file in `pages/` also opens directly in a browser; they are self-contained HTML.
+`index.html` is a gallery of every election built so far. Each election is a self-contained page in `elections/<id>/index.html`.
 
-| File | What it is |
+| Election | Page |
 |---|---|
-| `pages/georgia-population-lens.html` | Current version. Land map with three views: **Land**, **People** (one hexagon per 10,000 residents), and **Lens** (a population magnifier you roll over the map, or snap to the whole map). Tooltips can be turned off. |
-| `pages/georgia-land-vs-people.html` | Earlier version: land-to-hexagon morph, with tap-a-county grow/shrink in place. |
-| `pages/georgia-senate-hexmap.html` | First version: static hex tile map. |
-| `media/georgia-land-to-people.gif`, `.mp4` | 10 s loop (720x900) of land, lens, whole map, hexagons. |
+| Georgia 2026 U.S. Senate (Ossoff vs. Collins) | `elections/ga-2026-senate/` |
+
+## Make one for a new race
+
+Scope today: **one US state, county level, exactly two candidates.** (Any number of parties and non-US elections are planned, not built.)
+
+1. Copy `elections/ga-2026-senate/` to `elections/<id>/` (for example `pa-2026-senate`), drop the generated files (`layout.json`, `rings.json`, `lens-fields.json`, `index.html`, `media/`, `archive/`).
+2. Put county results in `results.csv` (a `county` column of names, or a `fips` column, plus one vote column per candidate).
+3. Edit `config.json` (reference below).
+4. Run `python3 build.py elections/<id>/config.json`. A mid-size state takes about 3 to 10 minutes. Resume with `--from <step>`; add `--gif` for a 720x900 GIF and MP4 for social media.
+
+Needs Python 3 with numpy, scipy, shapely and matplotlib; `node` with Playwright and `ffmpeg` only for `--gif`.
+
+Population comes from `data/raw/uid-lookup.csv` (JHU CSSE lookup table, Census 2019 estimates) and county shapes from `data/raw/us-counties.geojson`; both cover every state, so only the results need sourcing.
+
+### config.json
+
+```json
+{
+  "id": "ga-2026-senate",
+  "state": {"name": "Georgia", "abbr": "GA", "fips": "13", "people": "Georgians"},
+  "race": {"office": "U.S. Senate", "date": "Nov 3, 2026"},
+  "candidates": {
+    "a": {"name": "Ossoff", "full": "Jon Ossoff", "ramp": "blue"},
+    "b": {"name": "Collins", "full": "Mike Collins", "ramp": "red"}
+  },
+  "results": {"file": "results.csv", "county_col": "county", "a_col": "ossoff", "b_col": "collins"},
+  "text": {"source": "Credit line shown at the bottom of the page.", "gif_source": "Short credit for the GIF."}
+}
+```
+
+Optional keys: `results.fips_col` (join by FIPS instead of names); `population` (`format: "csv"` with `file`, `fips_col`, `pop_col` to use your own numbers); `projection` (`lon0`, `lat0`; default is the centre of the state); `hex.unit` (residents per hexagon, default 10000, so use 5000 for small states and 20000 for big ones), `hex.seed`, `hex.iterations`, `hex.frozen` (keep the committed `layout.json` instead of repacking); `lens.start_county`, `lens.gif_target`, `lens.scale` (default is derived from the state's size); `candidates.*.ramp` (`blue`, `red`, or an object with `mid_l`, `deep_l`, `mid_d`, `deep_d`). Candidate A uses the blue slot and B the red slot in the page styles.
 
 ## How it works
 
-- **Hexpack** (`src/hexpack/`): packs 1,072 hexagons (one per 10,000 residents, at least one per county) into Georgia's outline. Each county is one connected piece and the outline still reads as Georgia. 321 of the 414 real county borders are kept as shared borders (78%); the misses are mostly one- or two-hexagon rural counties. Counties land on average about 0.8 degrees from their real position, which is unavoidable at a fixed outline: Atlanta's counties need about 37% of the hexagon area but cover about 8% of the land.
-- **Rings** (`build_rings*.py`): each county gets an aligned real-outline ring and hexagon ring so the page can morph them. Hexagon coordinates are snapped to the exact grid before unioning (rounded coordinates silently dropped pieces of counties).
-- **Lens** (`src/lens/`): a density-equalizing flow (Gastner-Newman diffusion) computed for 103 lens positions, plus one whole-map field, stored as displacement grids in `data/lens-fields.json`. The page blends nearby fields as the lens moves. The flow never folds or overlaps counties. Whole map overlaps the real outline about 74%, so it reads as "Georgia, stretched", not Georgia's outline.
-- **Page** (`src/page/`): `lens.template.html` has `/*DATA*/` and `/*LENS*/` placeholders; `build_lens_template.py` patches `morph.template.html` into it. Fill the placeholders with `data/rings.json` and `data/lens-fields.json`.
-- **GIF** (`src/media/capture-gif.js`): renders the page on a virtual clock with Playwright and encodes frames with ffmpeg.
+`build.py` runs seven steps; each script reads the same config (`src/common/cfg.py`) and writes next to it. Caches live in `elections/<id>/.cache/` (safe to delete).
 
-The scripts were written in a scratch workspace and still use absolute `/tmp/ga/...` paths for inputs and outputs. Point them at `data/` before re-running.
+1. **join** (`src/page/join.py`): geometry + population + results into one county table. Stops if any county is unmatched.
+2. **hexpack** (`src/hexpack/hexpack.py`): packs one hexagon per 10,000 residents (at least one per county) into the state's outline so every county is one connected piece and the outline still reads as the state. Counties land on average 0.5 to 0.8 degrees from their real position at a fixed outline; the build prints how many real borders survive.
+3. **rings** (`build_rings.py`, `build_rings2.py`): each county gets aligned real-outline, hexagon and in-place rings so the page can morph between them. Hexagon coordinates are snapped to the grid before unioning (rounded coordinates silently dropped county pieces).
+4. **lens** (`src/lens/`): a density-equalizing flow (Gastner-Newman diffusion) for about 100 lens positions plus one whole-map field, stored as displacement grids. The flow never folds counties. All lens lengths scale with the state's size.
+5. **page** (`src/page/build_page.py`): fills `lens.template.html` with the data, names, text and colors.
+6. **verify** (`src/verify.py`): connected counties, hexagon counts, ring areas, no folded warps, page parses. The build fails if any check does.
+7. **gallery** (`src/site_index.py`): regenerates the root `index.html`.
+
+## Reproducibility
+
+Georgia's `rings.json` and lens fields rebuild bit-for-bit from the committed layout. Its `layout.json` is **frozen** (`hex.frozen`): repacking from scratch is stochastic and gives an equivalent layout (314 to 321 of 414 real borders kept versus 321 in the published one), not an identical one. A second state (Pennsylvania, synthetic results) built end to end in about 3.5 minutes with all checks passing and 93% of real borders kept.
+
+## Known limits
+
+- Counties only: Alaska boroughs, Connecticut planning regions and New England towns are not supported. Virginia independent cities must be listed separately in the results.
+- Two candidates only. Island fragments of coastal counties are left off the map.
+- On the People view, labels of counties on the very edge of the map can be clipped.
+- Tested in headless Chromium at phone and desktop sizes, not on a physical phone.
 
 ## Data
 
-- County results: Atlanta Journal-Constitution, 99% of precincts reporting on Nov 5, 2026. Unofficial until certified. See `data/senate.csv`.
-- Residents: Census Bureau 2019 county estimates (joined in `data/counties-joined.json`).
-- Geometry: US county GeoJSON in `data/raw/us-counties.geojson`. Island fragments of coastal counties are left off the map.
+- Georgia results: Atlanta Journal-Constitution, 99% of precincts reporting on Nov 5, 2026, unofficial until certified (`elections/ga-2026-senate/results.csv`).
+- Residents: Census Bureau 2019 county estimates via the JHU CSSE lookup table.
+- Earlier Georgia versions are kept in `elections/ga-2026-senate/archive/`.

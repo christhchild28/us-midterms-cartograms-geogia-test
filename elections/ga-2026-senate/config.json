@@ -39,7 +39,8 @@
   },
   "lens": {
     "start_county": "Fulton",
-    "gif_target": "Chatham"
+    "gif_target": "Chatham",
+    "scale": 1
   },
   "text": {
     "source": "Results: county returns from the Atlanta Journal-Constitution with 99% of precincts reporting on Nov 5, 2026, unofficial until certified. The AP has called the race for Ossoff. Residents: Census Bureau 2019 county estimates. Island fragments of coastal counties are left off the map.",
