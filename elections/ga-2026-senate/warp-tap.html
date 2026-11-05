@@ -55,8 +55,10 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2
 .mapwrap { position: relative; width: 100%; max-width: 640px; }
 svg.map { display: block; width: 100%; height: auto; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .cp { stroke: #fff; stroke-width: 1.2px; vector-effect: non-scaling-stroke; stroke-linejoin: round; cursor: pointer; }
-.hxl { fill: none; stroke: #fff; stroke-width: .6px; stroke-opacity: .8; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.hxl { fill: none; stroke-width: .9px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
 .sf { stroke: none; pointer-events: none; }
+.cpo { fill: none; stroke: #fff; stroke-width: 2.2px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
+.silo { fill: none; stroke: var(--ghost); stroke-width: 3px; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; opacity: 0; }
 .silh { fill: var(--ghost); stroke: none; pointer-events: none; opacity: 0; }
 .hlh { fill: none; stroke: var(--bg); stroke-width: 4px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
 .hlp { fill: none; stroke: var(--ink); stroke-width: 1.8px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
@@ -260,15 +262,17 @@ td.m { font-family: var(--f-mono); }
     c.p = mk('path', { 'class': 'cp', d: rp }, c.g);
     c.hl = mk('path', { 'class': 'hxl', d: hexPath(c.cells) }, c.g); c.hl.style.opacity = 0;
     c.hl2 = mk('path', { 'class': 'hxl', d: hexPath(c.cells2) }, c.g); c.hl2.style.opacity = 0;
+    c.po = mk('path', { 'class': 'cpo', d: rp }, c.g); c.po.style.opacity = 0;
     if (c.n >= 60) { c.lb = mk('text', { 'class': 'lab', x: c.hx.toFixed(3), y: c.hy.toFixed(3), 'font-size': .14 }, gLab); c.lb.textContent = c.name; c.lb.style.opacity = 0; }
   });
+  var silo = mk('path', { 'class': 'silo' }, gGhost);   // painted over the ghost's outer edge so only the inner county lines remain
   var order = C.slice().sort(function (a, b) { return b.pop - a.pop; });
   function reorder() { order.forEach(function (c) { gC.appendChild(c.g); }); }
   reorder();
 
   function recolor() {
     readStops();
-    C.forEach(function (c) { var rgb = colorAt(c.m); c.p.setAttribute('fill', css(rgb)); c.sf.setAttribute('fill', css(rgb)); c.dark = lum(rgb) < .3; if (c.lb) { c.lb.setAttribute('fill', c.dark ? '#ffffff' : '#0b0b0b'); c.lb.setAttribute('stroke', c.dark ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.7)'); c.lb.setAttribute('stroke-width', .03); c.lb.setAttribute('paint-order', 'stroke'); } });
+    C.forEach(function (c) { var rgb = colorAt(c.m); c.p.setAttribute('fill', css(rgb)); c.sf.setAttribute('fill', css(rgb)); c.dark = lum(rgb) < .3; var tn = css(mix(rgb, [255, 255, 255], .4)); c.hl.setAttribute('stroke', tn); c.hl2.setAttribute('stroke', tn); if (c.lb) { c.lb.setAttribute('fill', c.dark ? '#ffffff' : '#0b0b0b'); c.lb.setAttribute('stroke', c.dark ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.7)'); c.lb.setAttribute('stroke-width', .03); c.lb.setAttribute('paint-order', 'stroke'); } });
     var st = [], k; for (k = -1; k <= 1.001; k += .25) st.push(css(colorAt(k * .6)) + ' ' + Math.round((k + 1) * 50) + '%');
     document.getElementById('ramp').style.background = 'linear-gradient(90deg,' + st.join(',') + ')';
     document.getElementById('k-b').style.background = css(stops.bm);
@@ -303,6 +307,7 @@ td.m { font-family: var(--f-mono); }
     c.p.setAttribute('d', d); 
     var hv = smooth((t - .8) / .2);
     c.hl.style.opacity = hv * (1 - w); c.hl2.style.opacity = hv * w;
+    if (hv > 0) c.po.setAttribute('d', d); c.po.style.opacity = hv;
     c.gp.style.opacity = ghostOn ? Math.max(smooth(t * 1.6), GK) * (1 - w) : 0;
     if (c.i === hlI) syncHL();
     c.gt.style.opacity = Math.min(1, t * 3) * w;
@@ -355,11 +360,12 @@ td.m { font-family: var(--f-mono); }
   }
   function vbMorph() { svg.setAttribute('viewBox', vbm().join(' ')); updSil(lens.a, lens.g * Math.min(1, lens.a)); }
   var silP = mk('path', { 'class': 'silh', d: ringPath(LENS.outline, LENS.outline.length / 2) }); gGhost.insertBefore(silP, gGhost.firstChild);
+  silo.setAttribute('d', silP.getAttribute('d'));
   var sOut = mk('path', { 'class': 'sout', d: ringPath(LENS.outline, LENS.outline.length / 2) }, gTop); sOut.style.opacity = 0;
   var GK = 0;
   function updSil(am, ge) {   // pale real-state silhouette + dashed real outline: shown whenever the map is away from the real shape
     var s = 0, i; for (i = 0; i < C.length; i++) s += T[i]; var k = Math.max(smooth(2 * s / C.length), .9 * am, ge);
-    GK = k; silP.style.opacity = k; sOut.style.opacity = 0;
+    GK = k; silP.style.opacity = k; silo.style.opacity = k; sOut.style.opacity = 0;
     for (i = 0; i < C.length; i++) C[i].gp.style.opacity = ghostOn ? Math.max(smooth(T[i] * 1.6), k) * (1 - WW[i]) : 0;
   }
   var lensRing = mk('circle', { 'class': 'lring', r: LR[0], cx: 0, cy: 0 }, gTop); lensRing.style.opacity = 0;
