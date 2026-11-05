@@ -2,7 +2,7 @@
 
 Interactive county cartograms of the Georgia Senate race (Ossoff vs. Collins). The point: a county-by-county map shows a lot of red because land votes don't count; people do.
 
-Open any file in `pages/` in a browser. They are self-contained HTML.
+`index.html` is the current version (a copy of `pages/georgia-population-lens.html`), so the repo serves as a web page with GitHub Pages. Any file in `pages/` also opens directly in a browser; they are self-contained HTML.
 
 | File | What it is |
 |---|---|
