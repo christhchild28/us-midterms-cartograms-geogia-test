@@ -7,7 +7,7 @@
 :root {
   --bg: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --ink-3: #75746f;
   --hair: #e3e2de; --raised: #ffffff; --edge: rgba(11,11,11,.16);
-  --n: #e5e3dd; --b-mid: {{A_MID_L}}; --b-deep: {{A_DEEP_L}}; --r-mid: {{B_MID_L}}; --r-deep: {{B_DEEP_L}};
+  --ghost: #e9e8e3; --n: #e5e3dd; --b-mid: {{A_MID_L}}; --b-deep: {{A_DEEP_L}}; --r-mid: {{B_MID_L}}; --r-deep: {{B_DEEP_L}};
   --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -16,14 +16,14 @@
   :root:not([data-theme="light"]) {
     --bg: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #9a9990;
     --hair: #343432; --raised: #262625; --edge: rgba(240,239,236,.2);
-    --n: #4a4a46; --b-mid: {{A_MID_D}}; --b-deep: {{A_DEEP_D}}; --r-mid: {{B_MID_D}}; --r-deep: {{B_DEEP_D}};
+    --ghost: #2c2c2a; --n: #4a4a46; --b-mid: {{A_MID_D}}; --b-deep: {{A_DEEP_D}}; --r-mid: {{B_MID_D}}; --r-deep: {{B_DEEP_D}};
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #9a9990;
   --hair: #343432; --raised: #262625; --edge: rgba(240,239,236,.2);
-  --n: #4a4a46; --b-mid: {{A_MID_D}}; --b-deep: {{A_DEEP_D}}; --r-mid: {{B_MID_D}}; --r-deep: {{B_DEEP_D}};
+  --ghost: #2c2c2a; --n: #4a4a46; --b-mid: {{A_MID_D}}; --b-deep: {{A_DEEP_D}}; --r-mid: {{B_MID_D}}; --r-deep: {{B_DEEP_D}};
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -56,8 +56,45 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2
 svg.map { display: block; width: 100%; height: auto; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
 .cp { stroke: var(--bg); stroke-width: .8px; vector-effect: non-scaling-stroke; stroke-linejoin: round; cursor: pointer; }
 .hxl { fill: none; stroke: var(--bg); stroke-width: .6px; stroke-opacity: .8; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
-.county.hl .cp, .county.sel .cp { stroke: var(--ink) !important; stroke-width: 2px !important; }
 .sf { stroke: none; pointer-events: none; }
+.silh { fill: var(--ghost); stroke: none; pointer-events: none; opacity: 0; }
+.hlh { fill: none; stroke: var(--bg); stroke-width: 4px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
+.hlp { fill: none; stroke: var(--ink); stroke-width: 1.8px; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
+/* county card: side panel on desktop, bottom sheet on phones */
+.sheet { --gl: 16px; --gr: 16px; background: var(--raised); border: 1px solid var(--hair); border-radius: 10px; margin: 0 0 14px; overflow: hidden; min-width: 0; }
+@media (max-width: 879px) {
+  .sheet { --gl: max(16px, env(safe-area-inset-left, 0px)); --gr: max(16px, env(safe-area-inset-right, 0px)); position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; margin: 0; border-radius: 18px 18px 0 0; border-bottom: 0; max-height: 70vh; overflow: auto; overscroll-behavior: contain; padding-bottom: env(safe-area-inset-bottom, 0px); box-shadow: 0 -10px 40px rgba(0,0,0,.28); transform: translateY(112%); visibility: hidden; transition: transform .38s cubic-bezier(.2,.8,.2,1), visibility 0s .38s; }
+  .sheet.open { transform: none; visibility: visible; transition: transform .38s cubic-bezier(.2,.8,.2,1), visibility 0s; }
+  .sheet:not(.full) .pn-more { display: none; }
+}
+@media (min-width: 880px) { .pn-tgl, .pn-x { display: none !important; } }
+.pn-bar { height: 6px; }
+.pn-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 12px var(--gr) 8px var(--gl); }
+.pn-n { font: 700 20px/1.15 var(--f-display); display: block; }
+.pn-c { display: block; color: var(--ink-3); font: 500 11px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; }
+.pn-r { display: flex; align-items: center; gap: 6px; flex: none; flex-wrap: wrap; justify-content: flex-end; }
+.pn-p { display: inline-block; padding: 2px 9px; border-radius: 99px; font: 600 12px var(--f-body); white-space: nowrap; }
+.pn-b { border: 1px solid var(--hair); background: none; color: var(--ink); border-radius: 99px; font: 600 11px var(--f-mono); letter-spacing: .05em; text-transform: uppercase; padding: 0 11px; min-height: 36px; cursor: pointer; }
+.pn-x { width: 36px; padding: 0; font: 600 14px var(--f-body); background: color-mix(in srgb, var(--ink) 8%, transparent); border: 0; border-radius: 50%; }
+.pn-key { padding: 2px var(--gr) 14px var(--gl); display: grid; gap: 6px; }
+.cbar { display: grid; grid-template-columns: 62px 1fr 52px; align-items: center; gap: 8px; font: 500 12px var(--f-mono); color: var(--ink-3); }
+.cbar .ctrack { display: block; height: 9px; background: color-mix(in srgb, var(--ink) 7%, transparent); border-radius: 5px; overflow: hidden; }
+.cbar .cfill { display: block; height: 100%; border-radius: 5px; }
+.cbar .v { text-align: right; color: var(--ink); }
+.pn-rel { margin-top: 4px; color: var(--ink-2); font-size: 14px; }
+.pn-rel b { font: 700 20px var(--f-display); color: var(--ink); }
+.pn-st { display: flex; flex-wrap: wrap; gap: 4px 16px; padding: 9px var(--gr) 9px var(--gl); background: color-mix(in srgb, var(--ink) 4%, transparent); border-block: 1px solid var(--hair); color: var(--ink-3); font-size: 12.5px; }
+.pn-st b { color: var(--ink); font-weight: 700; }
+.pn-t { width: calc(100% - var(--gl) - var(--gr)); min-width: 0; margin: 8px var(--gr) 14px var(--gl); border-collapse: collapse; font-size: 13px; }
+.pn-t th { font: 600 10px var(--f-mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-3); text-align: left; padding: 4px 6px; background: none; position: static; }
+.pn-t td { padding: 7px 6px; border-top: 1px solid var(--hair); }
+.pn-t .num { text-align: right; white-space: nowrap; }
+.pn-t tr.win td { font-weight: 700; background: color-mix(in srgb, var(--ink) 4%, transparent); }
+.nm2 { display: inline-flex; gap: 7px; align-items: baseline; }
+.nm2 i { width: 9px; height: 9px; border-radius: 50%; flex: none; }
+.pn-empty { padding: 16px var(--gr) 18px var(--gl); }
+.pn-empty h2 { font: 700 18px/1.2 var(--f-display); margin: 0 0 6px; letter-spacing: 0; }
+.pn-empty p { margin: 0; color: var(--ink-2); font-size: 14px; }
 .seg button:disabled { opacity: .4; cursor: default; }
 .lensctl { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 8px; }
 .lensctl[hidden] { display: none; }
@@ -66,30 +103,15 @@ svg.map { display: block; width: 100%; height: auto; touch-action: manipulation;
 .rng input { width: 96px; accent-color: var(--ink); }
 .rng output { font-family: var(--f-mono); font-size: 13px; min-width: 3.2em; color: var(--ink); }
 svg.map.lensmode { touch-action: none; cursor: grab; }
-.sout { fill: none; stroke: var(--ink-2); stroke-width: 1.2px; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; pointer-events: none; }
+.sout { fill: none; stroke: var(--ink); stroke-width: 1.3px; stroke-dasharray: 5 4; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
 .lring { fill: none; stroke: var(--ink); stroke-width: 1.2px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; pointer-events: none; }
-.gp { fill: none; stroke: var(--ink-2); stroke-width: .8px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.gp { fill: none; stroke: var(--bg); stroke-width: 1px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
 .gt { fill: none; stroke: var(--ink); stroke-width: 1.4px; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
 .lab { font-family: var(--f-body); font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
 
-.tip { position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none; background: var(--raised); color: var(--ink); border: 1px solid var(--hair); border-radius: 8px; padding: 10px 12px; width: max-content; max-width: min(260px, calc(100% - 8px)); box-shadow: 0 6px 24px rgba(0,0,0,.16); opacity: 0; transition: opacity .1s; font-size: 13px; line-height: 1.35; }
-.tip.on { opacity: 1; }
-.tip .nm { font-weight: 700; font-size: 14px; margin-bottom: 2px; }
-.tip .mg { font: 500 17px/1.2 var(--f-mono); margin: 4px 0 6px; display: flex; align-items: center; gap: 8px; }
-.tip .sw { width: 10px; height: 10px; border-radius: 2px; flex: none; }
-.tip dl { display: grid; grid-template-columns: auto auto; gap: 2px 14px; margin: 0; color: var(--ink-2); }
-.tip dd { margin: 0; text-align: right; font-family: var(--f-mono); color: var(--ink); font-variant-numeric: tabular-nums; }
-.tip .fx { margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--hair); font-weight: 700; }
 
 h2 { font: 700 13px/1.2 var(--f-body); letter-spacing: .02em; margin: 0 0 4px; }
 .sub { color: var(--ink-3); font-size: 13px; margin: 0 0 12px; }
-.card { border: 1px solid var(--hair); border-radius: 10px; padding: 14px 16px; margin: 0 0 14px; min-height: 148px; }
-.card .nm { font-weight: 700; font-size: 17px; margin: 0 0 2px; }
-.card .fx { font: 500 22px/1.15 var(--f-mono); margin: 4px 0 10px; }
-.card .em { color: var(--ink-2); font-size: 14px; margin: 0; }
-.cb { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; align-items: center; gap: 8px; font-size: 13px; margin: 6px 0; }
-.cb i { display: block; height: 10px; border-radius: 3px; min-width: 2px; }
-.cb span:last-child { font-family: var(--f-mono); font-variant-numeric: tabular-nums; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 22px; }
 .chips h3 { flex-basis: 100%; font: 500 11px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); margin: 6px 0 0; }
 .chip { font: 500 13px/1 var(--f-body); color: var(--ink); background: transparent; border: 1px solid var(--hair); border-radius: 999px; padding: 10px 12px; min-height: 40px; cursor: pointer; display: inline-flex; gap: 6px; align-items: baseline; }
@@ -140,7 +162,6 @@ td.m { font-family: var(--f-mono); }
       <button type="button" data-m="lens" aria-pressed="false" id="bLens" disabled>Lens</button>
       <button type="button" data-m="pop" aria-pressed="false">People</button>
     </div>
-    <label class="tog"><input type="checkbox" id="tips" checked> Tooltips</label>
   </div>
   <div class="lensctl" id="lensctl" hidden>
     <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="true">Magnify</button><button type="button" data-s="2" aria-pressed="false">Whole map</button></div>
@@ -150,11 +171,10 @@ td.m { font-family: var(--f-mono); }
   <div class="grid">
     <div class="mapwrap" id="mapwrap">
       <svg class="map" id="map" role="img" aria-label="{{STATE}} county map of the {{RACE}} result. Choose People to redraw each county in proportion to its residents. A table of all counties follows."></svg>
-      <div class="tip" id="tip" role="status" aria-live="polite"></div>
     </div>
 
     <aside class="side">
-      <div class="card" id="card" aria-live="polite"></div>
+      <aside class="sheet" id="card" aria-live="polite" aria-label="County details"></aside>
       <div class="chips" id="chips"></div>
       <h2>Share of {{STATE}} that {{A}} won</h2>
       <p class="sub">Same election, counted four ways.</p>
@@ -282,7 +302,8 @@ td.m { font-family: var(--f-mono); }
     c.p.setAttribute('d', d); c.p.style.strokeWidth = (.8 + 1.7 * smooth(t)) + 'px';
     var hv = smooth((t - .8) / .2);
     c.hl.style.opacity = hv * (1 - w); c.hl2.style.opacity = hv * w;
-    c.gp.style.opacity = ghostOn ? .55 * smooth(t * 1.6) * (1 - w) : 0;
+    c.gp.style.opacity = ghostOn ? smooth(t * 1.6) * (1 - w) : 0;
+    if (c.i === hlI) syncHL();
     c.gt.style.opacity = Math.min(1, t * 3) * w;
     c.sf.style.opacity = .3 * smooth(t * 2.5) * w;
     if (c.lb) { c.lb.style.opacity = smooth((t - .75) / .25); c.lb.setAttribute('x', (c.hx + (c.cx - c.hx) * w).toFixed(3)); c.lb.setAttribute('y', (c.hy + (c.cy - c.hy) * w).toFixed(3)); }
@@ -324,16 +345,22 @@ td.m { font-family: var(--f-mono); }
   }
 
   /* ---------- lens ---------- */
-  var view = 'land', LF = null, CK = null, NN = LENS.nx * LENS.ny, FLD = new Float32Array(2 * NN), FA = new Float32Array(2 * NN), FB = new Float32Array(2 * NN), tipsOn = true, startLens = h0 === 'lens', lensDrag = false, viewTok = 0, lensInit = false;
+  var view = 'land', LF = null, CK = null, NN = LENS.nx * LENS.ny, FLD = new Float32Array(2 * NN), FA = new Float32Array(2 * NN), FB = new Float32Array(2 * NN), startLens = h0 === 'lens', lensDrag = false, viewTok = 0, lensInit = false;
   var lens = { x: 0, y: 0, tx: 0, ty: 0, a: 0, at: 0, b: 1, bt: 1, g: 0, gt: 0, raf: 0, last: 0 }, GF = null;
   var LR = LENS.radii, vb0 = [B[0], B[1], B[2] - B[0], B[3] - B[1]];
   function vbm() {   // box for the current morph: real -> warp -> hexes, same aspect so the map never changes height
     var s = 0, i; for (i = 0; i < C.length; i++) s += T[i]; var t = s / C.length, ta = Math.min(1, t / .5), tb = Math.max(0, (t - .5) / .5);
     return vb0.map(function (v, j) { return v + ta * (D.vbW[j] - v) + tb * (D.vbH[j] - D.vbW[j]); });
   }
-  function vbMorph() { svg.setAttribute('viewBox', vbm().join(' ')); }
+  function vbMorph() { svg.setAttribute('viewBox', vbm().join(' ')); updSil(lens.a, lens.g * Math.min(1, lens.a)); }
+  var silP = mk('path', { 'class': 'silh', d: ringPath(LENS.outline, LENS.outline.length / 2) }); gGhost.insertBefore(silP, gGhost.firstChild);
   var sOut = mk('path', { 'class': 'sout', d: ringPath(LENS.outline, LENS.outline.length / 2) }, gTop); sOut.style.opacity = 0;
+  function updSil(am, ge) {   // pale real-state silhouette + dashed real outline: shown whenever the map is away from the real shape
+    var s = 0, i; for (i = 0; i < C.length; i++) s += T[i]; var k = Math.max(smooth(2 * s / C.length), .9 * am, ge);
+    silP.style.opacity = k; sOut.style.opacity = .85 * k;
+  }
   var lensRing = mk('circle', { 'class': 'lring', r: LR[0], cx: 0, cy: 0 }, gTop); lensRing.style.opacity = 0;
+  var hlh = mk('path', { 'class': 'hlh' }, gTop), hlp = mk('path', { 'class': 'hlp' }, gTop);   // selected-county outline: surface halo under an ink line
   C.forEach(function (c) {
     var K = c.K; c.vi = new Int32Array(K); c.vfx = new Float32Array(K); c.vfy = new Float32Array(K);
     for (var k = 0; k < K; k++) {
@@ -401,7 +428,7 @@ td.m { font-family: var(--f-mono); }
     for (var i = 0; i < C.length; i++) { var c = C[i]; if (T[i] === 0 && TT[i] === 0) c.p.setAttribute('d', on ? warpPath(c) : ringPath(c.R, c.K)); }
     var vm = vbm(), am = Math.min(1, lens.a), ge = lens.g * am, kz = 1 + .25 * am, w = vm[2] * kz, h = vm[3] * kz, lv = [vm[0] + vm[2] / 2 - w / 2, vm[1] + vm[3] / 2 - h / 2, w, h];
     svg.setAttribute('viewBox', lv.map(function (v, j) { return v + (D.vbW[j] - v) * ge; }).join(' '));
-    sOut.style.opacity = .7 * ge;
+    updSil(am, ge); syncHL();
     lensRing.setAttribute('cx', lens.x.toFixed(3)); lensRing.setAttribute('cy', lens.y.toFixed(3));
     lensRing.setAttribute('r', LR[0].toFixed(3)); lensRing.style.opacity = .6 * Math.min(1, lens.a * 3) * (1 - lens.g);
     var moving = lens.tx !== lens.x || lens.ty !== lens.y || lens.a !== lens.at || lens.b !== lens.bt || lens.g !== lens.gt;
@@ -470,7 +497,6 @@ td.m { font-family: var(--f-mono); }
       applySize();
     });
   });
-  document.getElementById('tips').addEventListener('change', function (e) { tipsOn = e.target.checked; if (!tipsOn) hideTip(); });
   function modeNow() { var s = 0, settled = true; for (var i = 0; i < C.length; i++) { s += TT[i]; if (T[i] !== TT[i]) settled = false; } return s === 0 ? 'land' : s === C.length ? 'pop' : 'mixed'; }
   function uiMode() {
     var m = view === 'lens' ? 'lens' : modeNow();
@@ -499,29 +525,56 @@ td.m { font-family: var(--f-mono); }
     uiMode();
   }
 
-  /* ---------- county card + chips ---------- */
-  var selected = null;
-  function showCard(i) {
-    var card = document.getElementById('card'); card.textContent = '';
-    if (i == null) {
-      var h = document.createElement('p'); h.className = 'nm'; h.textContent = view === 'lens' ? (lens.gt === 1 ? 'Every county, sized by its people' : 'Roll the lens') : 'Tap a county'; card.appendChild(h);
-      var p = document.createElement('p'); p.className = 'em'; p.textContent = view === 'lens' ? (lens.gt === 1 ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Counties under the lens swell or shrink to match their share of ' + META.state + '\'s people. The county at the lens center is shown here.') : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.'; card.appendChild(p);
-      return;
-    }
-    var c = C[i];
-    var nm = document.createElement('p'); nm.className = 'nm'; nm.textContent = c.name + ' County'; card.appendChild(nm);
-    var f = document.createElement('p'); f.className = 'fx'; f.textContent = fx(c) + ' by people'; card.appendChild(f);
-    var mx = Math.max(c.landS, c.popS);
-    [['Land', c.landS, 'var(--ink-3)'], ['People', c.popS, css(colorAt(c.m))]].forEach(function (r) {
-      var row = document.createElement('div'); row.className = 'cb';
-      var a = document.createElement('span'); a.textContent = r[0];
-      var wrap = document.createElement('span'); var bar = document.createElement('i'); bar.style.width = (r[1] / mx * 100) + '%'; bar.style.background = r[2]; wrap.appendChild(bar);
-      var v = document.createElement('span'); v.textContent = pct1(r[1]);
-      row.appendChild(a); row.appendChild(wrap); row.appendChild(v); card.appendChild(row);
-    });
-    var e = document.createElement('p'); e.className = 'em'; e.textContent = (c.dem ? META.a + ' +' : META.b + ' +') + Math.round(Math.abs(c.m) * 100) + ' · ' + fmt(c.pop) + ' residents';
-    card.appendChild(e);
+  /* ---------- county card (bottom sheet on phones, side panel on desktop) ---------- */
+  var selected = null, hlI = null, full = false, sheet = document.getElementById('card');
+  var mqPhone = window.matchMedia('(max-width: 879px)');
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (ch) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]; }); }
+  function syncHL() {
+    if (!hlh) return;
+    var d = hlI == null ? '' : C[hlI].p.getAttribute('d'); hlh.setAttribute('d', d); hlp.setAttribute('d', d);
   }
+  function syncPad() { document.body.style.paddingBottom = (mqPhone.matches && sheet.classList.contains('open')) ? (sheet.offsetHeight + 24) + 'px' : ''; }
+  if (window.ResizeObserver) new ResizeObserver(syncPad).observe(sheet);
+  mqPhone.addEventListener('change', syncPad);
+  function barRow(label, share, mx, color) {
+    return '<div class="cbar"><span>' + label + '</span><span class="ctrack"><i class="cfill" style="width:' + Math.max(1.5, share / mx * 100).toFixed(1) + '%;background:' + color + '"></i></span><span class="v">' + pct1(share) + '</span></div>';
+  }
+  function cardHTML(c) {
+    var col = css(colorAt(c.m)), mx = Math.max(c.landS, c.popS), lead = (c.dem ? META.a : META.b) + ' +' + Math.round(Math.abs(c.m) * 100), w = c.dem ? c.d : c.r, l = c.dem ? c.r : c.d;
+    var rows = [[META.a, c.d, c.d / c.tot, css(stops.bm)], [META.b, c.r, c.r / c.tot, css(stops.rm)]].sort(function (a, b) { return b[1] - a[1]; }).map(function (r, k) {
+      return '<tr class="' + (k ? '' : 'win') + '"><td><span class="nm2"><i style="background:' + r[3] + '"></i>' + esc(r[0]) + '</span></td><td class="num">' + fmt(r[1]) + '</td><td class="num">' + (r[2] * 100).toFixed(1) + '%</td></tr>';
+    }).join('');
+    return '<div class="pn-bar" style="background:' + col + '"></div>' +
+      '<div class="pn-hd"><div style="min-width:0"><span class="pn-n">' + esc(c.name) + ' County</span><span class="pn-c">' + fmt(c.pop) + ' residents</span></div>' +
+      '<div class="pn-r"><span class="pn-p" style="background:' + col + ';color:' + (c.dark ? '#fff' : '#0b0b0b') + '">' + esc(lead) + '</span>' +
+      '<button type="button" class="pn-b pn-tgl" aria-expanded="' + full + '">' + (full ? 'Less' : 'More') + '</button>' +
+      '<button type="button" class="pn-b pn-x" aria-label="Close">✕</button></div></div>' +
+      '<div class="pn-key">' + barRow('Land', c.landS, mx, 'var(--ink-3)') + barRow('People', c.popS, mx, col) + '<div class="pn-rel"><b>' + fx(c).replace(' ', '</b> ') + ' by people</div></div>' +
+      '<div class="pn-more"><div class="pn-st"><span>Residents <b>' + fmt(c.pop) + '</b></span><span>Hexagons <b>' + c.n + '</b></span><span>Land <b>' + pct1(c.landS) + '</b></span><span>People <b>' + pct1(c.popS) + '</b></span><span>Margin <b>' + fmt(w - l) + ' votes</b></span></div>' +
+      '<table class="pn-t"><thead><tr><th>Candidate</th><th class="num">Votes</th><th class="num">Share</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+  }
+  function emptyHTML() {
+    var lensMode = view === 'lens', whole = lens.gt === 1;
+    var h = lensMode ? (whole ? 'Every county, sized by its people' : 'Roll the lens') : 'Tap a county';
+    var p = lensMode ? (whole ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Counties under the lens swell or shrink to match their share of ' + META.state + '\'s people. The county under the lens is shown here.') : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.';
+    return '<div class="pn-empty"><h2>' + h + '</h2><p>' + p + '</p></div>';
+  }
+  function showCard(i) {
+    hlI = i; syncHL();
+    var open = i != null; sheet.classList.toggle('open', open); sheet.classList.toggle('full', full);
+    sheet.innerHTML = open ? cardHTML(C[i]) : emptyHTML(); syncPad();
+  }
+  function ensureVisible(i) {
+    if (!mqPhone.matches) return;
+    setTimeout(function () {
+      var b = C[i].p.getBoundingClientRect(), lim = innerHeight - sheet.offsetHeight - 12, dy = Math.min(b.bottom - lim, b.top - 70);
+      if (dy > 0) window.scrollBy({ top: dy, behavior: RM ? 'auto' : 'smooth' });
+    }, 120);
+  }
+  sheet.addEventListener('click', function (e) {
+    if (e.target.closest('.pn-x')) { selected = null; clearSel(); showCard(null); return; }
+    if (e.target.closest('.pn-tgl')) { full = !full; showCard(hlI); if (full && hlI != null) ensureVisible(hlI); }
+  });
   var up = C.slice().sort(function (a, b) { return b.f - a.f; }).slice(0, 5), down = C.slice().sort(function (a, b) { return a.f - b.f; }).slice(0, 5);
   var chipBox = document.getElementById('chips');
   function chip(c, label) {
@@ -535,47 +588,26 @@ td.m { font-family: var(--f-mono); }
   down.forEach(function (c) { chipBox.appendChild(chip(c, '÷' + (1 / c.f >= 10 ? (1 / c.f).toFixed(0) : (1 / c.f).toFixed(1)))); });
   function chipsSync() { chipBox.querySelectorAll('.chip').forEach(function (b) { b.setAttribute('aria-pressed', TT[+b.dataset.i] ? 'true' : 'false'); }); }
 
-  /* ---------- tooltip ---------- */
-  var wrap = document.getElementById('mapwrap'), tip = document.getElementById('tip'), hot = null;
-  function setHot(c) { if (hot) hot.g.classList.remove('hl'); hot = c; if (c) { c.g.classList.add('hl'); if (view === 'lens') gC.appendChild(c.g); } }
-  function fillTip(c) {
-    tip.textContent = '';
-    var nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = c.name + ' County'; tip.appendChild(nm);
-    var mg = document.createElement('div'); mg.className = 'mg';
-    var sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = css(colorAt(c.m));
-    var mt = document.createElement('span'); mt.textContent = (c.dem ? META.a + ' +' : META.b + ' +') + Math.round(Math.abs(c.m) * 100);
-    mg.appendChild(sw); mg.appendChild(mt); tip.appendChild(mg);
-    var dl = document.createElement('dl');
-    [[META.a, fmt(c.d) + ' (' + pct(c.d / c.tot) + '%)'], [META.b, fmt(c.r) + ' (' + pct(c.r / c.tot) + '%)'], ['Residents', fmt(c.pop)], ['Land', pct1(c.landS)], ['People', pct1(c.popS)]].forEach(function (r) {
-      var dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = r[0]; dd.textContent = r[1]; dl.appendChild(dt); dl.appendChild(dd);
-    });
-    tip.appendChild(dl);
-    var f = document.createElement('div'); f.className = 'fx'; f.textContent = fx(c) + ' by people'; tip.appendChild(f);
-  }
-  function place(cx, cy, touch) {
-    var wr = wrap.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight, gap = 14, x = cx - wr.left, y = cy - wr.top, left, top;
-    if (touch) { left = x - tw / 2; top = y - th - 26; if (top < 0) top = y + 26; }
-    else { left = x + gap; top = y + gap; if (left + tw > wr.width) left = x - tw - gap; if (top + th > wr.height) top = y - th - gap; }
-    left = Math.max(0, Math.min(left, wr.width - tw)); top = Math.max(0, Math.min(top, wr.height - th));
-    tip.style.transform = 'translate(' + left.toFixed(1) + 'px,' + top.toFixed(1) + 'px)';
-  }
-  function hideTip() { tip.classList.remove('on'); setHot(null); }
+  /* ---------- pointer: lens aim, desktop hover preview, tap ---------- */
+  var peekI = null;
+  function setHot(c) { peekI = c ? c.i : null; showCard(peekI != null ? peekI : selected); }
+  function hideTip() { if (peekI != null) setHot(null); }
   function cOf(e) { var g = e.target.closest ? e.target.closest('.county') : null; return g ? C[+g.dataset.i] : null; }
-  function showAt(c, e) { if (c !== hot) { setHot(c); fillTip(c); } if (!tipsOn) { tip.classList.remove('on'); return; } tip.classList.add('on'); place(e.clientX, e.clientY, e.pointerType === 'touch'); }
-  svg.addEventListener('pointerdown', function (e) { if (view !== 'lens' || !LF) return; if (e.pointerType === 'touch') { try { svg.setPointerCapture(e.pointerId); } catch (_) {} hideTip(); } lensDrag = true; lensAim(e); });
-  svg.addEventListener('pointerup', function (e) { lensDrag = false; if (view === 'lens' && e.pointerType === 'touch' && tipsOn) { var c = cAt(e.clientX, e.clientY); if (c) { setHot(c); fillTip(c); tip.classList.add('on'); place(e.clientX, e.clientY, true); } } });
+  svg.addEventListener('pointerdown', function (e) { if (view !== 'lens' || !LF) return; if (e.pointerType === 'touch') { try { svg.setPointerCapture(e.pointerId); } catch (_) {} } lensDrag = true; lensAim(e); });
+  svg.addEventListener('pointerup', function () { lensDrag = false; });
   svg.addEventListener('pointercancel', function () { lensDrag = false; });
-  svg.addEventListener('pointermove', function (e) { if (view === 'lens' && LF && (e.pointerType !== 'touch' || lensDrag)) lensAim(e); if (e.pointerType === 'touch') return; var c = cOf(e); if (c) showAt(c, e); else hideTip(); });
+  svg.addEventListener('pointermove', function (e) {
+    if (view === 'lens' && LF) { if (e.pointerType !== 'touch' || lensDrag) lensAim(e); return; }
+    if (e.pointerType === 'touch') return;
+    var c = cOf(e); if (c && c.i !== peekI) setHot(c); else if (!c) hideTip();
+  });
   svg.addEventListener('pointerleave', function (e) { if (e.pointerType !== 'touch') hideTip(); });
   svg.addEventListener('click', function (e) {
-    var c = cOf(e); if (!c) { hideTip(); return; }
-    act(c.i, false);
-    if (!tipsOn || view === 'lens') { return; }
-    if (e.pointerType === 'touch' && c === hot && tip.classList.contains('on')) { hideTip(); return; }   // tap the same county again: tooltip off
-    if (e.pointerType === 'touch' || e.detail === 0 || true) { setHot(c); fillTip(c); tip.classList.add('on'); place(e.clientX, e.clientY, e.pointerType === 'touch' || (navigator.maxTouchPoints > 0 && !window.matchMedia('(hover: hover)').matches)); }
+    var c = cOf(e); if (!c) return;
+    if (view === 'pop' && selected === c.i) { selected = null; clearSel(); peekI = null; showCard(null); return; }   // tap the selected county again: card off
+    act(c.i, false); peekI = null; if (view !== 'lens') ensureVisible(c.i);
   });
-  document.addEventListener('pointerdown', function (e) { if (!wrap.contains(e.target)) hideTip(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideTip(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { selected = null; clearSel(); peekI = null; showCard(null); } });
 
   /* ---------- copy + table ---------- */
   var aW = tot.d > tot.r, W = aW ? META.a : META.b, Wf = aW ? META.af : META.bf, Lf = aW ? META.bf : META.af,
