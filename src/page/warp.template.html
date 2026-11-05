@@ -137,8 +137,8 @@ td.m { font-family: var(--f-mono); }
   <div class="controls">
     <div class="seg" role="group" aria-label="Map view">
       <button type="button" data-m="land" aria-pressed="true">Land</button>
-      <button type="button" data-m="pop" aria-pressed="false">People</button>
       <button type="button" data-m="lens" aria-pressed="false" id="bLens" disabled>Lens</button>
+      <button type="button" data-m="pop" aria-pressed="false">People</button>
     </div>
     <label class="tog"><input type="checkbox" id="outline"> Land outlines</label>
     <label class="tog"><input type="checkbox" id="tips" checked> Tooltips</label>
@@ -146,7 +146,7 @@ td.m { font-family: var(--f-mono); }
   <div class="lensctl" id="lensctl" hidden>
     <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="true">Magnify</button><button type="button" data-s="2" aria-pressed="false">Whole map</button></div>
   </div>
-  <p class="hint" id="hint">Tap People to rebuild the map with one hexagon per {{UNIT}} residents. Tap any county to grow or shrink it in place, or try Lens.</p>
+  <p class="hint" id="hint">Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per {{UNIT}} residents.</p>
 
   <div class="grid">
     <div class="mapwrap" id="mapwrap">
@@ -477,7 +477,7 @@ td.m { font-family: var(--f-mono); }
     var m = view === 'lens' ? 'lens' : modeNow();
     document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m ? 'true' : 'false'); });
     var rows = document.querySelectorAll('.brow'); rows.forEach(function (r) { r.classList.toggle('act', (m === 'land' && r.dataset.k === 'land') || (m === 'pop' && r.dataset.k === 'pop')); });
-    document.getElementById('hint').textContent = m === 'lens' ? (lens.gt === 1 ? 'Every county sized by its residents. The dashed line is the real state outline.' : 'Move the lens over the map (drag on a phone). Counties under it resize by population.') : m === 'pop' ? 'One hexagon is about ' + fmt(D.unit) + ' residents. Tap a county for its numbers.' : m === 'mixed' ? 'Resized counties grow or shrink in place. Tap another, or use the buttons to flip them all.' : 'Tap People to rebuild the map with one hexagon per ' + fmt(D.unit) + ' residents. Tap any county to grow or shrink it in place.';
+    document.getElementById('hint').textContent = m === 'lens' ? (lens.gt === 1 ? 'Every county sized by its residents. The dashed line is the real state outline.' : 'Move the lens over the map (drag on a phone). Counties under it resize by population.') : m === 'pop' ? 'One hexagon is about ' + fmt(D.unit) + ' residents. Tap a county for its numbers.' : m === 'mixed' ? 'Resized counties grow or shrink in place. Tap another, or use the buttons to flip them all.' : 'Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per ' + fmt(D.unit) + ' residents.';
     try { if (m !== 'mixed') history.replaceState(null, '', '#' + m); } catch (e) {}
   }
   document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
