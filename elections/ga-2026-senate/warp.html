@@ -140,7 +140,6 @@ td.m { font-family: var(--f-mono); }
       <button type="button" data-m="lens" aria-pressed="false" id="bLens" disabled>Lens</button>
       <button type="button" data-m="pop" aria-pressed="false">People</button>
     </div>
-    <label class="tog"><input type="checkbox" id="outline"> Land outlines</label>
     <label class="tog"><input type="checkbox" id="tips" checked> Tooltips</label>
   </div>
   <div class="lensctl" id="lensctl" hidden>
@@ -260,7 +259,7 @@ td.m { font-family: var(--f-mono); }
   var n0 = C.length;
   var T = new Float32Array(n0), TT = new Float32Array(n0), FR = new Float32Array(n0), ST = new Float32Array(n0), DL = new Float32Array(n0), DR = new Float32Array(n0).fill(420);
   var LAY = new Uint8Array(n0), WW = new Float32Array(n0), WF = new Float32Array(n0), WG = new Float32Array(n0);
-  var DUR_ALL = RM ? 1 : 800, DUR_ONE = RM ? 1 : 380, SPR = .3, raf = 0, ghostOn = false;
+  var DUR_ALL = RM ? 1 : 800, DUR_ONE = RM ? 1 : 380, SPR = .3, raf = 0, ghostOn = true;
   function eo(x) { return (1 - Math.pow(2, -5 * x)) / (1 - Math.pow(2, -5)); }
   function ez(x, fwd) { return fwd ? eo(x) : 1 - eo(1 - x); }
   function smooth(x) { x = Math.max(0, Math.min(1, x)); return x * x * (3 - 2 * x); }
@@ -481,7 +480,6 @@ td.m { font-family: var(--f-mono); }
     try { if (m !== 'mixed') history.replaceState(null, '', '#' + m); } catch (e) {}
   }
   document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
-  document.getElementById('outline').addEventListener('change', function (e) { ghostOn = e.target.checked; C.forEach(draw); });
 
   /* ---------- share bars ---------- */
   var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes cast' };
@@ -573,6 +571,7 @@ td.m { font-family: var(--f-mono); }
     var c = cOf(e); if (!c) { hideTip(); return; }
     act(c.i, false);
     if (!tipsOn || view === 'lens') { return; }
+    if (e.pointerType === 'touch' && c === hot && tip.classList.contains('on')) { hideTip(); return; }   // tap the same county again: tooltip off
     if (e.pointerType === 'touch' || e.detail === 0 || true) { setHot(c); fillTip(c); tip.classList.add('on'); place(e.clientX, e.clientY, e.pointerType === 'touch' || (navigator.maxTouchPoints > 0 && !window.matchMedia('(hover: hover)').matches)); }
   });
   document.addEventListener('pointerdown', function (e) { if (!wrap.contains(e.target)) hideTip(); });
