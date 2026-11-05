@@ -411,10 +411,11 @@ td.m { font-family: var(--f-mono); }
   function lensKick() { if (!lens.raf) lens.raf = requestAnimationFrame(lensTick); }
   function clearSel() { C.forEach(function (c) { c.g.classList.remove('sel'); }); }
   function selectCounty(i) { clearSel(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
+  function lensSel(i) { clearSel(); reorder(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
   function act(i, fromChip) {
     if (view === 'land') toggleCounty(i);
     else if (view === 'pop') selectCounty(i);
-    else { if (fromChip) { lens.tx = C[i].cx; lens.ty = C[i].cy; lensKick(); } selected = i; showCard(i); }
+    else { if (fromChip) { lens.tx = C[i].cx; lens.ty = C[i].cy; lensKick(); } lensSel(i); }
   }
   function wholeOn() { return +document.querySelector('#lsize [aria-pressed=true]').dataset.s === 2; }
   function toWarp() {   // hexes -> warped shapes (half way along the morph), staggered like setAll
@@ -458,11 +459,11 @@ td.m { font-family: var(--f-mono); }
   function cAt(x, y) { var el = document.elementFromPoint(x, y), g = el && el.closest ? el.closest('.county') : null; return g ? C[+g.dataset.i] : null; }
   function toMap(e) { var pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; var m = svg.getScreenCTM(); return m ? pt.matrixTransform(m.inverse()) : null; }
   function lensAim(e) {
-    var c0 = cAt(e.clientX, e.clientY); if (c0 && c0.i !== selected) { selected = c0.i; showCard(c0.i); }
+    var c0 = cAt(e.clientX, e.clientY); if (c0 && c0.i !== selected) lensSel(c0.i);
     if (lens.gt === 1) return;
     var q = toMap(e); if (!q) return;
     lens.tx = Math.max(vb0[0], Math.min(vb0[0] + vb0[2], q.x)); lens.ty = Math.max(vb0[1], Math.min(vb0[1] + vb0[3], q.y)); lensKick();
-    var c = cAt(e.clientX, e.clientY); if (c && c.i !== selected) { selected = c.i; showCard(c.i); }
+    var c = cAt(e.clientX, e.clientY); if (c && c.i !== selected) lensSel(c.i);
   }
   document.querySelectorAll('#lsize button').forEach(function (b) {
     b.addEventListener('click', function () {
