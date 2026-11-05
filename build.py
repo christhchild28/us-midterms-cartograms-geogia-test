@@ -37,7 +37,7 @@ for name, script in STEPS:
     print('--- %s done in %.0fs' % (name, time.time() - t), flush=True)
 if a.gif:
     print('\n=== gif ===', flush=True)
-    r = subprocess.run(['node', os.path.join(SRC, 'media/capture-gif.js'), cfgp], env=env)
+    r = subprocess.run(['node', os.path.join(SRC, 'media/capture-gif.js'), cfgp] + (['warp.html', '-warp'] if a.warp else []), env=env)
     if r.returncode: sys.exit('gif step failed')
 if os.path.dirname(os.path.dirname(cfgp)) == os.path.join(ROOT, 'elections'):   # only for configs that live in this repo
     subprocess.run([sys.executable, os.path.join(SRC, 'site_index.py')], env=env)

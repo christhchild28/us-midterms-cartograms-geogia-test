@@ -1,4 +1,5 @@
-// Renders the share GIF/MP4 (720x900, 20 fps) from elections/<id>/index.html. Usage: node capture-gif.js <config.json>
+// Renders the share GIF/MP4 (720x900, 20 fps). Usage: node capture-gif.js <config.json> [page.html] [out-suffix]
+// Default page is index.html (outline hexmap); pass warp.html and -warp for the warp-following page.
 // Needs: playwright (chromium) and ffmpeg on PATH. Text and colours come from the config and the page's own numbers.
 const { chromium } = require('playwright'); const fs = require('fs'); const path = require('path'); const { execSync } = require('child_process');
 const cfgPath = path.resolve(process.argv[2] || process.env.CARTOGRAM_CONFIG);
@@ -6,7 +7,7 @@ const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8')); const dir = path.dirna
 const ramps = JSON.parse(fs.readFileSync(path.join(__dirname, '../common/ramps.json'), 'utf8'));
 const ramp = c => (typeof c.ramp === 'object' ? c.ramp : ramps[c.ramp || 'blue']);
 const cache = path.join(dir, '.cache'); const frames = path.join(cache, 'frames'); fs.rmSync(frames, { recursive: true, force: true }); fs.mkdirSync(frames, { recursive: true });
-const W = 720, H = 900, STEP = 50;
+const W = 720, H = 900, STEP = 50, PAGE = process.argv[3] || 'index.html', SUFFIX = process.argv[4] || '';
 (async () => {
   const b = await chromium.launch();
   const ctx = await b.newContext({ viewport: { width: W, height: H }, deviceScaleFactor: 1, colorScheme: 'light' });
@@ -17,7 +18,7 @@ const W = 720, H = 900, STEP = 50;
     performance.now = () => now; window.requestAnimationFrame = f => { cbs.push(f); return ++id; }; window.cancelAnimationFrame = () => {};
     window.setTimeout = (f, ms, ...a) => { timers.push({ t: now + (ms || 0), f, a }); return ++id; };
   });
-  await p.goto('file://' + path.join(dir, 'index.html'));
+  await p.goto('file://' + path.join(dir, PAGE));
   await p.waitForFunction(() => !document.getElementById('bLens').disabled, { timeout: 30000 });
   await p.addStyleTag({ content: `
  body{padding:0!important;overflow:hidden}
@@ -44,7 +45,7 @@ const W = 720, H = 900, STEP = 50;
   const unit = (cfg.hex && cfg.hex.unit || 10000).toLocaleString('en-US');
   const S1 = ['By land area', `${T.a} carried ${T.land < 40 ? 'just ' : ''}${T.land}% of ${T.state}.`];
   await p.evaluate(([state, office, ca, cb, a, b, src]) => {
-    document.getElementById('tips').click();
+    const tg = document.getElementById('tips'); if (tg) tg.click();
     const top = document.createElement('div'); top.className = 'ov top'; top.innerHTML = '<div class="k"></div><div class="h" id="oh"></div><div class="s" id="os"></div>'; top.firstChild.textContent = state + ' · ' + office; document.body.appendChild(top);
     const bot = document.createElement('div'); bot.className = 'ov bot'; bot.innerHTML = '<div class="dots"><span><i></i></span><span><i></i></span></div><div id="src"></div>';
     const sp = bot.querySelectorAll('span'); [[ca, a], [cb, b]].forEach(([c, n], k) => { sp[k].firstChild.style.background = c; sp[k].appendChild(document.createTextNode(n)); });
@@ -67,7 +68,7 @@ const W = 720, H = 900, STEP = 50;
   await p.evaluate(() => window.__ga.setView('land')); await run(1000);
   console.log('frames', n); await b.close();
   const out = path.join(dir, 'media'); fs.mkdirSync(out, { recursive: true });
-  const pal = path.join(cache, 'palette.png'), base = path.join(out, cfg.id);
+  const pal = path.join(cache, 'palette.png'), base = path.join(out, cfg.id + SUFFIX);
   execSync(`ffmpeg -y -loglevel error -framerate 20 -i ${frames}/f%04d.png -vf "palettegen=stats_mode=diff" ${pal}`);
   execSync(`ffmpeg -y -loglevel error -framerate 20 -i ${frames}/f%04d.png -i ${pal} -lavfi "paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" ${base}.gif`);
   execSync(`ffmpeg -y -loglevel error -framerate 20 -i ${frames}/f%04d.png -c:v libx264 -preset veryfast -crf 24 -pix_fmt yuv420p -movflags +faststart ${base}.mp4`);

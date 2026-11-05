@@ -6,10 +6,12 @@ for d in sorted(os.listdir(os.path.join(ROOT, 'elections'))):
     cp = os.path.join(ROOT, 'elections', d, 'config.json')
     if not (os.path.exists(cp) and os.path.exists(os.path.join(ROOT, 'elections', d, 'index.html'))): continue
     c = json.load(open(cp)); r = c['race']; yr = (re.findall(r'\d{4}', r.get('date', '')) or [''])[-1]
-    gif = 'elections/%s/media/%s.gif' % (d, c['id'])
+    wp = os.path.exists(os.path.join(ROOT, 'elections', d, 'warp.html'))
+    gif = 'elections/%s/media/%s%s.gif' % (d, c['id'], '-warp' if wp else '')
+    if not os.path.exists(os.path.join(ROOT, gif)): gif = 'elections/%s/media/%s.gif' % (d, c['id'])
     img = '<img src="%s" alt="" loading="lazy">' % gif if os.path.exists(os.path.join(ROOT, gif)) else ''
-    cards.append('<a class="card" href="elections/%s/">%s<b>%s</b><span>%s</span><em>%s vs %s</em></a>' % (
-        d, img, html.escape(c['state']['name']), html.escape((yr + ' ' + r['office']).strip()),
+    cards.append('<a class="card" href="elections/%s/%s">%s<b>%s</b><span>%s</span><em>%s vs %s</em></a>' % (
+        d, 'warp.html' if wp else '', img, html.escape(c['state']['name']), html.escape((yr + ' ' + r['office']).strip()),
         html.escape(c['candidates']['a']['name']), html.escape(c['candidates']['b']['name'])))
 page = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>County cartograms: land vs people</title>
