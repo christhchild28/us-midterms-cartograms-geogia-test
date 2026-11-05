@@ -3,11 +3,13 @@ import numpy as np
 from shapely.geometry import Polygon
 from shapely.geometry.polygon import orient
 from shapely.ops import unary_union
-D = json.load(open('rings.json')); s = D['s']; side = s / math.sqrt(3)
-LON0 = -83.4; KK = math.cos(math.radians(32.7))
-def proj(lon, lat): return ((lon - LON0) * KK, -lat)
-gj = json.load(open('/tmp/ga/raw/counties.json'))
-feat = {f['id']: f for f in gj['features'] if f['id'].startswith('13')}
+import os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from common import cfg as cfg_
+cfg = cfg_.load()
+proj = cfg.proj
+D = json.load(open(cfg.tmp('rings1.json'))); s = D['s']; side = s / math.sqrt(3)
+feat = cfg.features()
 def hexagon(x, y):
     return Polygon([(x + side * math.cos(math.radians(-90 + 60 * k)), y + side * math.sin(math.radians(-90 + 60 * k))) for k in range(6)])
 def ring_K(cells, K):
@@ -64,5 +66,5 @@ for c in D['counties']:
     c['cells2'] = [[round(float(x), 4), round(float(y), 4)] for x, y in cells2]
     c['cx'] = round(cx, 4); c['cy'] = round(cy, 4)
 print('bad', bad)
-json.dump(D, open('rings2.json', 'w'), separators=(',', ':'))
-import os; print(os.path.getsize('rings2.json'))
+json.dump(D, open(cfg.out('rings.json'), 'w'), separators=(',', ':'))
+print(os.path.getsize(cfg.out('rings.json')))

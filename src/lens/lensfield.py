@@ -1,13 +1,14 @@
-import json, math, pickle, sys, time
+import json, math, pickle, sys, time, os
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from common import cfg as cfg_
+cfg = cfg_.load()
 import numpy as np, shapely
 from shapely.geometry import Polygon
 from shapely.ops import unary_union
 from scipy.fft import dctn, idctn
 from scipy.ndimage import map_coordinates, gaussian_filter
-LON0=-83.4; KK=math.cos(math.radians(32.7))
-def proj(lon,lat): return ((lon-LON0)*KK,-lat)
-C=json.load(open('/tmp/ga/build/counties.json')); gj=json.load(open('/tmp/ga/raw/counties.json'))
-feat={f['id']:f for f in gj['features'] if f['id'].startswith('13')}
+proj=cfg.proj
+C=json.load(open(cfg.tmp('counties.json'))); feat=cfg.features()
 polys=[]
 for c in C:
     g=feat[c['fips']]['geometry']; ps=g['coordinates'] if g['type']=='MultiPolygon' else [g['coordinates']]
@@ -15,13 +16,14 @@ for c in C:
     for p in ps:
         pg=Polygon([proj(x,y) for x,y in p[0]]); L.append(pg if pg.is_valid else pg.buffer(0))
     polys.append(L)
-allarea=np.array([sum(p.area for p in L) for L in polys]); nhex=np.array([max(1,round(c['pop']/10000)) for c in C],float)
+allarea=np.array([sum(p.area for p in L) for L in polys]); nhex=np.array([max(1,round(c['pop']/cfg.unit)) for c in C],float)
 state=unary_union([p.buffer(0.002) for L in polys for p in L]).buffer(-0.002)
 if state.geom_type=='MultiPolygon': state=max(state.geoms,key=lambda g:g.area)
 x0,y0,x1,y1=state.bounds
+F=cfg.lens_scale(max(x1-x0,y1-y0))   # all lens lengths scale with the state's extent (Georgia = 1.0)
 padx=(x1-x0)*0.45; pady=(y1-y0)*0.45
 X0,X1,Y0,Y1=x0-padx,x1+padx,y0-pady,y1+pady
-h=0.03; NX=int((X1-X0)/h); NY=int((Y1-Y0)/h); hx=(X1-X0)/NX; hy=(Y1-Y0)/NY
+h=cfg.lens['grid']*F; NX=int((X1-X0)/h); NY=int((Y1-Y0)/h); hx=(X1-X0)/NX; hy=(Y1-Y0)/NY
 gx=X0+(np.arange(NX)+.5)*hx; gy=Y0+(np.arange(NY)+.5)*hy; GX,GY=np.meshgrid(gx,gy)
 meanD=nhex.sum()/allarea.sum()
 G=np.ones((NY,NX))
@@ -35,7 +37,7 @@ Lx=X1-X0; Ly=Y1-Y0
 I=np.arange(NX)[None,:]; J=np.arange(NY)[:,None]
 lam=math.pi**2*((I/Lx)**2+(J/Ly)**2)
 # output node grid
-HO=0.09; ox0=x0-0.25; oy0=y0-0.25; onx=int((x1-x0+0.5)/HO)+2; ony=int((y1-y0+0.5)/HO)+2
+HO=cfg.lens['node']*F; ox0=x0-0.25*F; oy0=y0-0.25*F; onx=int((x1-x0+0.5*F)/HO)+2; ony=int((y1-y0+0.5*F)/HO)+2
 ONX=ox0+np.arange(onx)*HO; ONY=oy0+np.arange(ony)*HO
 NODES=np.array([(a,b) for b in ONY for a in ONX])
 def smooth(x): x=np.clip(x,0,1); return x*x*(3-2*x)
@@ -61,10 +63,3 @@ def field(cx,cy,R,core=0.55,glob=False,sea=1.0):
     dxx=np.gradient(px,HO,axis=1); dxy=np.gradient(px,HO,axis=0); dyx=np.gradient(py,HO,axis=1); dyy=np.gradient(py,HO,axis=0)
     det=dxx*dyy-dxy*dyx
     return U,det
-if __name__=='__main__':
-    t=time.time()
-    c=[cc for cc in C if cc['name']=='Fulton'][0]
-    ctr=max(polys[C.index(c)],key=lambda q:q.area).centroid
-    U,det=field(ctr.x,ctr.y,0.7)
-    print('time',round(time.time()-t,1),'grid',onx,ony,'max|U|',np.abs(U).max(),'det min/max',det.min(),det.max())
-    pickle.dump((U,det,ctr.coords[0]),open('test_atl.pkl','wb'))

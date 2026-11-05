@@ -1,5 +1,4 @@
-<title>Georgia Population Lens</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<title>{{STATE}} Population Lens</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -8,7 +7,7 @@
 :root {
   --bg: #fcfcfb; --ink: #0b0b0b; --ink-2: #52514e; --ink-3: #75746f;
   --hair: #e3e2de; --raised: #ffffff; --edge: rgba(11,11,11,.16);
-  --n: #e5e3dd; --b-mid: #6da7ec; --b-deep: #104281; --r-mid: #ee7a77; --r-deep: #9b1c1c;
+  --n: #e5e3dd; --b-mid: {{A_MID_L}}; --b-deep: {{A_DEEP_L}}; --r-mid: {{B_MID_L}}; --r-deep: {{B_DEEP_L}};
   --f-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
   --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
@@ -17,14 +16,14 @@
   :root:not([data-theme="light"]) {
     --bg: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #9a9990;
     --hair: #343432; --raised: #262625; --edge: rgba(240,239,236,.2);
-    --n: #4a4a46; --b-mid: #2a78d6; --b-deep: #9ec5f4; --r-mid: #d04a49; --r-deep: #ffa19d;
+    --n: #4a4a46; --b-mid: {{A_MID_D}}; --b-deep: {{A_DEEP_D}}; --r-mid: {{B_MID_D}}; --r-deep: {{B_DEEP_D}};
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #9a9990;
   --hair: #343432; --raised: #262625; --edge: rgba(240,239,236,.2);
-  --n: #4a4a46; --b-mid: #2a78d6; --b-deep: #9ec5f4; --r-mid: #d04a49; --r-deep: #ffa19d;
+  --n: #4a4a46; --b-mid: {{A_MID_D}}; --b-deep: {{A_DEEP_D}}; --r-mid: {{B_MID_D}}; --r-deep: {{B_DEEP_D}};
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
@@ -130,8 +129,8 @@ td.m { font-family: var(--f-mono); }
 
 <div class="wrap">
   <header>
-    <p class="kicker">Georgia · U.S. Senate · Nov 3, 2026</p>
-    <h1>Georgia, by land and by people</h1>
+    <p class="kicker">{{STATE}} · {{OFFICE}} · {{DATE}}</p>
+    <h1>{{STATE}}, by land and by people</h1>
     <p class="dek" id="dek"></p>
   </header>
 
@@ -147,40 +146,40 @@ td.m { font-family: var(--f-mono); }
   <div class="lensctl" id="lensctl" hidden>
     <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="true">Magnify</button><button type="button" data-s="2" aria-pressed="false">Whole map</button></div>
   </div>
-  <p class="hint" id="hint">Tap People to rebuild the map with one hexagon per 10,000 residents. Tap any county to grow or shrink it in place, or try Lens.</p>
+  <p class="hint" id="hint">Tap People to rebuild the map with one hexagon per {{UNIT}} residents. Tap any county to grow or shrink it in place, or try Lens.</p>
 
   <div class="grid">
     <div class="mapwrap" id="mapwrap">
-      <svg class="map" id="map" role="img" aria-label="Georgia county map of the 2026 Senate result. Choose People to redraw each county in proportion to its residents. A table of all counties follows."></svg>
+      <svg class="map" id="map" role="img" aria-label="{{STATE}} county map of the {{RACE}} result. Choose People to redraw each county in proportion to its residents. A table of all counties follows."></svg>
       <div class="tip" id="tip" role="status" aria-live="polite"></div>
     </div>
 
     <aside class="side">
       <div class="card" id="card" aria-live="polite"></div>
       <div class="chips" id="chips"></div>
-      <h2>Share of Georgia that Ossoff won</h2>
+      <h2>Share of {{STATE}} that {{A}} won</h2>
       <p class="sub">Same election, counted four ways.</p>
-      <div class="keyline"><span><i id="k-b"></i>Ossoff</span><span><i id="k-r"></i>Collins</span></div>
+      <div class="keyline"><span><i id="k-b"></i>{{A}}</span><span><i id="k-r"></i>{{B}}</span></div>
       <div class="bars" id="bars"></div>
       <div class="legend">
         <h2>County margin</h2>
         <div class="ramp" id="ramp"></div>
-        <div class="ticks"><span>Collins +60</span><span>Even</span><span>Ossoff +60</span></div>
+        <div class="ticks"><span>{{B}} +60</span><span>Even</span><span>{{A}} +60</span></div>
       </div>
     </aside>
   </div>
 
   <details>
-    <summary>All 159 counties, largest first</summary>
+    <summary>All {{NCOUNTIES}} counties, largest first</summary>
     <div class="tw"><table id="tbl">
-      <thead><tr><th>County</th><th>Residents</th><th>Ossoff</th><th>Collins</th><th>Margin</th><th>Land → people</th></tr></thead>
+      <thead><tr><th>County</th><th>Residents</th><th>{{A}}</th><th>{{B}}</th><th>Margin</th><th>Land → people</th></tr></thead>
       <tbody></tbody>
     </table></div>
   </details>
 
   <div class="foot">
     <p id="method"></p>
-    <p>Results: county returns from the Atlanta Journal-Constitution with 99% of precincts reporting on Nov 5, 2026, unofficial until certified. The AP has called the race for Ossoff. Residents: Census Bureau 2019 county estimates. Island fragments of coastal counties are left off the map.</p>
+    <p>{{SOURCE}}</p>
   </div>
 </div>
 
@@ -189,6 +188,7 @@ td.m { font-family: var(--f-mono); }
   var h0 = location.hash.replace('#', '');
   var D = /*DATA*/;
   var LENS = /*LENS*/;
+  var META = /*META*/;
   var C = D.counties, NS = 'http://www.w3.org/2000/svg', RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var totPop = 0, totLand = 0, tot = { d: 0, r: 0, popD: 0, landD: 0, cD: 0 };
   C.forEach(function (c) { totPop += c.pop; totLand += c.landArea; tot.d += c.d; tot.r += c.r; });
@@ -301,7 +301,7 @@ td.m { font-family: var(--f-mono); }
   }
   function go(i, target, w, dly, dur, now) { FR[i] = T[i]; TT[i] = target; WF[i] = WW[i]; WG[i] = w; ST[i] = now; DL[i] = dly; DR[i] = dur; }
   function kick() { if (!raf) raf = requestAnimationFrame(frame); }
-  var CXY = (function () { var a = C.filter(function (c) { return c.name === 'Fulton'; })[0]; return [a.rx, a.ry]; })();
+  var CXY = (function () { var a = C.filter(function (c) { return c.name === META.start; })[0]; return [a.rx, a.ry]; })();
   var maxD = Math.max.apply(null, C.map(function (c) { return Math.hypot(c.rx - CXY[0], c.ry - CXY[1]); }));
   function setAll(v, instant) {
     var now = performance.now();
@@ -416,7 +416,7 @@ td.m { font-family: var(--f-mono); }
       var settled = modeNow() === 'land'; if (!settled) setAll(0);
       setTimeout(function () {
         if (tok !== viewTok) return;
-        if (!lensInit) { var fu = C.filter(function (c) { return c.name === 'Fulton'; })[0]; lens.x = lens.tx = fu.cx; lens.y = lens.ty = fu.cy; lensInit = true; }
+        if (!lensInit) { var fu = C.filter(function (c) { return c.name === META.start; })[0]; lens.x = lens.tx = fu.cx; lens.y = lens.ty = fu.cy; lensInit = true; }
         lens.at = 1; applySize(); uiMode();
       }, settled ? 0 : (RM ? 10 : 560));
     } else {
@@ -463,7 +463,7 @@ td.m { font-family: var(--f-mono); }
     ['land', 'tile', 'pop', 'votes'].forEach(function (k) {
       var s = shares[k], row = document.createElement('div'); row.className = 'brow' + (k === 'votes' ? ' votes' : ''); row.dataset.k = k;
       var l = document.createElement('div'); l.className = 'l'; l.textContent = bl[k];
-      var sm = document.createElement('small'); sm.textContent = k === 'land' ? 'Counties Ossoff carried, by area' : k === 'tile' ? tot.cD + ' of ' + C.length + ' counties' : k === 'pop' ? fmt(tot.popD) + ' of ' + fmt(totPop) + ' people' : fmt(tot.d) + ' of ' + fmt(tot.d + tot.r) + ' votes';
+      var sm = document.createElement('small'); sm.textContent = k === 'land' ? 'Counties ' + META.a + ' carried, by area' : k === 'tile' ? tot.cD + ' of ' + C.length + ' counties' : k === 'pop' ? fmt(tot.popD) + ' of ' + fmt(totPop) + ' people' : fmt(tot.d) + ' of ' + fmt(tot.d + tot.r) + ' votes';
       l.appendChild(sm);
       var v = document.createElement('div'); v.className = 'v'; v.textContent = (s * 100).toFixed(k === 'votes' ? 1 : 0) + '%';
       var tr = document.createElement('div'); tr.className = 'track';
@@ -480,7 +480,7 @@ td.m { font-family: var(--f-mono); }
     var card = document.getElementById('card'); card.textContent = '';
     if (i == null) {
       var h = document.createElement('p'); h.className = 'nm'; h.textContent = view === 'lens' ? (lens.gt === 1 ? 'Every county, sized by its people' : 'Roll the lens') : 'Tap a county'; card.appendChild(h);
-      var p = document.createElement('p'); p.className = 'em'; p.textContent = view === 'lens' ? (lens.gt === 1 ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Counties under the lens swell or shrink to match their share of Georgia\'s people. The county at the lens center is shown here.') : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.'; card.appendChild(p);
+      var p = document.createElement('p'); p.className = 'em'; p.textContent = view === 'lens' ? (lens.gt === 1 ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Counties under the lens swell or shrink to match their share of ' + META.state + '\'s people. The county at the lens center is shown here.') : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.'; card.appendChild(p);
       return;
     }
     var c = C[i];
@@ -494,7 +494,7 @@ td.m { font-family: var(--f-mono); }
       var v = document.createElement('span'); v.textContent = pct1(r[1]);
       row.appendChild(a); row.appendChild(wrap); row.appendChild(v); card.appendChild(row);
     });
-    var e = document.createElement('p'); e.className = 'em'; e.textContent = (c.dem ? 'Ossoff +' : 'Collins +') + Math.round(Math.abs(c.m) * 100) + ' · ' + fmt(c.pop) + ' residents';
+    var e = document.createElement('p'); e.className = 'em'; e.textContent = (c.dem ? META.a + ' +' : META.b + ' +') + Math.round(Math.abs(c.m) * 100) + ' · ' + fmt(c.pop) + ' residents';
     card.appendChild(e);
   }
   var up = C.slice().sort(function (a, b) { return b.f - a.f; }).slice(0, 5), down = C.slice().sort(function (a, b) { return a.f - b.f; }).slice(0, 5);
@@ -518,10 +518,10 @@ td.m { font-family: var(--f-mono); }
     var nm = document.createElement('div'); nm.className = 'nm'; nm.textContent = c.name + ' County'; tip.appendChild(nm);
     var mg = document.createElement('div'); mg.className = 'mg';
     var sw = document.createElement('span'); sw.className = 'sw'; sw.style.background = css(colorAt(c.m));
-    var mt = document.createElement('span'); mt.textContent = (c.dem ? 'Ossoff +' : 'Collins +') + Math.round(Math.abs(c.m) * 100);
+    var mt = document.createElement('span'); mt.textContent = (c.dem ? META.a + ' +' : META.b + ' +') + Math.round(Math.abs(c.m) * 100);
     mg.appendChild(sw); mg.appendChild(mt); tip.appendChild(mg);
     var dl = document.createElement('dl');
-    [['Ossoff', fmt(c.d) + ' (' + pct(c.d / c.tot) + '%)'], ['Collins', fmt(c.r) + ' (' + pct(c.r / c.tot) + '%)'], ['Residents', fmt(c.pop)], ['Land', pct1(c.landS)], ['People', pct1(c.popS)]].forEach(function (r) {
+    [[META.a, fmt(c.d) + ' (' + pct(c.d / c.tot) + '%)'], [META.b, fmt(c.r) + ' (' + pct(c.r / c.tot) + '%)'], ['Residents', fmt(c.pop)], ['Land', pct1(c.landS)], ['People', pct1(c.popS)]].forEach(function (r) {
       var dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = r[0]; dd.textContent = r[1]; dl.appendChild(dt); dl.appendChild(dd);
     });
     tip.appendChild(dl);
@@ -552,15 +552,21 @@ td.m { font-family: var(--f-mono); }
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape') hideTip(); });
 
   /* ---------- copy + table ---------- */
-  var dek = document.getElementById('dek'), parts = [
-    ['t', 'Count by land and Mike Collins carried '], ['b', (C.length - tot.cD) + ' of 159 counties'], ['t', ' and ' + pct(1 - tot.landD) + '% of the area. Count by people and Jon Ossoff won with '], ['b', (tot.d / (tot.d + tot.r) * 100).toFixed(1) + '%'], ['t', ' of the vote, because ' + pct(tot.popD / totPop) + '% of Georgians live in the ' + tot.cD + ' counties he carried.']
-  ];
+  var aW = tot.d > tot.r, W = aW ? META.a : META.b, Wf = aW ? META.af : META.bf, Lf = aW ? META.bf : META.af,
+    landW = aW ? tot.landD : 1 - tot.landD, cW = aW ? tot.cD : C.length - tot.cD, popW = aW ? tot.popD / totPop : 1 - tot.popD / totPop,
+    vW = Math.max(tot.d, tot.r) / (tot.d + tot.r) * 100, ppl = META.people || (META.state + ' residents');
+  var dek = document.getElementById('dek'), parts =
+    landW < .5 ? [
+    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + ' won with '], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote, because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
+    ] : [
+    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and won with '], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
+    ];
   parts.forEach(function (p) { if (p[0] === 'b') { var b = document.createElement('b'); b.textContent = p[1]; dek.appendChild(b); } else dek.appendChild(document.createTextNode(p[1])); });
-  document.getElementById('method').textContent = 'The cartogram uses hexpack: ' + fmt(D.N) + ' hexagons (one per ' + fmt(D.unit) + ' residents, at least one per county) are packed into Georgia\'s outline so that every county is one connected piece. ' + D.stats.kept + ' of the ' + D.stats.real + ' county borders on the real map are still shared borders here (' + pct(D.stats.kept / D.stats.real) + '%). The misses are mostly tiny rural counties with one or two hexagons, which cannot touch all of their neighbors. In Lens view the warp is a density-equalizing flow computed for each lens position, so counties stretch and compress without overlapping.';
+  document.getElementById('method').textContent = 'The cartogram uses hexpack: ' + fmt(D.N) + ' hexagons (one per ' + fmt(D.unit) + ' residents, at least one per county) are packed into ' + META.state + '\'s outline so that every county is one connected piece. ' + D.stats.kept + ' of the ' + D.stats.real + ' county borders on the real map are still shared borders here (' + pct(D.stats.kept / D.stats.real) + '%). The misses are mostly tiny rural counties with one or two hexagons, which cannot touch all of their neighbors. In Lens view the warp is a density-equalizing flow computed for each lens position, so counties stretch and compress without overlapping.';
   var tb = document.querySelector('#tbl tbody');
   order.forEach(function (c) {
     var tr = document.createElement('tr');
-    [c.name, fmt(c.pop), fmt(c.d), fmt(c.r), (c.dem ? 'Ossoff +' : 'Collins +') + Math.round(Math.abs(c.m) * 100), pct1(c.landS) + ' → ' + pct1(c.popS)].forEach(function (v, i) {
+    [c.name, fmt(c.pop), fmt(c.d), fmt(c.r), (c.dem ? META.a + ' +' : META.b + ' +') + Math.round(Math.abs(c.m) * 100), pct1(c.landS) + ' → ' + pct1(c.popS)].forEach(function (v, i) {
       var td = document.createElement('td'); td.textContent = v; if (i === 4) td.className = 'm'; tr.appendChild(td);
     }); tb.appendChild(tr);
   });
@@ -574,6 +580,6 @@ td.m { font-family: var(--f-mono); }
   else uiMode();
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', recolor);
   new MutationObserver(recolor).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-  window.__ga = { setView: setView, lens: lens, setAll: setAll, toggle: toggleCounty, T: T, WW: WW, C: C, instant: function (v) { setAll(v, true); } };
+  window.__ga = { META: META, tot: tot, totPop: totPop, lensKick: lensKick, setView: setView, lens: lens, setAll: setAll, toggle: toggleCounty, T: T, WW: WW, C: C, instant: function (v) { setAll(v, true); } };
 })();
 </script>

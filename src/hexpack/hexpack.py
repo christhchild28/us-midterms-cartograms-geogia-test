@@ -4,15 +4,18 @@ from shapely.geometry import shape, Polygon, MultiPolygon, Point
 from shapely.ops import unary_union
 from scipy.optimize import linear_sum_assignment
 
-UNIT = int(sys.argv[1]) if len(sys.argv) > 1 else 20000
-SEED = int(sys.argv[2]) if len(sys.argv) > 2 else 1
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '..'))
+from common import cfg as cfg_
+cfg = cfg_.load()
+if cfg.hex.get('frozen') and os.path.exists(cfg.out('layout.json')):
+    print('hex.frozen is set: keeping the committed layout.json (delete the file or unset "frozen" to repack)'); sys.exit(0)
+UNIT = cfg.unit
+SEED = cfg.seed
 random.seed(SEED); np.random.seed(SEED)
-LON0 = -83.4; K = math.cos(math.radians(32.7))
-def proj(lon, lat): return ((lon - LON0) * K, -lat)
+proj = cfg.proj
 
-C = json.load(open('/tmp/ga/build/counties.json'))
-gj = json.load(open('/tmp/ga/raw/counties.json'))
-feat = {f['id']: f for f in gj['features'] if f['id'].startswith('13')}
+C = json.load(open(cfg.tmp('counties.json')))
+feat = cfg.features()
 def poly_of(c):
     g = feat[c['fips']]['geometry']
     polys = g['coordinates'] if g['type'] == 'MultiPolygon' else [g['coordinates']]
@@ -109,12 +112,11 @@ def relax_discs(P0, alpha, iters=5000, k_adj=0.35, k_anchor=0.012, seed=0):
                     P[i] = [q.x, q.y]
     return P
 import shapely.ops
-RELAX = os.environ.get('RELAX', '0.93') if 'os' in dir() else '0.93'
-import os
-_rf = '/tmp/ga/hp/relax_%d_%s.npy' % (UNIT, os.environ.get('RELAX', '0.93'))
+RELAX = str(cfg.hex['relax'])
+_rf = cfg.tmp('relax_%d_%s.npy' % (UNIT, RELAX))
 if os.path.exists(_rf): anchors_rx = np.load(_rf)
 else:
-    anchors_rx = relax_discs(real_anchors, float(os.environ.get('RELAX', '0.93')))
+    anchors_rx = relax_discs(real_anchors, float(RELAX))
     np.save(_rf, anchors_rx)
 print('relaxed anchors: mean shift from real (deg)', round(float(np.sqrt(((anchors_rx - real_anchors) ** 2).sum(1)).mean()), 3))
 
@@ -129,7 +131,7 @@ def assign(cen):
     own = np.empty(N, int); own[ri] = slots[ci]
     return own
 import pickle
-_cf = '/tmp/ga/hp/lloyd_rx_%d_%s.pkl' % (UNIT, os.environ.get('RELAX', '0.93'))
+_cf = cfg.tmp('lloyd_rx_%d_%s.pkl' % (UNIT, RELAX))
 if os.path.exists(_cf):
     obj, own, cen = pickle.load(open(_cf, 'rb'))
 else:
@@ -372,7 +374,7 @@ def rebuild_state():
     for i in range(NC): nn[i] = len(cellsof[i]); cc[i] = ncomp(cellsof[i]); P[i] = perim(cellsof[i])
     E.clear(); E.update(edges_E())
 t0 = time.time()
-ITER = int(sys.argv[3]) if len(sys.argv) > 3 else 120000
+ITER = int(cfg.hex.get('iterations', 120000))
 repair2()
 for i in range(NC):
     if cc[i] > 1: fix_county(i)
@@ -402,7 +404,7 @@ out = dict(unit=UNIT, s=s, N=N, stats=dict(kept=ok, real=tot, spurious=sp, miss=
                           anchor=[round(float(real_anchors[i][0]), 4), round(float(real_anchors[i][1]), 4)],
                           landArea=C[i]['allarea']) for i in range(NC)],
            stateArea=A)
-json.dump(out, open('/tmp/ga/hp/pack_%d_%d.json' % (UNIT, SEED), 'w'))
+json.dump(out, open(cfg.out('layout.json'), 'w'))
 
 import matplotlib; matplotlib.use('Agg')
 import matplotlib.pyplot as plt
@@ -421,4 +423,4 @@ for i, c in enumerate(C):
 for g in ([state] if state.geom_type == 'Polygon' else state.geoms):
     xs, ys = g.exterior.xy; ax.plot(xs, ys, color='#e6a800', lw=1.2, ls='--')
 ax.set_aspect('equal'); ax.invert_yaxis(); ax.axis('off')
-plt.savefig('/tmp/ga/hp/pack_%d_%d.png' % (UNIT, SEED), dpi=90, bbox_inches='tight')
+plt.savefig(cfg.tmp('layout.png'), dpi=90, bbox_inches='tight')

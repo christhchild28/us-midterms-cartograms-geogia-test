@@ -1,0 +1,14 @@
+{
+ "blue": {
+  "mid_l": "#6da7ec",
+  "deep_l": "#104281",
+  "mid_d": "#2a78d6",
+  "deep_d": "#9ec5f4"
+ },
+ "red": {
+  "mid_l": "#ee7a77",
+  "deep_l": "#9b1c1c",
+  "mid_d": "#d04a49",
+  "deep_d": "#ffa19d"
+ }
+}
