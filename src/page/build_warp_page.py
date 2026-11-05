@@ -24,7 +24,7 @@ if start not in names: start = max(pops, key=pops.get)
 a, b = cfg.a, cfg.b
 meta = dict(state=cfg.state['name'], people=cfg.state.get('people'), a=a['name'], b=b['name'], af=a.get('full', a['name']), bf=b.get('full', b['name']), start=start)
 race = cfg.c['race']; year = (re.findall(r'\d{4}', race.get('date', '')) or [''])[-1]
-src = cfg.c.get('text', {}).get('source') or ('Results: county returns as supplied for this build. Residents: Census Bureau 2019 county estimates.')
+src = cfg.c.get('text', {}).get('source') or ('Results: county returns as supplied for this build. Residents: Census Bureau county estimates.')
 ra, rb = ramp(a), ramp(b)
 tok = {
     'STATE': cfg.state['name'], 'OFFICE': race['office'], 'DATE': race.get('date', ''), 'RACE': (year + ' ' + race['office']).strip(),

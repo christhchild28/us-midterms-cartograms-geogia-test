@@ -43,7 +43,14 @@
     "scale": 1
   },
   "text": {
-    "source": "Results: county returns from the Atlanta Journal-Constitution with 99% of precincts reporting on Nov 5, 2026, unofficial until certified. The AP has called the race for Ossoff. Residents: Census Bureau 2019 county estimates. Island fragments of coastal counties are left off the map.",
-    "gif_source": "AJC county results, 99% reporting \u00b7 Census 2019"
+    "source": "Results: county returns from the Atlanta Journal-Constitution with 99% of precincts reporting on Nov 5, 2026, unofficial until certified. The AP has called the race for Ossoff. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025), as published by the Georgia Department of Community Affairs. Island fragments of coastal counties are left off the map.",
+    "gif_source": "AJC county results, 99% reporting \u00b7 Census 2025"
+  },
+  "population": {
+    "format": "csv",
+    "file": "population.csv",
+    "fips_col": "fips",
+    "pop_col": "population",
+    "name_col": "county"
   }
 }

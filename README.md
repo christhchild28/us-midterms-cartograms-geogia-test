@@ -76,5 +76,5 @@ Georgia's `rings.json` and lens fields rebuild bit-for-bit from the committed la
 ## Data
 
 - Georgia results: Atlanta Journal-Constitution, 99% of precincts reporting on Nov 5, 2026, unofficial until certified (`elections/ga-2026-senate/results.csv`).
-- Residents: Census Bureau 2019 county estimates via the JHU CSSE lookup table.
+- Residents: Georgia uses the Census Bureau July 1, 2025 county estimates (Vintage 2025) as published by the Georgia Department of Community Affairs (`elections/ga-2026-senate/population.csv`, supplied through the `population` config block; the 159-county total is 11,302,748). Other states default to the Census Bureau 2019 county estimates via the JHU CSSE lookup table unless their config points at a newer CSV.
 - Earlier Georgia versions are kept in `elections/ga-2026-senate/archive/`.
