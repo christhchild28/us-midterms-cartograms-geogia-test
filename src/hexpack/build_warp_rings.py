@@ -44,6 +44,7 @@ def fit(b):   # same aspect as the real view so the map box never changes height
     else: h = w / asp
     return [cx - w / 2, cy - h / 2, w, h]
 # warped-view box must also hold the dashed real outline (shifted into the warp frame)
-vbR = [bR[0], bR[1], bR[2] - bR[0], bR[3] - bR[1]]; vbW = fit(bnd('W')); vbH = fit(bnd('H'))
+def bnd2(k): a, b = bnd(k), bR; return [min(a[0], b[0]), min(a[1], b[1]), max(a[2], b[2]), max(a[3], b[3])]   # keep the fixed real outline in view
+vbR = [bR[0], bR[1], bR[2] - bR[0], bR[3] - bR[1]]; vbW = fit(bnd2('W')); vbH = fit(bnd2('H'))
 json.dump(dict(s=s, unit=P['unit'], N=P['N'], stats=P['stats'], shift=P['shift'], bounds=bR, vbW=vbW, vbH=vbH, counties=out), open(cfg.out('warp-rings.json'), 'w'), separators=(',', ':'))
 print('wrote warp-rings.json', os.path.getsize(cfg.out('warp-rings.json')))

@@ -233,7 +233,7 @@ td.m { font-family: var(--f-mono); }
   C.forEach(function (c) {
     var rp = ringPath(c.R, c.K);
     c.sf = mk('path', { 'class': 'sf', d: rp }, gGhost); c.sf.style.opacity = 0;
-    c.gp = mk('path', { 'class': 'gp', d: ringPath(c.W, c.K) }, gGhost);
+    c.gp = mk('path', { 'class': 'gp', d: ringPath(c.R, c.K) }, gGhost);
     c.gt = mk('path', { 'class': 'gt', d: rp }, gTop); c.gt.style.opacity = 0;
     c.g = mk('g', { 'class': 'county', 'data-i': c.i }, gC);
     c.p = mk('path', { 'class': 'cp', d: rp }, c.g);
