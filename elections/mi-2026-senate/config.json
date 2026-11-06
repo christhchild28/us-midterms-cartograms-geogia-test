@@ -1,0 +1,54 @@
+{
+ "id": "mi-2026-senate",
+ "state": {
+  "name": "Michigan",
+  "abbr": "MI",
+  "fips": "26",
+  "people": "Michiganders"
+ },
+ "race": {
+  "office": "U.S. Senate",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "El-Sayed",
+   "full": "Abdul El-Sayed",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Rogers",
+   "full": "Mike Rogers",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "elsayed",
+  "b_col": "rogers"
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": true
+ },
+ "lens": {
+  "start_county": "Wayne",
+  "gif_target": "Oakland",
+  "scale": 1,
+  "spacing": 0.7,
+  "node": 0.14
+ },
+ "text": {
+  "source": "Results: unofficial county returns from the Michigan Secretary of State (mvic.sos.state.mi.us), updated Nov 6, 2026 1:25 PM ET, with all 83 counties reporting. These are unofficial and counts may change until the state canvass is certified. Third-party candidates (Libertarian Lydia Christensen 1.0%, U.S. Taxpayers Tim Long 0.6%, Green Douglas Marsh 0.3%, Natural Law Walter Kristy 0.2%) and write-ins are not shown. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+  "gif_source": "Michigan Secretary of State unofficial results \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ }
+}
