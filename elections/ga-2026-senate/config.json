@@ -1,56 +1,66 @@
 {
-  "id": "ga-2026-senate",
-  "state": {
-    "name": "Georgia",
-    "abbr": "GA",
-    "fips": "13",
-    "people": "Georgians"
+ "id": "ga-2026-senate",
+ "state": {
+  "name": "Georgia",
+  "abbr": "GA",
+  "fips": "13",
+  "people": "Georgians"
+ },
+ "race": {
+  "office": "U.S. Senate",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Ossoff",
+   "full": "Jon Ossoff",
+   "ramp": "blue"
   },
-  "race": {
-    "office": "U.S. Senate",
-    "date": "Nov 3, 2026"
-  },
-  "candidates": {
-    "a": {
-      "name": "Ossoff",
-      "full": "Jon Ossoff",
-      "ramp": "blue"
-    },
-    "b": {
-      "name": "Collins",
-      "full": "Mike Collins",
-      "ramp": "red"
-    }
-  },
-  "results": {
-    "file": "results.csv",
-    "county_col": "county",
-    "a_col": "ossoff",
-    "b_col": "collins"
-  },
-  "projection": {
-    "lon0": -83.4,
-    "lat0": 32.7
-  },
-  "hex": {
-    "unit": 10000,
-    "seed": 1,
-    "frozen": true
-  },
-  "lens": {
-    "start_county": "Fulton",
-    "gif_target": "Chatham",
-    "scale": 1
-  },
-  "text": {
-    "source": "Results: county returns from the Atlanta Journal-Constitution with 99% of precincts reporting on Nov 5, 2026, unofficial until certified. The AP has called the race for Ossoff. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025), as published by the Georgia Department of Community Affairs. Island fragments of coastal counties are left off the map.",
-    "gif_source": "AJC county results, 99% reporting \u00b7 Census 2025"
-  },
-  "population": {
-    "format": "csv",
-    "file": "population.csv",
-    "fips_col": "fips",
-    "pop_col": "population",
-    "name_col": "county"
+  "b": {
+   "name": "Collins",
+   "full": "Mike Collins",
+   "ramp": "red"
   }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "ossoff",
+  "b_col": "collins"
+ },
+ "projection": {
+  "lon0": -83.4,
+  "lat0": 32.7
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": true
+ },
+ "lens": {
+  "start_county": "Fulton",
+  "gif_target": "Chatham",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns from the Atlanta Journal-Constitution with 99% of precincts reporting on Nov 5, 2026, unofficial until certified. The AP has called the race for Ossoff. Swing compares with the official 2022 governor county results from the Georgia Secretary of State (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025), as published by the Georgia Department of Community Affairs. Island fragments of coastal counties are left off the map.",
+  "gif_source": "AJC county results, 99% reporting · Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "abrams",
+  "b_col": "kemp",
+  "label": "2022 governor",
+  "short": "2022",
+  "a": "Abrams",
+  "b": "Kemp"
+ }
 }
