@@ -35,6 +35,9 @@ body {
 }
 .wrap { max-width: 1040px; margin: 0 auto; }
 header { margin-bottom: 16px; }
+.back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: -10px 0 2px -8px; padding: 0 8px; color: var(--ink-2); text-decoration: none; font: 500 12px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; border-radius: 8px; }
+.back:hover { color: var(--ink); }
+.back:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .kicker { font: 500 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 10px; }
 h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2vw, 42px); line-height: 1.04; letter-spacing: -.02em; margin: 0 0 10px; text-wrap: balance; }
 .dek { color: var(--ink-2); max-width: 64ch; margin: 0; text-wrap: pretty; }
@@ -145,6 +148,7 @@ td.m { font-family: var(--f-mono); }
 
 <div class="wrap">
   <header>
+    <a class="back" href="../../" aria-label="Back to all elections">&larr; All elections</a>
     <p class="kicker">California · Governor · Nov 3, 2026</p>
     <h1>California, by land and by people</h1>
     <p class="dek" id="dek"></p>
