@@ -74,10 +74,6 @@
           " Where borders differ, it is because the hexagons follow the warped shapes rather than the real outlines."
         ],
         [
-          "to match their share of ' + META.state + '\\'s people. '",
-          "to match their share of the vote. '"
-        ],
-        [
           "The pale shape is the real state.",
           "The pale shape is the real map."
         ],
@@ -92,10 +88,6 @@
         [
           "Lens warps the map by population",
           "Lens warps the map by votes cast"
-        ],
-        [
-          "resize by population",
-          "resize by votes cast"
         ],
         [
           "+ ' people' : fmt(tot.d)",

@@ -86,6 +86,6 @@ meta_js = json.dumps(meta).replace('</', '<\\/')
 assert '/*DATA*/' in t and '/*LENS*/' in t and '/*META*/' in t
 t = t.replace('/*DATA*/', D).replace('/*LENS*/', L).replace('/*META*/', meta_js)
 pre = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">'
-live = str(cfg.lens.get('card', 'tap')).lower() == 'live'   # tap: card changes on tap (desktop: hover previews); live: card follows the lens as you drag
+live = str(cfg.lens.get('card', 'tap')).lower() == 'live'   # tap: card changes on tap (desktop: hover previews); live: card follows the pointer over the map
 open(cfg.out('index.html'), 'w').write(pre + t.replace('/*LIVE*/true', 'true' if live else 'false') + '</html>')
 print('wrote index.html', round(os.path.getsize(cfg.out('index.html')) / 1e6, 2), 'MB; card:', 'live' if live else 'tap', '; lens starts at', start)

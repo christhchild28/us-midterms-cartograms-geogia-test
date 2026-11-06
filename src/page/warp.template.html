@@ -190,6 +190,9 @@ td.m { font-family: var(--f-mono); }
     <div class="mapwrap" id="mapwrap">
       <svg class="map" id="map" role="img" aria-label="{{STATE}} county map of the {{RACE}} result. Choose People to redraw each county in proportion to its residents. A table of all counties follows."></svg>
       <!--ED_MAP-->
+      <!-- NOTE: dormant lens control. The Magnify / Whole map toggle is permanently hidden (lensctl.hidden is forced true in uiMode).
+           It is kept in the DOM because applySize() reads #lsize [aria-pressed=true] to pick the lens mode; Whole map (data-s=2) is
+           pressed by default, so the Cartogram view is always the full warp. To bring Magnify back, show this block again. -->
       <div class="lensctl" id="lensctl" hidden>
         <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="false">Magnify</button><button type="button" data-s="2" aria-pressed="true">Whole map</button></div>
       </div>
@@ -228,7 +231,7 @@ td.m { font-family: var(--f-mono); }
 
 <script>
 (function () {
-  var LIVE = /*LIVE*/true;   // true: card follows the lens as you drag; false: card changes only on tap (desktop: hover previews)
+  var LIVE = /*LIVE*/true;   // true: card follows the pointer over the map (no lens dragging any more); false: card changes only on tap (desktop: hover previews)
   var h0 = location.hash.replace('#', '');
   var D = /*DATA*/;
   var LENS = /*LENS*/;
@@ -386,7 +389,12 @@ td.m { font-family: var(--f-mono); }
     gC.appendChild(c.g); selected = i; showCard(i); kick(); uiMode(); chipsSync();
   }
 
-  /* ---------- lens ---------- */
+  /* ---------- lens ----------
+     NOTE: DORMANT CODE. The page now always runs the Whole-map lens (lens.gt === 1), because the Magnify / Whole map toggle is hidden.
+     The Magnify path is kept, not deleted: lensAim() moves the lens centre (lens.tx/ty) on pointer drag and returns early when lens.gt === 1;
+     the pointerdown/move/up handlers below set lensDrag and call lensAim; applySize() sets lens.gt from the hidden toggle (2 -> 1 whole, 1 -> 0 magnify);
+     lens.a/b/g are the lens strength, radius and whole-map blend that lensTick() eases each frame. With the toggle hidden these only run
+     to select a county under the pointer (LIVE) and never move the lens. Do not add user-facing text about dragging the lens. */
   var view = 'land', LF = null, CK = null, NN = LENS.nx * LENS.ny, FLD = new Float32Array(2 * NN), FA = new Float32Array(2 * NN), FB = new Float32Array(2 * NN), startLens = h0 === 'lens', lensDrag = false, viewTok = 0, lensInit = false;
   var lens = { x: 0, y: 0, tx: 0, ty: 0, a: 0, at: 0, b: 1, bt: 1, g: 0, gt: 0, raf: 0, last: 0 }, GF = null;
   var LR = LENS.radii, vb0 = [B[0], B[1], B[2] - B[0], B[3] - B[1]];
@@ -502,7 +510,7 @@ td.m { font-family: var(--f-mono); }
   }
   function setView(m) {
     var tok = ++viewTok, was = view; view = m; selected = null; clearSel(); showCard(null); hideTip();
-    svg.classList.toggle('lensmode', m === 'lens'); document.getElementById('lensctl').hidden = m !== 'lens';
+    svg.classList.toggle('lensmode', m === 'lens'); document.getElementById('lensctl').hidden = true;   // Magnify/Whole-map toggle is retired: the lens control stays hidden (see NOTE: dormant lens code)
     if (m === 'lens') {
       var settled = modeNow() === 'land', viaWarp = !settled && wholeOn() && modeNow() === 'pop';
       if (viaWarp) { toWarp(); setTimeout(function () { if (tok !== viewTok) return; toLensWhole(); applySize(); }, RM ? 10 : 560); return uiMode(); }
@@ -546,7 +554,7 @@ td.m { font-family: var(--f-mono); }
     var m = view === 'lens' ? 'lens' : modeNow();
     document.querySelectorAll('.seg:not(.sm) button:not([data-ed])').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m ? 'true' : 'false'); });
     var rows = document.querySelectorAll('.brow'); rows.forEach(function (r) { r.classList.toggle('act', (m === 'land' && r.dataset.k === 'land') || (m === 'pop' && r.dataset.k === 'pop')); });
-    document.getElementById('hint').textContent = m === 'lens' ? (lens.gt === 1 ? 'Every county sized by its residents. The pale shape is the real state.' : 'Move the lens over the map (drag on a phone). Counties under it resize by population.') : m === 'pop' ? 'One hexagon is about ' + fmt(D.unit) + ' residents. Tap a county for its numbers.' : m === 'mixed' ? 'Resized counties grow or shrink in place. Tap another, or use the buttons to flip them all.' : 'Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per ' + fmt(D.unit) + ' residents.';
+    document.getElementById('hint').textContent = m === 'lens' ? ('Every county sized by its residents. The pale shape is the real state.') : m === 'pop' ? 'One hexagon is about ' + fmt(D.unit) + ' residents. Tap a county for its numbers.' : m === 'mixed' ? 'Resized counties grow or shrink in place. Tap another, or use the buttons to flip them all.' : 'Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per ' + fmt(D.unit) + ' residents.';
     try { if (m !== 'mixed') history.replaceState(null, '', '#' + m); } catch (e) {}
   }
   document.querySelectorAll('.seg:not(.sm) button:not([data-ed])').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
@@ -614,8 +622,8 @@ td.m { font-family: var(--f-mono); }
   }
   function emptyHTML() {
     var lensMode = view === 'lens', whole = lens.gt === 1;
-    var h = lensMode ? (whole ? 'Every county, sized by its people' : 'Roll the lens') : 'Tap a county';
-    var p = lensMode ? (whole ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Counties under the lens swell or shrink to match their share of ' + META.state + '\'s people. ' + (LIVE ? 'The county under the lens is shown here.' : 'Tap a county to see its numbers.')) : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.';
+    var h = lensMode ? 'Every county, sized by its people' : 'Tap a county';
+    var p = lensMode ? 'Each county is drawn in proportion to its residents. Hover or tap one to see how much it grew or shrank from its land area.' : 'Some counties are big on the map and small in people, others the reverse. Tap one here, on the map, or from the lists below to see how far it moves when residents decide its size.';
     return '<div class="pn-empty"><h2>' + h + '</h2><p>' + p + '</p></div>';
   }
   function showCard(i) {
