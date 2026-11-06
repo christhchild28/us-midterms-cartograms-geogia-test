@@ -182,7 +182,7 @@ td.m { font-family: var(--f-mono); }
       <button type="button" data-m="pop" aria-pressed="false">People</button>
     </div>
   </div>
-  <div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing since 2024</button></div></div>
+  <div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing vs 2024 presidential</button></div></div>
   <p class="hint" id="hint">Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per 10,000 residents.</p>
 
   <div class="grid">
@@ -207,7 +207,7 @@ td.m { font-family: var(--f-mono); }
         <div class="ramp" id="ramp"></div>
         <div class="ticks"><span>Rogers +60</span><span>Even</span><span>El-Sayed +60</span></div>
       </div>
-      <div class="swleg" id="swleg" hidden><h2>Swing since 2024</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Toward Rogers</span><span>No change</span><span>Toward El-Sayed</span></div><p class="sw-note">Shading is the change in two-party share against the 2024 presidential result, full color at <span id="swcap">5</span> points or more. A dark outline marks a county that changed winner.</p></div>
+      <div class="swleg" id="swleg" hidden><h2>Swing vs 2024 presidential</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Better for Rogers</span><span>No change</span><span>Better for El-Sayed</span></div><p class="sw-note">Shading compares El-Sayed and Rogers with Harris and Trump in the 2024 presidential race: the change in two-party share, in full color at <span id="swcap">5</span> points or more. Different candidates ran in each race, so this shows how much each party moved, not voters switching candidates. A dark outline marks a county that a different party won in 2024.</p></div>
     </aside>
   </div>
 
@@ -580,8 +580,8 @@ td.m { font-family: var(--f-mono); }
   }
   function swHTML(c) {
     if (!PR) return '';
-    var up = c.sw >= 0, nm = up ? META.a : META.b, pw = c.pd > c.pr ? PR.a : PR.b;
-    return '<div class="pn-sw"><b style="color:' + css(up ? stops.bd : stops.rd) + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(c.sw).toFixed(1) + ' pts</b> toward ' + esc(nm) + ' since ' + esc(PR.short) + (c.flip ? '<span class="pn-flip">Flipped from ' + esc(pw) + '</span>' : '') + '</div>';
+    var up = c.sw >= 0, nm = up ? META.a : META.b, pn = up ? PR.a : PR.b, pw = c.pd > c.pr ? PR.a : PR.b;
+    return '<div class="pn-sw"><b style="color:' + css(up ? stops.bd : stops.rd) + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(c.sw).toFixed(1) + ' pts</b> ' + esc(nm) + ' ran ahead of ' + esc(pn) + '’s ' + esc(PR.short) + ' share' + (c.flip ? '<span class="pn-flip">Flipped from ' + esc(pw) + '</span>' : '') + '</div>';
   }
   function cmpHTML(c) {
     if (!PR) return '';
@@ -591,7 +591,7 @@ td.m { font-family: var(--f-mono); }
     return '<table class="pn-t cmp"><thead><tr><th>Two-party</th><th class="num">' + esc(META.a) + '</th><th class="num">' + esc(META.b) + '</th><th class="num">Margin</th></tr></thead><tbody>' +
       '<tr class="win"><td>' + esc(PR.now) + '</td><td class="num">' + a1.toFixed(1) + '%</td><td class="num">' + b1.toFixed(1) + '%</td><td class="num">' + esc(mg(m1)) + '</td></tr>' +
       '<tr><td>' + esc(PR.short) + '</td><td class="num">' + a0.toFixed(1) + '%</td><td class="num">' + b0.toFixed(1) + '%</td><td class="num">' + esc(mg(m0)) + '</td></tr>' +
-      '<tr><td>Change</td><td class="num">' + sg(a1 - a0) + '</td><td class="num">' + sg(b1 - b0) + '</td><td class="num">' + sg(m1 - m0) + '</td></tr></tbody></table><p class="pn-cap">' + esc(PR.short) + ' columns: ' + esc(PR.a) + ' under ' + esc(META.a) + ', ' + esc(PR.b) + ' under ' + esc(META.b) + '.</p>';
+      '<tr><td>Change</td><td class="num">' + sg(a1 - a0) + '</td><td class="num">' + sg(b1 - b0) + '</td><td class="num">' + sg(m1 - m0) + '</td></tr></tbody></table><p class="pn-cap">' + esc(PR.short) + ' row is the ' + esc(PR.label) + ' race: ' + esc(PR.a) + ' under ' + esc(META.a) + ', ' + esc(PR.b) + ' under ' + esc(META.b) + '. Different candidates ran in each race.</p>';
   }
   function cardHTML(c) {
     var cw = colorAt(c.m), dk = lum(cw) < .3, col = css(cw), mx = Math.max(c.landS, c.popS), lead = (c.dem ? META.a : META.b) + ' +' + Math.round(Math.abs(c.m) * 100), w = c.dem ? c.d : c.r, l = c.dem ? c.r : c.d;

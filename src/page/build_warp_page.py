@@ -71,9 +71,10 @@ for _k in ('ED_CSS', 'ED_BTN', 'ED_MAP', 'ED_SIDE', 'ED_JS'):
     t = t.replace({'ED_CSS': '/*ED_CSS*/', 'ED_JS': '/*ED_JS*/'}.get(_k, '<!--%s-->' % _k), _ed.get(_k, ''))
 if _prior:
     _e = lambda s: html.escape(s, quote=True)
-    _ctl = '<div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing since %s</button></div></div>' % _e(_prior['short'])
-    _leg = ('<div class="swleg" id="swleg" hidden><h2>Swing since %s</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Toward %s</span><span>No change</span><span>Toward %s</span></div>'
-            '<p class="sw-note">Shading is the change in two-party share against the %s result, full color at <span id="swcap">5</span> points or more. A dark outline marks a county that changed winner.</p></div>') % (_e(_prior['short']), _e(b['name']), _e(a['name']), _e(_prior['label']))
+    _ctl = '<div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing vs %s</button></div></div>' % _e(_prior['label'])
+    _leg = ('<div class="swleg" id="swleg" hidden><h2>Swing vs %s</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Better for %s</span><span>No change</span><span>Better for %s</span></div>'
+            '<p class="sw-note">Shading compares %s and %s with %s and %s in the %s race: the change in two-party share, in full color at <span id="swcap">5</span> points or more. Different candidates ran in each race, so this shows how much each party moved, not voters switching candidates. A dark outline marks a county that a different party won in %s.</p></div>') % (
+        _e(_prior['label']), _e(b['name']), _e(a['name']), _e(a['name']), _e(b['name']), _e(_prior['a']), _e(_prior['b']), _e(_prior['label']), _e(_prior['short']))
 else: _ctl = _leg = ''
 t = t.replace('<!--SWING_CTL-->', _ctl).replace('<!--SWING_LEG-->', _leg)
 left = re.findall(r'\{\{[A-Z_]+\}\}', t)

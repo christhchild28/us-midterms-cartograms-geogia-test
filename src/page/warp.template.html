@@ -580,8 +580,8 @@ td.m { font-family: var(--f-mono); }
   }
   function swHTML(c) {
     if (!PR) return '';
-    var up = c.sw >= 0, nm = up ? META.a : META.b, pw = c.pd > c.pr ? PR.a : PR.b;
-    return '<div class="pn-sw"><b style="color:' + css(up ? stops.bd : stops.rd) + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(c.sw).toFixed(1) + ' pts</b> toward ' + esc(nm) + ' since ' + esc(PR.short) + (c.flip ? '<span class="pn-flip">Flipped from ' + esc(pw) + '</span>' : '') + '</div>';
+    var up = c.sw >= 0, nm = up ? META.a : META.b, pn = up ? PR.a : PR.b, pw = c.pd > c.pr ? PR.a : PR.b;
+    return '<div class="pn-sw"><b style="color:' + css(up ? stops.bd : stops.rd) + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(c.sw).toFixed(1) + ' pts</b> ' + esc(nm) + ' ran ahead of ' + esc(pn) + '’s ' + esc(PR.short) + ' share' + (c.flip ? '<span class="pn-flip">Flipped from ' + esc(pw) + '</span>' : '') + '</div>';
   }
   function cmpHTML(c) {
     if (!PR) return '';
@@ -591,7 +591,7 @@ td.m { font-family: var(--f-mono); }
     return '<table class="pn-t cmp"><thead><tr><th>Two-party</th><th class="num">' + esc(META.a) + '</th><th class="num">' + esc(META.b) + '</th><th class="num">Margin</th></tr></thead><tbody>' +
       '<tr class="win"><td>' + esc(PR.now) + '</td><td class="num">' + a1.toFixed(1) + '%</td><td class="num">' + b1.toFixed(1) + '%</td><td class="num">' + esc(mg(m1)) + '</td></tr>' +
       '<tr><td>' + esc(PR.short) + '</td><td class="num">' + a0.toFixed(1) + '%</td><td class="num">' + b0.toFixed(1) + '%</td><td class="num">' + esc(mg(m0)) + '</td></tr>' +
-      '<tr><td>Change</td><td class="num">' + sg(a1 - a0) + '</td><td class="num">' + sg(b1 - b0) + '</td><td class="num">' + sg(m1 - m0) + '</td></tr></tbody></table><p class="pn-cap">' + esc(PR.short) + ' columns: ' + esc(PR.a) + ' under ' + esc(META.a) + ', ' + esc(PR.b) + ' under ' + esc(META.b) + '.</p>';
+      '<tr><td>Change</td><td class="num">' + sg(a1 - a0) + '</td><td class="num">' + sg(b1 - b0) + '</td><td class="num">' + sg(m1 - m0) + '</td></tr></tbody></table><p class="pn-cap">' + esc(PR.short) + ' row is the ' + esc(PR.label) + ' race: ' + esc(PR.a) + ' under ' + esc(META.a) + ', ' + esc(PR.b) + ' under ' + esc(META.b) + '. Different candidates ran in each race.</p>';
   }
   function cardHTML(c) {
     var cw = colorAt(c.m), dk = lum(cw) < .3, col = css(cw), mx = Math.max(c.landS, c.popS), lead = (c.dem ? META.a : META.b) + ' +' + Math.round(Math.abs(c.m) * 100), w = c.dem ? c.d : c.r, l = c.dem ? c.r : c.d;
