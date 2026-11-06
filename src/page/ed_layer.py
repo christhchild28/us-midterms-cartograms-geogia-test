@@ -57,9 +57,18 @@ def build(cfg, counties):
     ta, tb = sum(c['d'] for c in counties), sum(c['r'] for c in counties)
     if not e.get('allow_mismatch') and (sum(A) != ta or sum(B) != tb):
         raise SystemExit('ED TOTALS DO NOT MATCH the parent units: A %d vs %d, B %d vs %d' % (sum(A), ta, sum(B), tb))
+    # parent unit of each ED: by default the leading digits of its id (AD*1000+ED); a parent_map csv (ed,parent) overrides it (e.g. EDs grouped into council districts)
+    if e.get('parent_map'):
+        pm = {r['ed'].strip(): int(r['parent']) for r in csv.DictReader(open(cfg.inp(e['parent_map']), encoding='utf-8'))}
+        miss = [i for i in ids if str(i) not in pm]
+        if miss: raise SystemExit('ED parent_map is missing %d EDs, e.g. %s' % (len(miss), miss[:8]))
+        par = [pm[str(i)] for i in ids]
+        lab = ['%d-%d' % (i // div, i % div) for i in ids]
+    else:
+        par = [i // div for i in ids]; lab = [str(i % div) for i in ids]
     pnames = {c['fips'][-3:]: c['name'] for c in counties}
-    for i in ids:
-        if '%03d' % (i // div) not in pnames: raise SystemExit('ED %d: no parent unit %d in the page data' % (i, i // div))
+    for k in par:
+        if '%03d' % k not in pnames: raise SystemExit('ED parent %d is not a unit in the page data' % k)
     # parent-unit (e.g. Assembly district) borders, unioned from the finer shapes so they stay aligned when zoomed right in
     from shapely.geometry import Polygon
     from shapely.ops import unary_union
@@ -71,7 +80,7 @@ def build(cfg, counties):
         for poly in polys:
             rr = [[(round(cfg.proj(lo, la)[0] * ES), round(cfg.proj(lo, la)[1] * ES)) for lo, la in ring] for ring in poly]
             pg = Polygon(rr[0], rr[1:]); pg = pg if pg.is_valid else pg.buffer(0)
-            byp.setdefault(int(fid) // div, []).append(pg)
+            byp.setdefault(pm[fid] if e.get('parent_map') else int(fid) // div, []).append(pg)
     eps = float(e.get('border_close', 0.0004)) * ES   # closes the hairline gaps left by simplifying neighbours separately
     pid, prings = [], []
     for k in sorted(byp):
@@ -86,7 +95,7 @@ def build(cfg, counties):
                 for j in range(1, len(pts)): flat += [pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]]
                 out.append(flat)
         pid.append(k); prings.append(out)
-    data = dict(pid=pid, pr=prings, es=ES, div=div, id=ids, a=A, b=B, p=P, r=RINGS, partial=float(e.get('partial_below', 90)),
+    data = dict(pid=pid, pr=prings, es=ES, div=div, id=ids, a=A, b=B, p=P, r=RINGS, par=par, lab=lab, partial=float(e.get('partial_below', 90)),
                 pl=e.get('parent_label', 'AD'), cl=e.get('child_label', 'ED'), pn=e.get('parent_noun', 'district'),
                 noun=e.get('noun', 'precinct'), plural=e.get('plural', 'precincts'), ncount=len(ids),
                 nvotes=sum(1 for k in range(len(ids)) if A[k] + B[k] > 0), npartial=sum(1 for k in range(len(ids)) if A[k] + B[k] > 0 and P[k] / 10 < float(e.get('partial_below', 90))))

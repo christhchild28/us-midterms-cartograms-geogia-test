@@ -1,0 +1,137 @@
+{
+  "id": "nyc-council-2026-governor",
+  "state": {
+    "name": "New York City",
+    "abbr": "NYC",
+    "fips": "36",
+    "people": "votes cast in NYC"
+  },
+  "race": {
+    "office": "Governor, by council district",
+    "date": "Nov 3, 2026"
+  },
+  "candidates": {
+    "a": {
+      "name": "Hochul",
+      "full": "Kathy Hochul",
+      "ramp": "blue"
+    },
+    "b": {
+      "name": "Blakeman",
+      "full": "Bruce Blakeman",
+      "ramp": "red"
+    }
+  },
+  "geometry": {
+    "file": "districts.geojson"
+  },
+  "results": {
+    "file": "results.csv",
+    "fips_col": "fips",
+    "a_col": "hochul",
+    "b_col": "blakeman"
+  },
+  "population": {
+    "format": "csv",
+    "file": "population.csv",
+    "fips_col": "fips",
+    "pop_col": "population",
+    "name_col": "district"
+  },
+  "hex": {
+    "unit": 2500,
+    "seed": 1
+  },
+  "lens": {
+    "state_buffer": 0.012
+  },
+  "text": {
+    "source": "Results: NYC Board of Elections unofficial election-night results (enr.boenyc.gov, as of 12:42 a.m. EST Nov 4, 2026; scanners reporting by district range from about 81% to 99%), summed by City Council district (each election district is assigned to the council district that contains it). Hochul includes the Democratic and Working Families lines; Blakeman includes the Republican, Conservative and Vote Affordable lines; write-ins are left out. Hexagon weight is votes cast for the two candidates, not residents, because council districts are drawn at near-equal population. Council district lines: NYC Department of City Planning, districts in force for the 2023 election, clipped to the shoreline. Election districts: NYC 2020 election district boundaries.",
+    "gif_source": "NYC BOE unofficial results, Nov 4, 2026",
+    "vocab": {
+      "unit": "district",
+      "units": "districts",
+      "measure": "votes cast",
+      "fix": [
+        [
+          "Residents of counties won",
+          "Votes cast in districts won"
+        ],
+        [
+          "esc(c.name) + ' County</span>",
+          "esc(c.name) + '</span>"
+        ],
+        [
+          " live in the ' + cW + ' counties ' + W + ' carried.",
+          " came from the ' + cW + ' districts ' + W + ' carried."
+        ],
+        [
+          " live in the counties ' + W + ' carried.",
+          " came from the districts ' + W + ' carried."
+        ],
+        [
+          " The misses are mostly tiny rural counties with one or two hexagons, which cannot touch all of their neighbors.",
+          " Where borders differ, it is because the hexagons follow the warped shapes rather than the real outlines."
+        ],
+        [
+          "to match their share of ' + META.state + '\\'s people. '",
+          "to match their share of the vote. '"
+        ],
+        [
+          "The pale shape is the real state.",
+          "The pale shape is the real map."
+        ],
+        [
+          "Every county, sized by its people",
+          "Every district, sized by its votes"
+        ],
+        [
+          "Count by people and ",
+          "Count by votes and "
+        ],
+        [
+          "Lens warps the map by population",
+          "Lens warps the map by votes cast"
+        ],
+        [
+          "resize by population",
+          "resize by votes cast"
+        ],
+        [
+          "+ ' people' : fmt(tot.d)",
+          "+ ' votes cast' : fmt(tot.d)"
+        ],
+        [
+          " by people</div>",
+          " by votes</div>"
+        ],
+        [
+          "small in people, others the reverse",
+          "small in votes, others the reverse"
+        ],
+        [
+          "Land \u2192 people",
+          "Land \u2192 votes"
+        ]
+      ]
+    }
+  },
+  "ed": {
+    "geometry": "../nyc-ad-2026-governor/election-districts.geojson",
+    "results": "../nyc-ad-2026-governor/ed-results.csv",
+    "id_col": "ed",
+    "a_col": "hochul",
+    "b_col": "blakeman",
+    "pct_col": "pct",
+    "parent_div": 1000,
+    "partial": 90,
+    "button": "Precincts",
+    "parent_label": "CD",
+    "noun": "election district",
+    "partial_below": 90,
+    "parent_noun": "council district",
+    "child_label": "ED",
+    "plural": "election districts",
+    "parent_map": "ed-to-council.csv"
+  }
+}

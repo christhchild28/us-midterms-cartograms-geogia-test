@@ -37,7 +37,7 @@
         BB[4 * i] = bx0; BB[4 * i + 1] = by0; BB[4 * i + 2] = bx1; BB[4 * i + 3] = by1;
         M[i] = t ? (ED.a[i] - ED.b[i]) / t : 0;
         var k = keyOf(i); d[k] = (d[k] || '') + dd;
-        var pid = (ED.id[i] / ED.div) | 0, g = adAgg[pid] || (adAgg[pid] = { a: 0, b: 0 }); g.a += ED.a[i]; g.b += ED.b[i];
+        var pid = ED.par[i], g = adAgg[pid] || (adAgg[pid] = { a: 0, b: 0 }); g.a += ED.a[i]; g.b += ED.b[i];
         if (ED.a[i] > ED.b[i]) cA++; else if (ED.b[i] > ED.a[i]) cB++;
       }
       stat = { a: cA, b: cB };
@@ -114,7 +114,7 @@
     function lead(a, b) { return (a > b ? META.a : META.b) + ' +' + Math.round(Math.abs((a - b) / (a + b)) * 100); }
     function pill(col, txt, dark) { return '<span class="pn-p" style="background:' + col + ';color:' + (dark ? '#fff' : '#0b0b0b') + '">' + esc(txt) + '</span>'; }
     function cardHTML(i) {
-      var a = ED.a[i], b = ED.b[i], t = a + b, id = ED.id[i], pid = (id / ED.div) | 0, cid = id % ED.div, pc = ED.p[i] / 10, g = adAgg[pid];
+      var a = ED.a[i], b = ED.b[i], t = a + b, pid = ED.par[i], cid = ED.lab[i], pc = ED.p[i] / 10, g = adAgg[pid];
       var rgb = t ? colorAt(M[i]) : null, col = t ? css(rgb) : 'var(--n)';
       var title = ED.pl + ' ' + pid + ' · ' + ED.cl + ' ' + cid, sub = fmt(t) + ' votes · ' + Math.round(pc) + '% reporting';
       var body = '';
