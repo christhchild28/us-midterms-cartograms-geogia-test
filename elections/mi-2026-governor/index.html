@@ -591,11 +591,11 @@ td.m { font-family: var(--f-mono); }
   function cmpHTML(c) {
     if (!PR) return '';
     var a1 = c.d / c.tot * 100, b1 = c.r / c.tot * 100, a0 = c.pd / c.ptot * 100, b0 = c.pr / c.ptot * 100, m1 = a1 - b1, m0 = a0 - b0;
-    function mg(m) { return (m >= 0 ? META.a : META.b) + ' +' + Math.abs(m).toFixed(1); }
+    function mg(m, prior) { return (m >= 0 ? (prior ? PR.a : META.a) : (prior ? PR.b : META.b)) + ' +' + Math.abs(m).toFixed(1); }
     function sg(v) { return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1); }
     return '<table class="pn-t cmp"><thead><tr><th>Two-party</th><th class="num">' + esc(META.a) + '</th><th class="num">' + esc(META.b) + '</th><th class="num">Margin</th></tr></thead><tbody>' +
       '<tr class="win"><td>' + esc(PR.now) + '</td><td class="num">' + a1.toFixed(1) + '%</td><td class="num">' + b1.toFixed(1) + '%</td><td class="num">' + esc(mg(m1)) + '</td></tr>' +
-      '<tr><td>' + esc(PR.short) + '</td><td class="num">' + a0.toFixed(1) + '%</td><td class="num">' + b0.toFixed(1) + '%</td><td class="num">' + esc(mg(m0)) + '</td></tr>' +
+      '<tr><td>' + esc(PR.short) + '</td><td class="num">' + a0.toFixed(1) + '%</td><td class="num">' + b0.toFixed(1) + '%</td><td class="num">' + esc(mg(m0, true)) + '</td></tr>' +
       '<tr><td>Change</td><td class="num">' + sg(a1 - a0) + '</td><td class="num">' + sg(b1 - b0) + '</td><td class="num">' + sg(m1 - m0) + '</td></tr></tbody></table><p class="pn-cap">' + esc(PR.short) + ' row is the ' + esc(PR.label) + ' race: ' + esc(PR.a) + ' under ' + esc(META.a) + ', ' + esc(PR.b) + ' under ' + esc(META.b) + '. ' + (PR.same && PR.same.length ? esc(PR.same.join(' and ')) + ' ran in both races, the other candidate did not.' : 'Different candidates ran in each race.') + '</p>';
   }
   function cardHTML(c) {
