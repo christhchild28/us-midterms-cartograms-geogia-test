@@ -7,6 +7,8 @@ for d in sorted(os.listdir(os.path.join(ROOT, 'elections'))):
     if not (os.path.exists(cp) and os.path.exists(os.path.join(ROOT, 'elections', d, 'index.html'))): continue
     c = json.load(open(cp)); r = c['race']; built.append((d, c['state']['name'])); yr = (re.findall(r'\d{4}', r.get('date', '')) or [''])[-1]
     gif = 'elections/%s/media/%s.gif' % (d, c['id'])
+    png = gif[:-4] + '.png'
+    if not os.path.exists(os.path.join(ROOT, gif)) and os.path.exists(os.path.join(ROOT, png)): gif = png
     img = '<img src="%s" alt="" loading="lazy">' % gif if os.path.exists(os.path.join(ROOT, gif)) else ''
     cards.append('<a class="card" href="elections/%s/%s">%s<b>%s</b><span>%s</span><em>%s vs %s</em></a>' % (
         d, '', img, html.escape(c['state']['name']), html.escape((yr + ' ' + r['office']).strip()),
