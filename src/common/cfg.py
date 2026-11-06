@@ -57,6 +57,15 @@ class Cfg:
             gj = json.load(open(self.inp(self.c["geometry"]["file"])))
             self._feat = {f["id"]: f for f in gj["features"] if str(f["id"]).startswith(self.fips)}
             if not self._feat: raise SystemExit("no counties with FIPS prefix %s in geometry" % self.fips)
+            # optional: dissolve units that no longer exist into their parent, e.g. {"51515": "51019"}
+            for src, dst in (self.c["geometry"].get("merge") or {}).items():
+                if src in self._feat and dst in self._feat:
+                    from shapely.geometry import shape, mapping
+                    from shapely.ops import unary_union
+                    u = unary_union([shape(self._feat[dst]["geometry"]).buffer(1e-6), shape(self._feat[src]["geometry"]).buffer(1e-6)]).buffer(-1e-6)
+                    if u.geom_type == "Polygon": u = type(u)(u.exterior)  # drop interior gaps
+                    self._feat[dst] = dict(self._feat[dst], geometry=mapping(u))
+                    del self._feat[src]
         return self._feat
 
     def _projection(self):

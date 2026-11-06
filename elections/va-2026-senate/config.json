@@ -1,0 +1,60 @@
+{
+ "id": "va-2026-senate",
+ "state": {
+  "name": "Virginia",
+  "abbr": "VA",
+  "fips": "51",
+  "people": "Virginians"
+ },
+ "race": {
+  "office": "U.S. Senate",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Warner",
+   "full": "Mark Warner",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Mizusawa",
+   "full": "Bert Mizusawa",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "warner",
+  "b_col": "mizusawa"
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": true
+ },
+ "lens": {
+  "start_county": "Fairfax",
+  "gif_target": "Richmond city",
+  "scale": 1,
+  "spacing": 0.7,
+  "node": 0.14
+ },
+ "text": {
+  "source": "Results: unofficial returns from the Virginia Department of Elections (enr.elections.virginia.gov), retrieved Nov 6, 2026, with all precincts reporting. The 133 counties and independent cities are shown as separate units. Write-in votes (9,432) are not shown. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+  "gif_source": "Virginia Dept. of Elections unofficial results \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "geometry": {
+  "file": "data/raw/us-counties.geojson",
+  "merge": {
+   "51515": "51019"
+  }
+ }
+}

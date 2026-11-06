@@ -44,8 +44,9 @@ def shoelace(P):
     x, y = P[:, 0], P[:, 1]
     return 0.5 * (np.dot(x, np.roll(y, -1)) - np.dot(np.roll(x, -1), y))
 
-def fit_areas(rings, passes=10, tol=0.02, log=print):
+def fit_areas(rings, passes=None, tol=0.02, log=print):
     """Scale each county's target mass until its warped area is proportional to its hexagon count."""
+    passes = int(cfg.hex.get('warp_passes', 10)) if passes is None else passes
     n = L.nhex; f = np.ones(NC); allp = np.vstack(rings); cuts = np.cumsum([len(r) for r in rings])[:-1]
     for it in range(passes):
         Pw = advect(density(f), allp); parts = np.split(Pw, cuts)
