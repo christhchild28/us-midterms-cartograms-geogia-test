@@ -41,8 +41,8 @@
   "node": 0.14
  },
  "text": {
-  "source": "Results: unofficial county returns from the California Secretary of State (sos.ca.gov), retrieved Nov 6, 2026. Ballots are still being counted across the state and counties certify by Dec 4, with the state certifying by Dec 11, so totals will change. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
-  "gif_source": "CA Secretary of State unofficial results \u00b7 Census 2025"
+  "source": "Results: unofficial county returns from the California Secretary of State (sos.ca.gov), retrieved Nov 6, 2026. Ballots are still being counted across the state and counties certify by Dec 4, with the state certifying by Dec 11, so totals will change. Swing compares with the official 2022 governor county results from the California Secretary of State Statement of Vote (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+  "gif_source": "CA Secretary of State unofficial results · Census 2025"
  },
  "population": {
   "format": "csv",
@@ -50,5 +50,15 @@
   "fips_col": "fips",
   "pop_col": "population",
   "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "newsom",
+  "b_col": "dahle",
+  "label": "2022 governor",
+  "short": "2022",
+  "a": "Newsom",
+  "b": "Dahle"
  }
 }
