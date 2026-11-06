@@ -36,7 +36,9 @@
   "lens": {
     "start_county": "Harris",
     "gif_target": "Travis",
-    "scale": 1
+    "scale": 1,
+    "spacing": 0.7,
+    "node": 0.14
   },
   "text": {
     "source": "Results: county returns from the Texas Tribune live results feed (Associated Press data) with 99% of precincts reporting on Nov 5, 2026, unofficial until canvassed. The AP has called the race for Talarico. Independent Ted Brown (1.9%) is not shown. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
