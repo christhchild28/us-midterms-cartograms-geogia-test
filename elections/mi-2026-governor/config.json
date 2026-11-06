@@ -41,8 +41,8 @@
   "node": 0.14
  },
  "text": {
-  "source": "Results: unofficial county returns from the Michigan Secretary of State (mvic.sos.state.mi.us), updated Nov 6, 2026 1:25 PM ET, with all 83 counties reporting. These are unofficial and counts may change until the state canvass is certified. Third-party candidates (Libertarian Anthony Hudson 0.9%, U.S. Taxpayers Donna Brandenburg 0.4%, Green Douglas Campbell 0.4%) and write-ins are not shown. Swing compares with the official 2024 presidential county results from the Michigan Secretary of State (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
-  "gif_source": "Michigan Secretary of State unofficial results \u00b7 Census 2025"
+  "source": "Results: unofficial county returns from the Michigan Secretary of State (mvic.sos.state.mi.us), updated Nov 6, 2026 1:25 PM ET, with all 83 counties reporting. These are unofficial and counts may change until the state canvass is certified. Third-party candidates (Libertarian Anthony Hudson 0.9%, U.S. Taxpayers Donna Brandenburg 0.4%, Green Douglas Campbell 0.4%) and write-ins are not shown. Swing compares with the official 2022 governor county results from the Michigan Secretary of State (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+  "gif_source": "Michigan Secretary of State unofficial results · Census 2025"
  },
  "population": {
   "format": "csv",
@@ -54,11 +54,11 @@
  "prior": {
   "file": "prior.csv",
   "fips_col": "fips",
-  "a_col": "harris",
-  "b_col": "trump",
-  "label": "2024 presidential",
-  "short": "2024",
-  "a": "Harris",
-  "b": "Trump"
+  "a_col": "whitmer",
+  "b_col": "dixon",
+  "label": "2022 governor",
+  "short": "2022",
+  "a": "Whitmer",
+  "b": "Dixon"
  }
 }

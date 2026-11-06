@@ -37,7 +37,8 @@ if start not in names: start = max(pops, key=pops.get)
 a, b = cfg.a, cfg.b
 meta = dict(state=cfg.state['name'], people=cfg.state.get('people'), a=a['name'], b=b['name'], af=a.get('full', a['name']), bf=b.get('full', b['name']), start=start)
 race = cfg.c['race']; year = (re.findall(r'\d{4}', race.get('date', '')) or [''])[-1]
-if _prior: meta['prior'] = dict(label=_prior['label'], short=_prior['short'], a=_prior['a'], b=_prior['b'], now=year or 'Now')
+_same = [n for n in (cfg.c['candidates']['a']['name'], cfg.c['candidates']['b']['name']) if n in (_prior['a'], _prior['b'])]
+if _prior: meta['prior'] = dict(label=_prior['label'], short=_prior['short'], a=_prior['a'], b=_prior['b'], now=year or 'Now', same=_same)
 src = cfg.c.get('text', {}).get('source') or ('Results: county returns as supplied for this build. Residents: Census Bureau county estimates.')
 ra, rb = ramp(a), ramp(b)
 tok = {
@@ -71,10 +72,11 @@ for _k in ('ED_CSS', 'ED_BTN', 'ED_MAP', 'ED_SIDE', 'ED_JS'):
     t = t.replace({'ED_CSS': '/*ED_CSS*/', 'ED_JS': '/*ED_JS*/'}.get(_k, '<!--%s-->' % _k), _ed.get(_k, ''))
 if _prior:
     _e = lambda s: html.escape(s, quote=True)
+    _who = 'Different candidates ran in each race' if not _same else (' and '.join(_same) + ' ran in both races, the other candidate did not')
     _ctl = '<div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing vs %s</button></div></div>' % _e(_prior['label'])
     _leg = ('<div class="swleg" id="swleg" hidden><h2>Swing vs %s</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Better for %s</span><span>No change</span><span>Better for %s</span></div>'
-            '<p class="sw-note">Shading compares %s and %s with %s and %s in the %s race: the change in two-party share, in full color at <span id="swcap">5</span> points or more. Different candidates ran in each race, so this shows how much each party moved, not voters switching candidates. A dark outline marks a county that a different party won in %s.</p></div>') % (
-        _e(_prior['label']), _e(b['name']), _e(a['name']), _e(a['name']), _e(b['name']), _e(_prior['a']), _e(_prior['b']), _e(_prior['label']), _e(_prior['short']))
+            '<p class="sw-note">Shading compares %s and %s with %s and %s in the %s race: the change in two-party share, in full color at <span id="swcap">5</span> points or more. %s, so this shows how much each party moved, not voters switching candidates. A dark outline marks a county that a different party won in %s.</p></div>') % (
+        _e(_prior['label']), _e(b['name']), _e(a['name']), _e(a['name']), _e(b['name']), _e(_prior['a']), _e(_prior['b']), _e(_prior['label']), _e(_who), _e(_prior['short']))
 else: _ctl = _leg = ''
 t = t.replace('<!--SWING_CTL-->', _ctl).replace('<!--SWING_LEG-->', _leg)
 left = re.findall(r'\{\{[A-Z_]+\}\}', t)
