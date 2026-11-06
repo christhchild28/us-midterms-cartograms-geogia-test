@@ -52,6 +52,9 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .seg button:focus-visible, .chip:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .hint { color: var(--ink-2); font-size: 14px; max-width: 62ch; margin: 0 0 14px; min-height: 2.9em; }
+@media (max-width: 879px) { .hint { min-height: 4.5em; } }
+@media (max-width: 380px) { .hint { min-height: 6em; } }
+@media (max-width: 335px) { .hint { min-height: 7.5em; } }   /* reserve 3 lines on phones so the map does not move when the hint text changes */
 
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
 @media (min-width: 880px) { .grid { grid-template-columns: minmax(0, 1.45fr) minmax(300px, 1fr); gap: 36px; align-items: start; } .side { position: sticky; top: 16px; } }
@@ -102,6 +105,7 @@ svg.map { display: block; width: 100%; height: auto; touch-action: manipulation;
 .seg button:disabled { opacity: .4; cursor: default; }
 .lensctl { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 8px; }
 .lensctl[hidden] { display: none; }
+.mapwrap .lensctl { margin: 10px 0 0; }
 .seg.sm button { padding: 8px 14px; font-size: 14px; min-height: 36px; }
 svg.map.lensmode { touch-action: none; cursor: grab; }
 .lring { fill: none; stroke: var(--ink); stroke-width: 1.2px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; pointer-events: none; }
@@ -179,15 +183,15 @@ td.m { font-family: var(--f-mono); }
     </div>
   </div>
   <div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing since 2024</button></div></div>
-  <div class="lensctl" id="lensctl" hidden>
-    <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="true">Magnify</button><button type="button" data-s="2" aria-pressed="false">Whole map</button></div>
-  </div>
   <p class="hint" id="hint">Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per 10,000 residents.</p>
 
   <div class="grid">
     <div class="mapwrap" id="mapwrap">
       <svg class="map" id="map" role="img" aria-label="Michigan county map of the 2026 U.S. Senate result. Choose People to redraw each county in proportion to its residents. A table of all counties follows."></svg>
       
+      <div class="lensctl" id="lensctl" hidden>
+        <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="true">Magnify</button><button type="button" data-s="2" aria-pressed="false">Whole map</button></div>
+      </div>
     </div>
 
     <aside class="side">
