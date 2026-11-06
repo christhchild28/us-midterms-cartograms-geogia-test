@@ -52,6 +52,9 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
 .seg button:focus-visible, .chip:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .hint { color: var(--ink-2); font-size: 14px; max-width: 62ch; margin: 0 0 14px; min-height: 2.9em; }
+@media (max-width: 879px) { .hint { min-height: 4.5em; } }
+@media (max-width: 380px) { .hint { min-height: 6em; } }
+@media (max-width: 335px) { .hint { min-height: 7.5em; } }   /* reserve 3 lines on phones so the map does not move when the hint text changes */
 
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
 @media (min-width: 880px) { .grid { grid-template-columns: minmax(0, 1.45fr) minmax(300px, 1fr); gap: 36px; align-items: start; } .side { position: sticky; top: 16px; } }
@@ -102,6 +105,7 @@ svg.map { display: block; width: 100%; height: auto; touch-action: manipulation;
 .seg button:disabled { opacity: .4; cursor: default; }
 .lensctl { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 8px; }
 .lensctl[hidden] { display: none; }
+.mapwrap .lensctl { margin: 10px 0 0; }
 .seg.sm button { padding: 8px 14px; font-size: 14px; min-height: 36px; }
 svg.map.lensmode { touch-action: none; cursor: grab; }
 .lring { fill: none; stroke: var(--ink); stroke-width: 1.2px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; pointer-events: none; }
@@ -147,6 +151,20 @@ thead th { position: sticky; top: 0; background: var(--bg); font-weight: 700; fo
 td.m { font-family: var(--f-mono); }
 .foot { margin-top: 28px; color: var(--ink-3); font-size: 12.5px; max-width: 80ch; }
 .foot p { margin: 0 0 8px; }
+/* swing (only present when the election config has a prior race) */
+.swctl { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 8px; }
+.swctl .lbl { font: 500 11px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
+.swleg[hidden], #legwin[hidden] { display: none; }
+.flip-o { fill: url(#flipHatch); stroke: none; pointer-events: none; opacity: 0; }
+.flip-sw { display: inline-block; width: 14px; height: 14px; vertical-align: -3px; margin-right: 6px; border: 1px solid var(--ink-3); background: repeating-linear-gradient(45deg, rgba(255,255,255,.95) 0 1.5px, var(--ink-3) 1.5px 4.5px); }
+.pn-sw { margin: 8px 0 0; font: 500 12.5px/1.45 var(--f-body); color: var(--ink-2); }
+.pn-sw b { font-weight: 700; }
+.pn-flip { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 99px; background: var(--ink); color: var(--bg); font: 600 10.5px var(--f-mono); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.pn-t.cmp th, .pn-t.cmp td { white-space: normal; }
+.pn-t.cmp { table-layout: fixed; }
+.pn-t.cmp th:first-child, .pn-t.cmp td:first-child { width: 22%; }
+.pn-cap { margin: 4px 0 0; padding: 0 6px; font: 500 11px/1.4 var(--f-mono); color: var(--ink-3); }
+.sw-note { font-size: 12.5px; color: var(--ink-3); margin: 6px 0 0; }
 /* fourth view: election districts (real shapes shaded by margin) */
 .edmap { display: none; position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-action: pan-y; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
 .mapwrap.ed-on svg.map { visibility: hidden; }
@@ -197,9 +215,7 @@ td.m { font-family: var(--f-mono); }
       <button type="button" data-m="pop" aria-pressed="false">People</button>
     </div>
   </div>
-  <div class="lensctl" id="lensctl" hidden>
-    <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="true">Magnify</button><button type="button" data-s="2" aria-pressed="false">Whole map</button></div>
-  </div>
+  
   <p class="hint" id="hint">Tap any district to grow or shrink it in place. Lens warps the map by votes cast; People rebuilds it with one hexagon per 2,500 votes cast.</p>
 
   <div class="grid">
@@ -214,6 +230,9 @@ td.m { font-family: var(--f-mono); }
       </div>
 <div class="edleg" id="edleg" aria-hidden="true"><div class="edleg-ramp" id="edramp2"></div><div class="edleg-t" id="edticks2"></div><div class="edleg-k"><span><i class="edsw part"></i>under <b class="edcut2"></b>% reporting</span><span><i class="edsw none"></i>no votes</span></div></div>
 
+      <div class="lensctl" id="lensctl" hidden>
+        <div class="seg sm" role="group" aria-label="Lens mode" id="lsize"><button type="button" data-s="1" aria-pressed="false">Magnify</button><button type="button" data-s="2" aria-pressed="true">Whole map</button></div>
+      </div>
     </div>
 
     <aside class="side">
@@ -237,11 +256,12 @@ td.m { font-family: var(--f-mono); }
       <p class="sub">Same election, counted four ways.</p>
       <div class="keyline"><span><i id="k-b"></i>Hochul</span><span><i id="k-r"></i>Blakeman</span></div>
       <div class="bars" id="bars"></div>
-      <div class="legend">
+      <div class="legend" id="legwin">
         <h2>District margin</h2>
         <div class="ramp" id="ramp"></div>
         <div class="ticks"><span>Blakeman +60</span><span>Even</span><span>Hochul +60</span></div>
       </div>
+      
     </aside>
   </div>
 
@@ -278,6 +298,12 @@ td.m { font-family: var(--f-mono); }
     var x = 0, y = 0; c.cells.forEach(function (p) { x += p[0]; y += p[1]; }); c.hx = x / c.n; c.hy = y / c.n;
     var rx = 0, ry = 0; for (var k = 0; k < c.K; k++) { rx += c.R[2 * k]; ry += c.R[2 * k + 1]; } c.rx = rx / c.K / 1000; c.ry = ry / c.K / 1000;
   });
+  var PR = META.prior || null, colorMode = 0, SWCAP = 5;
+  if (PR) {
+    C.forEach(function (c) { c.ptot = c.pd + c.pr; c.sw = (c.d / c.tot - c.pd / c.ptot) * 100; c.flip = (c.d > c.r) !== (c.pd > c.pr); });
+    var asw = C.map(function (c) { return Math.abs(c.sw); }).sort(function (a, b) { return a - b; });
+    SWCAP = Math.max(2, Math.round(asw[Math.floor(.9 * (asw.length - 1))]));
+  }
   var shares = { land: tot.landD, tile: tot.cD / C.length, pop: tot.popD / totPop, votes: tot.d / (tot.d + tot.r) };
   var pct = function (x) { return Math.round(x * 100); };
   var fmt = function (n) { return n.toLocaleString('en-US'); };
@@ -291,6 +317,8 @@ td.m { font-family: var(--f-mono); }
   function mix(a, b, t) { return a.map(function (v, i) { return Math.round(v + (b[i] - v) * t); }); }
   function readStops() { stops = { n: h2r(cv('--n')), bm: h2r(cv('--b-mid')), bd: h2r(cv('--b-deep')), rm: h2r(cv('--r-mid')), rd: h2r(cv('--r-deep')) }; }
   function colorAt(m) { var t = Math.max(-1, Math.min(1, m / .6)), a = Math.abs(t), mid = t >= 0 ? stops.bm : stops.rm, deep = t >= 0 ? stops.bd : stops.rd; return a < .5 ? mix(stops.n, mid, a / .5) : mix(mid, deep, (a - .5) / .5); }
+  function colorT(t) { t = Math.max(-1, Math.min(1, t)); var a = Math.abs(t), mid = t >= 0 ? stops.bm : stops.rm, deep = t >= 0 ? stops.bd : stops.rd; return a < .5 ? mix(stops.n, mid, a / .5) : mix(mid, deep, (a - .5) / .5); }
+  function cfill(c) { return (PR && colorMode === 1) ? colorT(c.sw / SWCAP) : colorAt(c.m); }
   function css(rgb) { return 'rgb(' + rgb.join(',') + ')'; }
   function lum(rgb) { var f = rgb.map(function (v) { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * f[0] + .7152 * f[1] + .0722 * f[2]; }
 
@@ -309,6 +337,10 @@ td.m { font-family: var(--f-mono); }
     return d;
   }
   function ringPath(arr, K) { var d = 'M'; for (var k = 0; k < K; k++) d += (k ? 'L' : '') + (arr[2 * k] / 1000).toFixed(3) + ',' + (arr[2 * k + 1] / 1000).toFixed(3); return d + 'Z'; }
+  if (PR) {
+    var hs = D.vbW[2] / 120, hd = mk('defs', {}, svg), hp = mk('pattern', { id: 'flipHatch', patternUnits: 'userSpaceOnUse', width: hs, height: hs, patternTransform: 'rotate(45)' }, hd);
+    mk('rect', { x: 0, y: 0, width: hs * .34, height: hs, fill: '#ffffff', 'fill-opacity': .9 }, hp);
+  }
   C.forEach(function (c) {
     var rp = ringPath(c.R, c.K);
     c.sf = mk('path', { 'class': 'sf', d: rp }, gGhost); c.sf.style.opacity = 0;
@@ -319,6 +351,7 @@ td.m { font-family: var(--f-mono); }
     c.hl = mk('path', { 'class': 'hxl', d: hexPath(c.cells) }, c.g); c.hl.style.opacity = 0;
     c.hl2 = mk('path', { 'class': 'hxl', d: hexPath(c.cells2) }, c.g); c.hl2.style.opacity = 0;
     c.po = mk('path', { 'class': 'cpo', d: rp }, c.g); c.po.style.opacity = 0;
+    if (PR && c.flip) c.fo = mk('path', { 'class': 'flip-o', d: rp }, c.g);
     if (c.n >= 60) { c.lb = mk('text', { 'class': 'lab', x: c.hx.toFixed(3), y: c.hy.toFixed(3), 'font-size': .14 }, gLab); c.lb.textContent = c.name; c.lb.style.opacity = 0; }
   });
   var order = C.slice().sort(function (a, b) { return b.pop - a.pop; });
@@ -327,11 +360,12 @@ td.m { font-family: var(--f-mono); }
 
   function recolor() {
     readStops();
-    C.forEach(function (c) { var rgb = colorAt(c.m); c.p.setAttribute('fill', css(rgb)); c.sf.setAttribute('fill', css(rgb)); c.dark = lum(rgb) < .3; var tn = css(mix(rgb, [255, 255, 255], .4)); c.hl.setAttribute('stroke', tn); c.hl2.setAttribute('stroke', tn); if (c.lb) { c.lb.setAttribute('fill', c.dark ? '#ffffff' : '#0b0b0b'); c.lb.setAttribute('stroke', c.dark ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.7)'); c.lb.setAttribute('stroke-width', .03); c.lb.setAttribute('paint-order', 'stroke'); } });
+    C.forEach(function (c) { var rgb = cfill(c); c.p.setAttribute('fill', css(rgb)); c.sf.setAttribute('fill', css(rgb)); c.dark = lum(rgb) < .3; var tn = css(mix(rgb, [255, 255, 255], .4)); c.hl.setAttribute('stroke', tn); c.hl2.setAttribute('stroke', tn); if (c.lb) { c.lb.setAttribute('fill', c.dark ? '#ffffff' : '#0b0b0b'); c.lb.setAttribute('stroke', c.dark ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.7)'); c.lb.setAttribute('stroke-width', .03); c.lb.setAttribute('paint-order', 'stroke'); } });
     var st = [], k; for (k = -1; k <= 1.001; k += .25) st.push(css(colorAt(k * .6)) + ' ' + Math.round((k + 1) * 50) + '%');
     document.getElementById('ramp').style.background = 'linear-gradient(90deg,' + st.join(',') + ')';
     document.getElementById('k-b').style.background = css(stops.bm);
     document.getElementById('k-r').style.background = css(stops.rm);
+    if (PR) { var ss = [], q; for (q = -1; q <= 1.001; q += .25) ss.push(css(colorT(q)) + ' ' + Math.round((q + 1) * 50) + '%'); document.getElementById('swramp').style.background = 'linear-gradient(90deg,' + ss.join(',') + ')'; }
     drawBars(); if (selected != null) showCard(selected);
   }
 
@@ -359,7 +393,7 @@ td.m { font-family: var(--f-mono); }
       }
       d += 'Z';
     }
-    c.p.setAttribute('d', d); 
+    c.p.setAttribute('d', d); if (c.fo) c.fo.setAttribute('d', d);
     var hv = smooth((t - .8) / .2);
     c.hl.style.opacity = hv * (1 - w); c.hl2.style.opacity = hv * w;
     if (hv > 0) c.po.setAttribute('d', d); c.po.style.opacity = hv;
@@ -486,7 +520,7 @@ td.m { font-family: var(--f-mono); }
     if (Math.abs(lens.gt - lens.g) < .002) lens.g = lens.gt;
     var on = lens.a > .0005 && LF;
     if (on) computeField();
-    for (var i = 0; i < C.length; i++) { var c = C[i]; if (T[i] === 0 && TT[i] === 0) c.p.setAttribute('d', on ? warpPath(c) : ringPath(c.R, c.K)); }
+    for (var i = 0; i < C.length; i++) { var c = C[i]; if (T[i] === 0 && TT[i] === 0) { var ld = on ? warpPath(c) : ringPath(c.R, c.K); c.p.setAttribute('d', ld); if (c.fo) c.fo.setAttribute('d', ld); } }
     var vm = vbm(), am = Math.min(1, lens.a), ge = lens.g * am, kz = 1 + .25 * am, w = vm[2] * kz, h = vm[3] * kz, lv = [vm[0] + vm[2] / 2 - w / 2, vm[1] + vm[3] / 2 - h / 2, w, h];
     svg.setAttribute('viewBox', lv.map(function (v, j) { return v + (D.vbW[j] - v) * ge; }).join(' '));
     updSil(am, ge); syncHL();
@@ -602,18 +636,33 @@ td.m { font-family: var(--f-mono); }
   function barRow(label, share, mx, color) {
     return '<div class="cbar"><span>' + label + '</span><span class="ctrack"><i class="cfill" style="width:' + Math.max(1.5, share / mx * 100).toFixed(1) + '%;background:' + color + '"></i></span><span class="v">' + pct1(share) + '</span></div>';
   }
+  function swHTML(c) {
+    if (!PR) return '';
+    var up = c.sw >= 0, nm = up ? META.a : META.b, pn = up ? PR.a : PR.b, pw = c.pd > c.pr ? PR.a : PR.b;
+    return '<div class="pn-sw"><b style="color:' + css(up ? stops.bd : stops.rd) + '">' + (up ? '▲' : '▼') + ' ' + Math.abs(c.sw).toFixed(1) + ' pts</b> ' + esc(nm) + (nm === pn ? ' did better than in ' + esc(PR.short) : ' ran ahead of ' + esc(pn) + '’s ' + esc(PR.short) + ' share') + (c.flip ? '<span class="pn-flip">Flipped from ' + esc(pw) + '</span>' : '') + '</div>';
+  }
+  function cmpHTML(c) {
+    if (!PR) return '';
+    var a1 = c.d / c.tot * 100, b1 = c.r / c.tot * 100, a0 = c.pd / c.ptot * 100, b0 = c.pr / c.ptot * 100, m1 = a1 - b1, m0 = a0 - b0;
+    function mg(m, prior) { return (m >= 0 ? (prior ? PR.a : META.a) : (prior ? PR.b : META.b)) + ' +' + Math.abs(m).toFixed(1); }
+    function sg(v) { return (v >= 0 ? '+' : '−') + Math.abs(v).toFixed(1); }
+    return '<table class="pn-t cmp"><thead><tr><th>Two-party</th><th class="num">' + esc(META.a) + '</th><th class="num">' + esc(META.b) + '</th><th class="num">Margin</th></tr></thead><tbody>' +
+      '<tr class="win"><td>' + esc(PR.now) + '</td><td class="num">' + a1.toFixed(1) + '%</td><td class="num">' + b1.toFixed(1) + '%</td><td class="num">' + esc(mg(m1)) + '</td></tr>' +
+      '<tr><td>' + esc(PR.short) + '</td><td class="num">' + a0.toFixed(1) + '%</td><td class="num">' + b0.toFixed(1) + '%</td><td class="num">' + esc(mg(m0, true)) + '</td></tr>' +
+      '<tr><td>Change</td><td class="num">' + sg(a1 - a0) + '</td><td class="num">' + sg(b1 - b0) + '</td><td class="num">' + sg(m1 - m0) + '</td></tr></tbody></table><p class="pn-cap">' + esc(PR.short) + ' row is the ' + esc(PR.label) + ' race: ' + esc(PR.a) + ' under ' + esc(META.a) + ', ' + esc(PR.b) + ' under ' + esc(META.b) + '. ' + (PR.same && PR.same.length ? esc(PR.same.join(' and ')) + ' ran in both races, the other candidate did not.' : 'Different candidates ran in each race.') + '</p>';
+  }
   function cardHTML(c) {
-    var col = css(colorAt(c.m)), mx = Math.max(c.landS, c.popS), lead = (c.dem ? META.a : META.b) + ' +' + Math.round(Math.abs(c.m) * 100), w = c.dem ? c.d : c.r, l = c.dem ? c.r : c.d;
+    var cw = colorAt(c.m), dk = lum(cw) < .3, col = css(cw), mx = Math.max(c.landS, c.popS), lead = (c.dem ? META.a : META.b) + ' +' + Math.round(Math.abs(c.m) * 100), w = c.dem ? c.d : c.r, l = c.dem ? c.r : c.d;
     var rows = [[META.a, c.d, c.d / c.tot, css(stops.bm)], [META.b, c.r, c.r / c.tot, css(stops.rm)]].sort(function (a, b) { return b[1] - a[1]; }).map(function (r, k) {
       return '<tr class="' + (k ? '' : 'win') + '"><td><span class="nm2"><i style="background:' + r[3] + '"></i>' + esc(r[0]) + '</span></td><td class="num">' + fmt(r[1]) + '</td><td class="num">' + (r[2] * 100).toFixed(1) + '%</td></tr>';
     }).join('');
     return '<div class="pn-bar" style="background:' + col + '"></div>' +
       '<div class="pn-hd"><div style="min-width:0"><span class="pn-n">' + esc(c.name) + '</span><span class="pn-c">' + fmt(c.pop) + ' votes cast</span></div>' +
-      '<div class="pn-r"><span class="pn-p" style="background:' + col + ';color:' + (c.dark ? '#fff' : '#0b0b0b') + '">' + esc(lead) + '</span>' +
+      '<div class="pn-r"><span class="pn-p" style="background:' + col + ';color:' + (dk ? '#fff' : '#0b0b0b') + '">' + esc(lead) + '</span>' +
       '<button type="button" class="pn-b pn-tgl" aria-expanded="' + full + '">' + (full ? 'Less' : 'More') + '</button>' +
       '<button type="button" class="pn-b pn-x" aria-label="Close">✕</button></div></div>' +
-      '<div class="pn-key">' + barRow('Land', c.landS, mx, 'var(--ink-3)') + barRow('People', c.popS, mx, col) + '<div class="pn-rel"><b>' + fx(c).replace(' ', '</b> ') + ' by votes</div></div>' +
-      '<div class="pn-more"><div class="pn-st"><span>Votes cast <b>' + fmt(c.pop) + '</b></span><span>Hexagons <b>' + c.n + '</b></span><span>Land <b>' + pct1(c.landS) + '</b></span><span>People <b>' + pct1(c.popS) + '</b></span><span>Margin <b>' + fmt(w - l) + ' votes</b></span></div>' +
+      '<div class="pn-key">' + barRow('Land', c.landS, mx, 'var(--ink-3)') + barRow('People', c.popS, mx, col) + '<div class="pn-rel"><b>' + fx(c).replace(' ', '</b> ') + ' by votes</div>' + swHTML(c) + '</div>' +
+      '<div class="pn-more"><div class="pn-st"><span>Votes cast <b>' + fmt(c.pop) + '</b></span><span>Hexagons <b>' + c.n + '</b></span><span>Land <b>' + pct1(c.landS) + '</b></span><span>People <b>' + pct1(c.popS) + '</b></span><span>Margin <b>' + fmt(w - l) + ' votes</b></span></div>' + cmpHTML(c) +
       '<table class="pn-t"><thead><tr><th>Candidate</th><th class="num">Votes</th><th class="num">Share</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
   }
   function emptyHTML() {
@@ -701,6 +750,14 @@ td.m { font-family: var(--f-mono); }
   });
 
   /* ---------- boot ---------- */
+  function setMode(m) {
+    colorMode = m;
+    document.getElementById('mWin').setAttribute('aria-pressed', m === 0 ? 'true' : 'false'); document.getElementById('mSw').setAttribute('aria-pressed', m === 1 ? 'true' : 'false');
+    document.getElementById('legwin').hidden = m === 1; document.getElementById('swleg').hidden = m === 0;
+    C.forEach(function (c) { if (c.fo) c.fo.style.opacity = m === 1 ? 1 : 0; });
+    recolor();
+  }
+  if (PR) { document.getElementById('mWin').addEventListener('click', function () { setMode(0); }); document.getElementById('mSw').addEventListener('click', function () { setMode(1); }); document.getElementById('swcap').textContent = SWCAP; }
   showCard(null);
   recolor();
   C.forEach(draw);
