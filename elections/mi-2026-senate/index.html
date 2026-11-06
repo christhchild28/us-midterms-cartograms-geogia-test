@@ -462,7 +462,7 @@ td.m { font-family: var(--f-mono); }
     if (Math.abs(lens.gt - lens.g) < .002) lens.g = lens.gt;
     var on = lens.a > .0005 && LF;
     if (on) computeField();
-    for (var i = 0; i < C.length; i++) { var c = C[i]; if (T[i] === 0 && TT[i] === 0) c.p.setAttribute('d', on ? warpPath(c) : ringPath(c.R, c.K)); }
+    for (var i = 0; i < C.length; i++) { var c = C[i]; if (T[i] === 0 && TT[i] === 0) { var ld = on ? warpPath(c) : ringPath(c.R, c.K); c.p.setAttribute('d', ld); if (c.fo) c.fo.setAttribute('d', ld); } }
     var vm = vbm(), am = Math.min(1, lens.a), ge = lens.g * am, kz = 1 + .25 * am, w = vm[2] * kz, h = vm[3] * kz, lv = [vm[0] + vm[2] / 2 - w / 2, vm[1] + vm[3] / 2 - h / 2, w, h];
     svg.setAttribute('viewBox', lv.map(function (v, j) { return v + (D.vbW[j] - v) * ge; }).join(' '));
     updSil(am, ge); syncHL();
