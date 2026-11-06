@@ -12,7 +12,13 @@ def ramp(cand):
     if r not in RAMPS: raise SystemExit('unknown ramp %r (use %s or give {mid_l,deep_l,mid_d,deep_d})' % (r, '/'.join(RAMPS)))
     return RAMPS[r]
 
-D = open(cfg.out('warp-rings.json')).read().strip()
+_raw = json.load(open(cfg.out('warp-rings.json')))
+def _delta(a):                                   # first point absolute, then per-vertex differences (decoded in the page)
+    assert all(isinstance(v, int) for v in a)
+    return a[:2] + [a[i] - a[i - 2] for i in range(2, len(a))]
+for _c in _raw['counties']:
+    for _k in ('real', 'warp', 'hex', 'hex2'): _c[_k] = _delta(_c[_k])
+D = json.dumps(_raw, separators=(',', ':'))
 _l = json.load(open(cfg.out('lens-fields.json')))
 _sh = json.load(open(cfg.out('warp-rings.json')))['shift']          # the warp frame is the real frame shifted onto the hex lattice
 _l['outline'] = [int(round(v - 1000 * _sh[i % 2])) for i, v in enumerate(_l['outline'])]

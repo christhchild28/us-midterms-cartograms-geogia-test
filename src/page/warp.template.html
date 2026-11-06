@@ -44,9 +44,7 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2
 .seg { display: inline-flex; border: 1px solid var(--hair); border-radius: 8px; padding: 3px; gap: 2px; background: var(--bg); }
 .seg button { font: 500 15px/1 var(--f-body); color: var(--ink-2); background: transparent; border: 0; border-radius: 6px; padding: 11px 20px; cursor: pointer; min-height: 44px; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
-.seg button:focus-visible, .chip:focus-visible, .tog input:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-.tog { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); cursor: pointer; min-height: 44px; }
-.tog input { width: 18px; height: 18px; accent-color: var(--ink); margin: 0; }
+.seg button:focus-visible, .chip:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .hint { color: var(--ink-2); font-size: 14px; max-width: 62ch; margin: 0 0 14px; min-height: 2.9em; }
 
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 22px; }
@@ -99,11 +97,7 @@ svg.map { display: block; width: 100%; height: auto; touch-action: manipulation;
 .lensctl { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 18px; margin: 0 0 8px; }
 .lensctl[hidden] { display: none; }
 .seg.sm button { padding: 8px 14px; font-size: 14px; min-height: 36px; }
-.rng { display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--ink-2); min-height: 44px; }
-.rng input { width: 96px; accent-color: var(--ink); }
-.rng output { font-family: var(--f-mono); font-size: 13px; min-width: 3.2em; color: var(--ink); }
 svg.map.lensmode { touch-action: none; cursor: grab; }
-.sout { fill: none; stroke: var(--ink); stroke-width: 1.3px; stroke-dasharray: 5 4; stroke-linejoin: round; vector-effect: non-scaling-stroke; pointer-events: none; }
 .lring { fill: none; stroke: var(--ink); stroke-width: 1.2px; stroke-dasharray: 3 3; vector-effect: non-scaling-stroke; pointer-events: none; }
 .gp { fill: var(--ghost); stroke: var(--ghost-line); stroke-width: 1.1px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
 .gt { fill: none; stroke: var(--ink); stroke-width: 1.4px; stroke-dasharray: 4 3; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
@@ -209,13 +203,14 @@ td.m { font-family: var(--f-mono); }
   var D = /*DATA*/;
   var LENS = /*LENS*/;
   var META = /*META*/;
+  function dz(a) { var o = Int32Array.from(a); for (var k = 2; k < o.length; k++) o[k] += o[k - 2]; return o; }   // ring arrays ship delta-encoded
   var C = D.counties, NS = 'http://www.w3.org/2000/svg', RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var totPop = 0, totLand = 0, tot = { d: 0, r: 0, popD: 0, landD: 0, cD: 0 };
   C.forEach(function (c) { totPop += c.pop; totLand += c.landArea; tot.d += c.d; tot.r += c.r; });
   C.forEach(function (c, i) {
     c.i = i; c.tot = c.d + c.r; c.m = (c.d - c.r) / c.tot; c.dem = c.d > c.r;
     c.popS = c.pop / totPop; c.landS = c.landArea / totLand; c.f = c.popS / c.landS;
-    c.R = Int32Array.from(c.real); c.H = Int32Array.from(c.hex); c.H2 = Int32Array.from(c.hex2); c.W = Int32Array.from(c.warp); c.K = c.R.length / 2;
+    c.R = dz(c.real); c.H = dz(c.hex); c.H2 = dz(c.hex2); c.W = dz(c.warp); c.K = c.R.length / 2;
     if (c.dem) { tot.popD += c.pop; tot.landD += c.landS; tot.cD++; }
     var x = 0, y = 0; c.cells.forEach(function (p) { x += p[0]; y += p[1]; }); c.hx = x / c.n; c.hy = y / c.n;
     var rx = 0, ry = 0; for (var k = 0; k < c.K; k++) { rx += c.R[2 * k]; ry += c.R[2 * k + 1]; } c.rx = rx / c.K / 1000; c.ry = ry / c.K / 1000;
