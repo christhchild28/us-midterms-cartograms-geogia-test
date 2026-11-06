@@ -1,0 +1,54 @@
+{
+ "id": "ny-2026-governor",
+ "state": {
+  "name": "New York",
+  "abbr": "NY",
+  "fips": "36",
+  "people": "New Yorkers"
+ },
+ "race": {
+  "office": "Governor",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Hochul",
+   "full": "Kathy Hochul",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Blakeman",
+   "full": "Bruce Blakeman",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "hochul",
+  "b_col": "blakeman"
+ },
+ "hex": {
+  "unit": 20000,
+  "seed": 1,
+  "frozen": true
+ },
+ "lens": {
+  "start_county": "Kings",
+  "gif_target": "Erie",
+  "scale": 1,
+  "spacing": 0.7,
+  "node": 0.14
+ },
+ "text": {
+  "source": "Results: unofficial county returns from the New York State Board of Elections election night reporting site (nyenr.elections.ny.gov), retrieved Nov 6, 2026, with 12,179 of 13,187 election districts reporting. Westchester County's emergency ballots are not yet counted and absentee, military and affidavit ballots are still to come, so totals will change. The AP has called the race for Hochul. Votes are summed across all ballot lines per candidate; blank and void ballots are not shown. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+  "gif_source": "NY State BOE unofficial results \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ }
+}

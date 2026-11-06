@@ -1,0 +1,54 @@
+{
+ "id": "ca-2026-governor",
+ "state": {
+  "name": "California",
+  "abbr": "CA",
+  "fips": "06",
+  "people": "Californians"
+ },
+ "race": {
+  "office": "Governor",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Becerra",
+   "full": "Xavier Becerra",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Hilton",
+   "full": "Steve Hilton",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "becerra",
+  "b_col": "hilton"
+ },
+ "hex": {
+  "unit": 20000,
+  "seed": 1,
+  "frozen": true
+ },
+ "lens": {
+  "start_county": "Los Angeles",
+  "gif_target": "San Diego",
+  "scale": 1,
+  "spacing": 0.7,
+  "node": 0.14
+ },
+ "text": {
+  "source": "Results: unofficial county returns from the California Secretary of State (sos.ca.gov), retrieved Nov 6, 2026. Ballots are still being counted across the state and counties certify by Dec 4, with the state certifying by Dec 11, so totals will change. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+  "gif_source": "CA Secretary of State unofficial results \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ }
+}
