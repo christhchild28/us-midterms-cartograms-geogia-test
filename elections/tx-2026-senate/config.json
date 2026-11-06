@@ -1,0 +1,52 @@
+{
+  "id": "tx-2026-senate",
+  "state": {
+    "name": "Texas",
+    "abbr": "TX",
+    "fips": "48",
+    "people": "Texans"
+  },
+  "race": {
+    "office": "U.S. Senate",
+    "date": "Nov 3, 2026"
+  },
+  "candidates": {
+    "a": {
+      "name": "Talarico",
+      "full": "James Talarico",
+      "ramp": "blue"
+    },
+    "b": {
+      "name": "Paxton",
+      "full": "Ken Paxton",
+      "ramp": "red"
+    }
+  },
+  "results": {
+    "file": "results.csv",
+    "county_col": "county",
+    "a_col": "talarico",
+    "b_col": "paxton"
+  },
+  "hex": {
+    "unit": 20000,
+    "seed": 1,
+    "frozen": true
+  },
+  "lens": {
+    "start_county": "Harris",
+    "gif_target": "Travis",
+    "scale": 1
+  },
+  "text": {
+    "source": "Results: county returns from the Texas Tribune live results feed (Associated Press data) with 99% of precincts reporting on Nov 5, 2026, unofficial until canvassed. The AP has called the race for Talarico. Independent Ted Brown (1.9%) is not shown. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+    "gif_source": "Texas Tribune/AP county results \u00b7 Census 2025"
+  },
+  "population": {
+    "format": "csv",
+    "file": "population.csv",
+    "fips_col": "fips",
+    "pop_col": "population",
+    "name_col": "county"
+  }
+}

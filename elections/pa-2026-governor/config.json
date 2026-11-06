@@ -1,0 +1,52 @@
+{
+  "id": "pa-2026-governor",
+  "state": {
+    "name": "Pennsylvania",
+    "abbr": "PA",
+    "fips": "42",
+    "people": "Pennsylvanians"
+  },
+  "race": {
+    "office": "Governor",
+    "date": "Nov 3, 2026"
+  },
+  "candidates": {
+    "a": {
+      "name": "Shapiro",
+      "full": "Josh Shapiro",
+      "ramp": "blue"
+    },
+    "b": {
+      "name": "Garrity",
+      "full": "Stacy Garrity",
+      "ramp": "red"
+    }
+  },
+  "results": {
+    "file": "results.csv",
+    "county_col": "county",
+    "a_col": "shapiro",
+    "b_col": "garrity"
+  },
+  "hex": {
+    "unit": 10000,
+    "seed": 1,
+    "frozen": true
+  },
+  "lens": {
+    "start_county": "Philadelphia",
+    "gif_target": "Allegheny",
+    "scale": 1
+  },
+  "text": {
+    "source": "Results: unofficial county returns from the Pennsylvania Department of State (electionreturns.pa.gov), retrieved Nov 5, 2026, before counties certify. Garrity conceded on election night. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+    "gif_source": "PA Dept. of State county returns, unofficial \u00b7 Census 2025"
+  },
+  "population": {
+    "format": "csv",
+    "file": "population.csv",
+    "fips_col": "fips",
+    "pop_col": "population",
+    "name_col": "county"
+  }
+}
