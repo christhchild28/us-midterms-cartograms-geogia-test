@@ -147,6 +147,7 @@ thead th { position: sticky; top: 0; background: var(--bg); font-weight: 700; fo
 td.m { font-family: var(--f-mono); }
 .foot { margin-top: 28px; color: var(--ink-3); font-size: 12.5px; max-width: 80ch; }
 .foot p { margin: 0 0 8px; }
+/*ED_CSS*/
 </style>
 
 <div class="wrap">
@@ -159,7 +160,7 @@ td.m { font-family: var(--f-mono); }
 
   <div class="controls">
     <div class="seg" role="group" aria-label="Map view">
-      <button type="button" data-m="land" aria-pressed="true">Land</button>
+      <button type="button" data-m="land" aria-pressed="true">Land</button><!--ED_BTN-->
       <button type="button" data-m="lens" aria-pressed="false" id="bLens" disabled>Lens</button>
       <button type="button" data-m="pop" aria-pressed="false">People</button>
     </div>
@@ -172,10 +173,12 @@ td.m { font-family: var(--f-mono); }
   <div class="grid">
     <div class="mapwrap" id="mapwrap">
       <svg class="map" id="map" role="img" aria-label="{{STATE}} county map of the {{RACE}} result. Choose People to redraw each county in proportion to its residents. A table of all counties follows."></svg>
+      <!--ED_MAP-->
     </div>
 
     <aside class="side">
       <aside class="sheet" id="card" aria-live="polite" aria-label="County details"></aside>
+      <!--ED_SIDE-->
       <div class="chips" id="chips"></div>
       <h2>Share of {{STATE}} that {{A}} won</h2>
       <p class="sub">Same election, counted four ways.</p>
@@ -503,14 +506,16 @@ td.m { font-family: var(--f-mono); }
     });
   });
   function modeNow() { var s = 0, settled = true; for (var i = 0; i < C.length; i++) { s += TT[i]; if (T[i] !== TT[i]) settled = false; } return s === 0 ? 'land' : s === C.length ? 'pop' : 'mixed'; }
+  var edOn = false;
   function uiMode() {
+    if (edOn) return;
     var m = view === 'lens' ? 'lens' : modeNow();
-    document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m ? 'true' : 'false'); });
+    document.querySelectorAll('.seg:not(.sm) button:not([data-ed])').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.m === m ? 'true' : 'false'); });
     var rows = document.querySelectorAll('.brow'); rows.forEach(function (r) { r.classList.toggle('act', (m === 'land' && r.dataset.k === 'land') || (m === 'pop' && r.dataset.k === 'pop')); });
     document.getElementById('hint').textContent = m === 'lens' ? (lens.gt === 1 ? 'Every county sized by its residents. The pale shape is the real state.' : 'Move the lens over the map (drag on a phone). Counties under it resize by population.') : m === 'pop' ? 'One hexagon is about ' + fmt(D.unit) + ' residents. Tap a county for its numbers.' : m === 'mixed' ? 'Resized counties grow or shrink in place. Tap another, or use the buttons to flip them all.' : 'Tap any county to grow or shrink it in place. Lens warps the map by population; People rebuilds it with one hexagon per ' + fmt(D.unit) + ' residents.';
     try { if (m !== 'mixed') history.replaceState(null, '', '#' + m); } catch (e) {}
   }
-  document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
+  document.querySelectorAll('.seg:not(.sm) button:not([data-ed])').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
 
   /* ---------- share bars ---------- */
   var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes cast' };
@@ -651,6 +656,7 @@ td.m { font-family: var(--f-mono); }
   else uiMode();
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', recolor);
   new MutationObserver(recolor).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+/*ED_JS*/
   window.__ga = { META: META, tot: tot, totPop: totPop, lensKick: lensKick, setView: setView, lens: lens, setAll: setAll, toggle: toggleCounty, T: T, WW: WW, C: C, instant: function (v) { setAll(v, true); } };
 })();
 </script>

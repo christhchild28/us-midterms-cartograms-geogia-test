@@ -14,10 +14,13 @@ for c in C:
     g=feat[c['fips']]['geometry']; ps=g['coordinates'] if g['type']=='MultiPolygon' else [g['coordinates']]
     L=[]
     for p in ps:
-        pg=Polygon([proj(x,y) for x,y in p[0]]); L.append(pg if pg.is_valid else pg.buffer(0))
+        pg=Polygon([proj(x,y) for x,y in p[0]]); q=pg if pg.is_valid else pg.buffer(0)
+        if q.geom_type=='MultiPolygon': L.extend(q.geoms)   # an invalid ring can repair into several parts
+        else: L.append(q)
     polys.append(L)
 allarea=np.array([sum(p.area for p in L) for L in polys]); nhex=np.array([max(1,round(c['pop']/cfg.unit)) for c in C],float)
-state=unary_union([p.buffer(0.002) for L in polys for p in L]).buffer(-0.002)
+SB=float(cfg.lens.get('state_buffer',0.002))   # bridge gaps up to ~2*SB when joining land into one 'state' (islands like Staten Island need more)
+state=unary_union([p.buffer(SB) for L in polys for p in L]).buffer(-SB)
 if state.geom_type=='MultiPolygon': state=max(state.geoms,key=lambda g:g.area)
 x0,y0,x1,y1=state.bounds
 F=cfg.lens_scale(max(x1-x0,y1-y0))   # all lens lengths scale with the state's extent (Georgia = 1.0)

@@ -1,0 +1,32 @@
+/* fourth view: election districts (real shapes shaded by margin) */
+.edmap { display: none; position: absolute; left: 0; top: 0; width: 100%; height: 100%; touch-action: pan-y; -webkit-tap-highlight-color: transparent; -webkit-user-select: none; user-select: none; }
+.mapwrap.ed-on svg.map { visibility: hidden; }
+.mapwrap.ed-on .edmap { display: block; }
+.edfill { stroke: var(--bg); stroke-width: .4px; vector-effect: non-scaling-stroke; stroke-linejoin: round; fill-rule: evenodd; cursor: pointer; }
+.edad { fill: none; stroke: var(--ink); stroke-opacity: .85; stroke-width: 1.15px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.edzoom { display: none; position: absolute; right: 4px; bottom: 4px; flex-direction: column; gap: 6px; }
+.mapwrap.ed-on .edzoom { display: flex; }
+.edzoom button { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--hair); background: var(--raised); color: var(--ink); font: 600 20px/1 var(--f-body); cursor: pointer; padding: 0; box-shadow: 0 1px 4px rgba(0,0,0,.16); }
+.edzoom button:disabled { opacity: .35; cursor: default; }
+.edzoom button:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.ed-only { display: none; }
+.side.ed-on > :not(.ed-only) { display: none; }
+.side.ed-on > .ed-only { display: block; }
+@media (max-width: 430px) { .seg.has-ed button { padding: 11px 13px; } }
+.edkeys { display: flex; flex-wrap: wrap; gap: 6px 16px; font: 400 12px var(--f-mono); color: var(--ink-3); margin: 12px 0 4px; }
+.edkeys b { font-weight: 400; }
+.edsw { display: inline-block; width: 16px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; border: 1px solid var(--edge); }
+.edsw.part { background: linear-gradient(90deg, var(--r-mid), var(--b-mid)); opacity: .5; }
+.edsw.none { background: var(--n); }
+.edstats { font-size: 13px; color: var(--ink-2); margin: 10px 0 14px; max-width: 46ch; }
+.edsplit { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: color-mix(in srgb, var(--ink) 7%, transparent); }
+.edsplit i { display: block; height: 100%; }
+.ednote { margin: 0; padding: 0 var(--gr) 14px var(--gl); color: var(--ink-2); font-size: 13px; }
+.ednote b { color: var(--ink); }
+.edleg { display: none; position: absolute; left: 0; top: 0; width: min(250px, 62%); padding: 8px 10px; border-radius: 8px; background: color-mix(in srgb, var(--bg) 86%, transparent); font: 400 10px/1.3 var(--f-mono); color: var(--ink-3); pointer-events: none; }
+.mapwrap.ed-on .edleg { display: block; }
+.edleg-ramp { height: 10px; border-radius: 3px; }
+.edleg-t { display: flex; justify-content: space-between; margin: 3px 0 6px; white-space: nowrap; }
+.edleg-k { display: flex; flex-direction: column; gap: 2px; }
+.edleg-k b { font-weight: 400; }
+.edleg .edsw { width: 12px; height: 8px; margin-right: 5px; }

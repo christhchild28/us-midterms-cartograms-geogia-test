@@ -40,6 +40,27 @@ tok = {
 }
 t = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'warp.template.html')).read()
 for k, v in tok.items(): t = t.replace('{{%s}}' % k, html.escape(v, quote=True))
+# Optional vocabulary override for non-county units (districts, wards...) and non-resident weights (votes cast...).
+# text.vocab = {"unit": "district", "units": "districts", "measure": "votes cast", "fix": [[old, new], ...]}
+# "fix" pairs are exact replacements applied first and must each match; then the guarded word swap runs.
+# Identifiers are left alone: anything preceded by '.', '-', '_' or a word character, and whole quoted tokens like 'county'.
+vocab = cfg.c.get('text', {}).get('vocab')
+if vocab:
+    for old, new in vocab.get('fix', []):
+        if old not in t: raise SystemExit('vocab fix not found in template: %r' % old)
+        t = t.replace(old, new)
+    cap = lambda s: s[:1].upper() + s[1:]
+    forms = {'counties': vocab['units'], 'Counties': cap(vocab['units']), 'county': vocab['unit'], 'County': cap(vocab['unit'])}
+    def _swap(m):
+        s, e = m.start(), m.end()
+        if s > 0 and e < len(t) and t[s - 1] in '\'"' and t[e] == t[s - 1]: return m.group(0)   # whole quoted token: an identifier
+        return forms[m.group(1)]
+    t = re.sub(r'(?<![.\w-])(counties|Counties|county|County)(?![\w-])', _swap, t)
+    t = re.sub(r'\bresidents\b', vocab['measure'], t); t = re.sub(r'\bResidents\b', cap(vocab['measure']), t)
+import ed_layer
+_ed = ed_layer.build(cfg, json.loads(D)['counties']) if cfg.c.get('ed') else {}
+for _k in ('ED_CSS', 'ED_BTN', 'ED_MAP', 'ED_SIDE', 'ED_JS'):
+    t = t.replace({'ED_CSS': '/*ED_CSS*/', 'ED_JS': '/*ED_JS*/'}.get(_k, '<!--%s-->' % _k), _ed.get(_k, ''))
 left = re.findall(r'\{\{[A-Z_]+\}\}', t)
 if left: raise SystemExit('unfilled template tokens: %s' % sorted(set(left)))
 # </ inside a JSON string would end the script block
