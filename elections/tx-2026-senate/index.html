@@ -35,6 +35,9 @@ body {
 }
 .wrap { max-width: 1040px; margin: 0 auto; }
 header { margin-bottom: 16px; }
+.pgnav { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; column-gap: 12px; }
+.pgnav .back + .back { margin-left: auto; text-align: right; }
+@media (max-width: 400px) { .pgnav .back { font-size: 11px; letter-spacing: .03em; } }
 .back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: -10px 0 2px -8px; padding: 0 8px; color: var(--ink-2); text-decoration: none; font: 500 12px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; border-radius: 8px; }
 .back:hover { color: var(--ink); }
 .back:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
@@ -148,7 +151,7 @@ td.m { font-family: var(--f-mono); }
 
 <div class="wrap">
   <header>
-    <a class="back" href="../../" aria-label="Back to all elections">&larr; All elections</a>
+    <nav class="pgnav" aria-label="Elections"><a class="back" href="../../">&larr; All elections</a><!--next--><a class="back" href="../ca-2026-governor/" aria-label="Next election: California">Next: California &rarr;</a><!--/next--></nav>
     <p class="kicker">Texas · U.S. Senate · Nov 3, 2026</p>
     <h1>Texas, by land and by people</h1>
     <p class="dek" id="dek"></p>

@@ -1,11 +1,11 @@
 """Regenerate the root index.html: a plain gallery of every elections/<id>/ that has a built page."""
 import html, json, os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-cards = []
+cards = []; built = []
 for d in sorted(os.listdir(os.path.join(ROOT, 'elections'))):
     cp = os.path.join(ROOT, 'elections', d, 'config.json')
     if not (os.path.exists(cp) and os.path.exists(os.path.join(ROOT, 'elections', d, 'index.html'))): continue
-    c = json.load(open(cp)); r = c['race']; yr = (re.findall(r'\d{4}', r.get('date', '')) or [''])[-1]
+    c = json.load(open(cp)); r = c['race']; built.append((d, c['state']['name'])); yr = (re.findall(r'\d{4}', r.get('date', '')) or [''])[-1]
     gif = 'elections/%s/media/%s.gif' % (d, c['id'])
     img = '<img src="%s" alt="" loading="lazy">' % gif if os.path.exists(os.path.join(ROOT, gif)) else ''
     cards.append('<a class="card" href="elections/%s/%s">%s<b>%s</b><span>%s</span><em>%s vs %s</em></a>' % (
@@ -29,3 +29,13 @@ p{color:var(--ink2);margin:0 0 24px;max-width:60ch}
 <div class="grid">@@CARDS@@</div></main></body></html>""".replace("@@CARDS@@", ''.join(cards))
 open(os.path.join(ROOT, 'index.html'), 'w').write(page)
 print('wrote root index.html with', len(cards), 'election(s)')
+
+# Next-election link on each page (wraps from last to first, same order as the gallery).
+for i, (d, _) in enumerate(built):
+    nd, nname = built[(i + 1) % len(built)]
+    if nd == d: link = ''
+    else: link = '<a class="back" href="../%s/" aria-label="Next election: %s">Next: %s &rarr;</a>' % (nd, html.escape(nname), html.escape(nname))
+    p = os.path.join(ROOT, 'elections', d, 'index.html'); t = open(p).read()
+    t2 = re.sub(r'<!--next-->.*?<!--/next-->', lambda m: '<!--next-->' + link + '<!--/next-->', t, count=1, flags=re.S)
+    if t2 != t: open(p, 'w').write(t2)
+print('linked next-election on', len(built), 'page(s)')
