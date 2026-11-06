@@ -18,6 +18,13 @@ def _delta(a):                                   # first point absolute, then pe
     return a[:2] + [a[i] - a[i - 2] for i in range(2, len(a))]
 for _c in _raw['counties']:
     for _k in ('real', 'warp', 'hex', 'hex2'): _c[_k] = _delta(_c[_k])
+_prior = cfg.c.get('prior')                      # optional comparison race: {"file","fips_col","a_col","b_col","label","short","a","b"}
+if _prior:
+    import csv
+    _pm = {r[_prior.get('fips_col', 'fips')].split('.')[0].zfill(5): (int(float(r[_prior['a_col']])), int(float(r[_prior['b_col']]))) for r in csv.DictReader(open(cfg.inp(_prior['file']), encoding='utf-8'))}
+    _miss = [c['name'] for c in _raw['counties'] if c['fips'] not in _pm]
+    if _miss: raise SystemExit('prior file has no row for: %s' % _miss)
+    for _c in _raw['counties']: _c['pd'], _c['pr'] = _pm[_c['fips']]
 D = json.dumps(_raw, separators=(',', ':'))
 _l = json.load(open(cfg.out('lens-fields.json')))
 _sh = json.load(open(cfg.out('warp-rings.json')))['shift']          # the warp frame is the real frame shifted onto the hex lattice
@@ -30,6 +37,7 @@ if start not in names: start = max(pops, key=pops.get)
 a, b = cfg.a, cfg.b
 meta = dict(state=cfg.state['name'], people=cfg.state.get('people'), a=a['name'], b=b['name'], af=a.get('full', a['name']), bf=b.get('full', b['name']), start=start)
 race = cfg.c['race']; year = (re.findall(r'\d{4}', race.get('date', '')) or [''])[-1]
+if _prior: meta['prior'] = dict(label=_prior['label'], short=_prior['short'], a=_prior['a'], b=_prior['b'], now=year or 'Now')
 src = cfg.c.get('text', {}).get('source') or ('Results: county returns as supplied for this build. Residents: Census Bureau county estimates.')
 ra, rb = ramp(a), ramp(b)
 tok = {
@@ -61,6 +69,13 @@ import ed_layer
 _ed = ed_layer.build(cfg, json.loads(D)['counties']) if cfg.c.get('ed') else {}
 for _k in ('ED_CSS', 'ED_BTN', 'ED_MAP', 'ED_SIDE', 'ED_JS'):
     t = t.replace({'ED_CSS': '/*ED_CSS*/', 'ED_JS': '/*ED_JS*/'}.get(_k, '<!--%s-->' % _k), _ed.get(_k, ''))
+if _prior:
+    _e = lambda s: html.escape(s, quote=True)
+    _ctl = '<div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing since %s</button></div></div>' % _e(_prior['short'])
+    _leg = ('<div class="swleg" id="swleg" hidden><h2>Swing since %s</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Toward %s</span><span>No change</span><span>Toward %s</span></div>'
+            '<p class="sw-note">Shading is the change in two-party share against the %s result, full color at <span id="swcap">5</span> points or more. A dark outline marks a county that changed winner.</p></div>') % (_e(_prior['short']), _e(b['name']), _e(a['name']), _e(_prior['label']))
+else: _ctl = _leg = ''
+t = t.replace('<!--SWING_CTL-->', _ctl).replace('<!--SWING_LEG-->', _leg)
 left = re.findall(r'\{\{[A-Z_]+\}\}', t)
 if left: raise SystemExit('unfilled template tokens: %s' % sorted(set(left)))
 # </ inside a JSON string would end the script block
