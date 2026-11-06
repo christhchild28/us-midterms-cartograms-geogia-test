@@ -1,0 +1,54 @@
+{
+ "id": "oh-2026-governor",
+ "state": {
+  "name": "Ohio",
+  "abbr": "OH",
+  "fips": "39",
+  "people": "Ohioans"
+ },
+ "race": {
+  "office": "Governor",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Acton",
+   "full": "Amy Acton",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Ramaswamy",
+   "full": "Vivek Ramaswamy",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "acton",
+  "b_col": "ramaswamy"
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": true
+ },
+ "lens": {
+  "start_county": "Franklin",
+  "gif_target": "Hamilton",
+  "scale": 1,
+  "spacing": 0.7,
+  "node": 0.14
+ },
+ "text": {
+  "source": "Results: unofficial county returns from the Ohio Secretary of State (liveresults.ohiosos.gov), retrieved Nov 6, 2026, with all 88 counties and every Election Day precinct reporting. About 102,000 absentee, military and provisional ballots were still outstanding and the state canvass takes about three weeks, so totals will change. Libertarian Don Kissick (3.3%) and write-in candidates are not shown. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+  "gif_source": "Ohio Secretary of State unofficial results \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ }
+}
