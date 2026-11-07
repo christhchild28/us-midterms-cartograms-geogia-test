@@ -1,0 +1,65 @@
+{
+ "id": "nm-2026-governor",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "New Mexico",
+  "abbr": "NM",
+  "fips": "35",
+  "people": "New Mexicans"
+ },
+ "race": {
+  "office": "Governor",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Haaland",
+   "full": "Deb Haaland",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Hull",
+   "full": "Greggory Hull",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "haaland",
+  "b_col": "hull"
+ },
+ "hex": {
+  "unit": 3000,
+  "seed": 1,
+  "frozen": false
+ },
+ "lens": {
+  "start_county": "Bernalillo",
+  "gif_target": "Santa Fe",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 98% of the expected vote counted statewide. Counts are unofficial until certified. Swing compares with the official 2022 Governor county results (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025, table co-est2025-pop-35).",
+  "gif_source": "NBC News/AP county results, unofficial · Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "lujangrisham",
+  "b_col": "ronchetti",
+  "label": "2022 Governor",
+  "short": "2022",
+  "a": "Lujan Grisham",
+  "b": "Ronchetti"
+ }
+}
