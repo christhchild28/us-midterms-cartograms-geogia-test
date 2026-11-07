@@ -1,0 +1,66 @@
+{
+ "id": "ks-2026-governor",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "Kansas",
+  "abbr": "KS",
+  "fips": "20",
+  "people": "Kansans"
+ },
+ "race": {
+  "office": "Governor",
+  "date": "Nov 3, 2026",
+  "uncalled": true
+ },
+ "candidates": {
+  "a": {
+   "name": "Holscher",
+   "full": "Cindy Holscher",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Masterson",
+   "full": "Ty Masterson",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "holscher",
+  "b_col": "masterson"
+ },
+ "hex": {
+  "unit": 3000,
+  "seed": 1,
+  "frozen": false
+ },
+ "lens": {
+  "start_county": "Johnson",
+  "gif_target": "Sedgwick",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 99% of the expected vote counted statewide. The race has not been called, and counts are unofficial until certified. Swing compares with the official 2022 Governor county results (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025, table co-est2025-pop-20).",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "kelly",
+  "b_col": "schmidt",
+  "label": "2022 Governor",
+  "short": "2022",
+  "a": "Kelly",
+  "b": "Schmidt"
+ }
+}
