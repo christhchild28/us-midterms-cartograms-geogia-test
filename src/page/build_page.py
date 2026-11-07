@@ -19,7 +19,7 @@ pops = {c['name']: c['pop'] for c in json.loads(D)['counties']}
 start = cfg.lens.get('start_county')
 if start not in names: start = max(pops, key=pops.get)
 a, b = cfg.a, cfg.b
-meta = dict(state=cfg.state['name'], people=cfg.state.get('people'), a=a['name'], b=b['name'], af=a.get('full', a['name']), bf=b.get('full', b['name']), start=start)
+meta = dict(state=cfg.state['name'], people=cfg.state.get('people'), a=a['name'], b=b['name'], af=a.get('full', a['name']), bf=b.get('full', b['name']), start=start, uncalled=bool(cfg.c['race'].get('uncalled')))
 race = cfg.c['race']; year = (re.findall(r'\d{4}', race.get('date', '')) or [''])[-1]
 src = cfg.c.get('text', {}).get('source') or ('Results: county returns as supplied for this build. Residents: Census Bureau 2019 county estimates.')
 ra, rb = ramp(a), ramp(b)

@@ -35,7 +35,7 @@ pops = {c['name']: c['pop'] for c in json.loads(D)['counties']}
 start = cfg.lens.get('start_county')
 if start not in names: start = max(pops, key=pops.get)
 a, b = cfg.a, cfg.b
-meta = dict(state=cfg.state['name'], people=cfg.state.get('people'), a=a['name'], b=b['name'], af=a.get('full', a['name']), bf=b.get('full', b['name']), start=start)
+meta = dict(state=cfg.state['name'], people=cfg.state.get('people'), a=a['name'], b=b['name'], af=a.get('full', a['name']), bf=b.get('full', b['name']), start=start, uncalled=bool(cfg.c['race'].get('uncalled')))
 race = cfg.c['race']; year = (re.findall(r'\d{4}', race.get('date', '')) or [''])[-1]
 _same = [n for n in (cfg.c['candidates']['a']['name'], cfg.c['candidates']['b']['name']) if _prior and n in (_prior['a'], _prior['b'])]
 if _prior: meta['prior'] = dict(label=_prior['label'], short=_prior['short'], a=_prior['a'], b=_prior['b'], now=year or 'Now', same=_same)
