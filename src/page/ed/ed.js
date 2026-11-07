@@ -210,10 +210,13 @@
     });
 
     /* ---- enter / exit ---- */
+    var edPrevMode = 0;   // colour mode (0 winner, 1 swing) to restore when leaving Precincts
     function enter() {
       if (on) return;
       build(); on = true; edOn = true;
       selected = null; clearSel(); showCard(null); hideTip(); document.getElementById('lensctl').hidden = true;
+      /* the Precincts view has no swing baseline (election-district lines changed after the earlier race): hide Color by and show winner shading */
+      var swc = document.querySelector('.swctl'); if (swc) { edPrevMode = colorMode; swc.hidden = true; if (colorMode === 1) setMode(0); }
       wrap.classList.add('ed-on'); aside.classList.add('ed-on');
       document.querySelectorAll('.seg:not(.sm) button').forEach(function (b) { b.setAttribute('aria-pressed', b === edBtn ? 'true' : 'false'); });
       hintEl.textContent = 'Each shape is one ' + ED.noun + ', the smallest unit results are reported for. Shading is the margin; thick lines are ' + ED.pn + ' borders. Pinch or use + and − to zoom, drag to pan, tap for numbers.';
@@ -224,6 +227,7 @@
       if (!on) return;
       on = false; edOn = false; wrap.classList.remove('ed-on'); aside.classList.remove('ed-on');
       edBtn.setAttribute('aria-pressed', 'false'); sel = peek = -1; edcard.classList.remove('open'); pad();
+      var swc = document.querySelector('.swctl'); if (swc) { swc.hidden = false; if (edPrevMode === 1) setMode(1); }
       uiMode();
     }
     edBtn.addEventListener('click', enter);

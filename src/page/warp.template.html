@@ -156,6 +156,7 @@ td.m { font-family: var(--f-mono); }
 .foot p { margin: 0 0 8px; }
 /* swing (only present when the election config has a prior race) */
 .swctl { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; margin: 0 0 8px; }
+.swctl[hidden] { display: none; }
 .swctl .lbl { font: 500 11px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-3); }
 .swleg[hidden], #legwin[hidden] { display: none; }
 .flip-o { fill: url(#flipHatch); stroke: none; pointer-events: none; opacity: 0; }

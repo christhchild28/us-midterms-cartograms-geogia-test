@@ -47,7 +47,7 @@
     "state_buffer": 0.012
   },
   "text": {
-    "source": "Results: NYC Board of Elections unofficial election-night results (enr.boenyc.gov, as of 12:42 a.m. EST Nov 4, 2026; scanners reporting by district range from about 81% to 99%), summed by State Assembly district. Hochul includes the Democratic and Working Families lines; Blakeman includes the Republican, Conservative and Vote Affordable lines; write-ins are left out. Hexagon weight is votes cast for the two candidates, not residents, because Assembly districts are drawn at near-equal population. District lines: NYS ITS Geospatial Services, 2022 Assembly districts, clipped to the shoreline.",
+    "source": "Results: NYC Board of Elections unofficial election-night results (enr.boenyc.gov, as of 12:42 a.m. EST Nov 4, 2026; scanners reporting by district range from about 81% to 99%), summed by State Assembly district. Hochul includes the Democratic and Working Families lines; Blakeman includes the Republican, Conservative and Vote Affordable lines; write-ins are left out. Hexagon weight is votes cast for the two candidates, not residents, because Assembly districts are drawn at near-equal population. District lines: NYS ITS Geospatial Services, 2022 Assembly districts, clipped to the shoreline. Swing compares with the official 2022 governor results by Assembly district from the NYC Board of Elections certified election-district report, summed across ballot lines and tied to the New York State Board of Elections county totals (two-party share). The 2022 and 2026 Assembly districts use the same 2022 lines.",
     "gif_source": "NYC BOE unofficial results, Nov 4, 2026",
     "vocab": {
       "unit": "district",
@@ -108,6 +108,16 @@
         ]
       ]
     }
+  },
+  "prior": {
+    "file": "prior.csv",
+    "fips_col": "fips",
+    "a_col": "hochul",
+    "b_col": "zeldin",
+    "label": "2022 governor",
+    "short": "2022",
+    "a": "Hochul",
+    "b": "Zeldin"
   },
   "ed": {
     "geometry": "election-districts.geojson",
