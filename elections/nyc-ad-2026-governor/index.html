@@ -50,6 +50,9 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2
 .seg { display: inline-flex; border: 1px solid var(--hair); border-radius: 8px; padding: 3px; gap: 2px; background: var(--bg); }
 .seg button { font: 500 15px/1 var(--f-body); color: var(--ink-2); background: transparent; border: 0; border-radius: 6px; padding: 11px 20px; cursor: pointer; min-height: 44px; }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.tog { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-2); cursor: pointer; min-height: 44px; }
+.tog input { width: 18px; height: 18px; accent-color: var(--ink); margin: 0; }
+.tog input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .seg button:focus-visible, .chip:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .hint { color: var(--ink-2); font-size: 14px; max-width: 62ch; margin: 0 0 14px; min-height: 2.9em; }
 @media (max-width: 879px) { .hint { min-height: 4.5em; } }
@@ -214,6 +217,7 @@ td.m { font-family: var(--f-mono); }
       <button type="button" data-m="lens" aria-pressed="false" id="bLens" disabled>Lens</button>
       <button type="button" data-m="pop" aria-pressed="false">People</button>
     </div>
+    <label class="tog"><input type="checkbox" id="outline" checked> Land outlines</label>
   </div>
   
   <p class="hint" id="hint">Tap any district to grow or shrink it in place. Lens warps the map by votes cast; People rebuilds it with one hexagon per 2,500 votes cast.</p>
@@ -537,6 +541,8 @@ td.m { font-family: var(--f-mono); }
     var moving = lens.tx !== lens.x || lens.ty !== lens.y || lens.a !== lens.at || lens.b !== lens.bt || lens.g !== lens.gt;
     lens.raf = moving ? requestAnimationFrame(lensTick) : 0; if (!moving) lens.last = 0;
   }
+  // "Land outlines" checkbox: shows or hides the pale real-state shape (the .gp ghost paths) behind the Cartogram and People views.
+  document.getElementById('outline').addEventListener('change', function (e) { ghostOn = e.target.checked; if (view === 'lens') lensKick(); else C.forEach(draw); });   // lens view redraws through lensTick; other views through draw()
   function lensKick() { if (!lens.raf) lens.raf = requestAnimationFrame(lensTick); }
   function clearSel() { C.forEach(function (c) { c.g.classList.remove('sel'); }); }
   function selectCounty(i) { clearSel(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
