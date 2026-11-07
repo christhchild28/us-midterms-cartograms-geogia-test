@@ -42,7 +42,17 @@
   "scale": 1
  },
  "text": {
-  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 95.8% of the expected vote counted statewide. Counts are unofficial and some counties, such as Alexander and Vermilion, had reported less of their vote. Residents: Census Bureau 2019 county estimates via the JHU CSSE lookup table.",
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 95.8% of the expected vote counted statewide. Counts are unofficial and some counties, such as Alexander and Vermilion, had reported less of their vote. Swing compares with the 2022 governor county results (two-party share), from Wikipedia's county tables, which match the official statewide totals. Residents: Census Bureau 2019 county estimates via the JHU CSSE lookup table.",
   "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2019"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "pritzker",
+  "b_col": "bailey",
+  "label": "2022 governor",
+  "short": "2022",
+  "a": "Pritzker",
+  "b": "Bailey"
  }
 }
