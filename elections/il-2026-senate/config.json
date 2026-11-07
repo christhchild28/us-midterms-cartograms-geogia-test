@@ -42,7 +42,7 @@
   "scale": 1
  },
  "text": {
-  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 95.8% of the expected vote counted statewide. Counts are unofficial and some counties, such as Alexander and Vermilion, had reported less of their vote. Swing compares with the 2022 Senate county results (two-party share), from Wikipedia's county tables, which match the official statewide totals. Residents: Census Bureau 2019 county estimates via the JHU CSSE lookup table.",
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 95.8% of the expected vote counted statewide. Counts are unofficial and some counties, such as Alexander and Vermilion, had reported less of their vote. Swing compares with the 2022 Senate county results (two-party share), from Wikipedia's county tables, which match the official statewide totals. Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025, table co-est2025-pop-17).",
   "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2019"
  },
  "prior": {
@@ -54,5 +54,12 @@
   "short": "2022",
   "a": "Duckworth",
   "b": "Salvi"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
  }
 }
