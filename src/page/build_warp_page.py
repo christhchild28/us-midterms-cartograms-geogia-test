@@ -78,6 +78,9 @@ if _prior:
             '<p class="sw-note">Shading compares %s and %s with %s and %s in the %s race: the change in two-party share, in full color at <span id="swcap">5</span> points or more. %s, so this shows how much each party moved, not voters switching candidates. <span class="flip-sw"></span>Hatching marks a county that a different party won in %s.</p></div>') % (
         _e(_prior['label']), _e(b['name']), _e(a['name']), _e(a['name']), _e(b['name']), _e(_prior['a']), _e(_prior['b']), _e(_prior['label']), _e(_who), _e(_prior['short']))
 else: _ctl = _leg = ''
+# Land outlines checkbox (show/hide the pale real-state shape). Set "ui": {"outline_toggle": false} in the config to leave it off; the shape then stays visible.
+_ol = '<label class="tog"><input type="checkbox" id="outline" checked> Land outlines</label>' if cfg.c.get('ui', {}).get('outline_toggle', True) else ''
+t = t.replace('<!--OUTLINE_TOG-->', _ol)
 t = t.replace('<!--SWING_CTL-->', _ctl).replace('<!--SWING_LEG-->', _leg)
 left = re.findall(r'\{\{[A-Z_]+\}\}', t)
 if left: raise SystemExit('unfilled template tokens: %s' % sorted(set(left)))

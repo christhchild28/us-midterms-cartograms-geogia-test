@@ -108,6 +108,9 @@
       ]
     }
   },
+  "ui": {
+    "outline_toggle": false
+  },
   "prior": {
     "file": "prior.csv",
     "fips_col": "fips",

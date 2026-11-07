@@ -218,7 +218,7 @@ td.m { font-family: var(--f-mono); }
       <button type="button" data-m="lens" aria-pressed="false" id="bLens" disabled>Lens</button>
       <button type="button" data-m="pop" aria-pressed="false">People</button>
     </div>
-    <label class="tog"><input type="checkbox" id="outline" checked> Land outlines</label>
+    
   </div>
   <div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing vs 2022 governor</button></div></div>
   <p class="hint" id="hint">Tap any district to grow or shrink it in place. Lens warps the map by votes cast; People rebuilds it with one hexagon per 2,500 votes cast.</p>
@@ -543,7 +543,7 @@ td.m { font-family: var(--f-mono); }
     lens.raf = moving ? requestAnimationFrame(lensTick) : 0; if (!moving) lens.last = 0;
   }
   // "Land outlines" checkbox: shows or hides the pale real-state shape (the .gp ghost paths) behind the Cartogram and People views.
-  document.getElementById('outline').addEventListener('change', function (e) { ghostOn = e.target.checked; if (view === 'lens') lensKick(); else C.forEach(draw); });   // lens view redraws through lensTick; other views through draw()
+  var olTog = document.getElementById('outline'); if (olTog) olTog.addEventListener('change', function (e) { ghostOn = e.target.checked; if (view === 'lens') lensKick(); else C.forEach(draw); });   // lens view redraws through lensTick; other views through draw()
   function lensKick() { if (!lens.raf) lens.raf = requestAnimationFrame(lensTick); }
   function clearSel() { C.forEach(function (c) { c.g.classList.remove('sel'); }); }
   function selectCounty(i) { clearSel(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
