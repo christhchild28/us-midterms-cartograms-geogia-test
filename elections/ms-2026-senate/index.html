@@ -80,6 +80,16 @@ svg.map { display: block; width: 100%; height: auto; touch-action: manipulation;
 }
 @media (min-width: 880px) { .pn-tgl, .pn-x { display: none !important; } }
 .pn-bar { height: 6px; }
+.sc-wrap { padding: 10px var(--gr) 0 var(--gl); display: grid; gap: 6px; min-width: 0; }
+.sc-row { display: flex; flex-wrap: nowrap; gap: 6px; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; padding-bottom: 2px; }
+.sc-row::-webkit-scrollbar { display: none; }
+.sc { flex: none; display: inline-flex; align-items: center; gap: 6px; font: 600 11.5px var(--f-mono); letter-spacing: .04em; border: 1px solid var(--hair); background: none; color: var(--ink-2); border-radius: 99px; padding: 0 12px; min-height: 36px; cursor: pointer; white-space: nowrap; }
+.sc i { width: 9px; height: 9px; border-radius: 50%; flex: none; box-shadow: 0 0 0 1px color-mix(in srgb, var(--ink) 22%, transparent); }
+.sc.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.sc:focus-visible, .sc-rv:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.sc-sum { display: flex; align-items: center; justify-content: space-between; gap: 10px; color: var(--ink-3); font-size: 12.5px; line-height: 1.35; }
+.sc-sum b { color: var(--ink); font-weight: 700; }
+.sc-rv { flex: none; border: 1px solid var(--hair); background: none; color: var(--ink); border-radius: 99px; font: 600 11px var(--f-mono); letter-spacing: .05em; text-transform: uppercase; padding: 0 12px; min-height: 36px; cursor: pointer; }
 .pn-hd { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; padding: 12px var(--gr) 8px var(--gl); }
 .pn-n { font: 700 20px/1.15 var(--f-display); display: block; }
 .pn-c { display: block; color: var(--ink-3); font: 500 11px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; }
@@ -333,6 +343,7 @@ td.m { font-family: var(--f-mono); }
 
   /* ---------- morph state ---------- */
   var n0 = C.length;
+  var SL = [];   // Land view: counties currently opened (tap order); drives the chip row on the card
   var T = new Float32Array(n0), TT = new Float32Array(n0), FR = new Float32Array(n0), ST = new Float32Array(n0), DL = new Float32Array(n0), DR = new Float32Array(n0).fill(420);
   var LAY = new Uint8Array(n0), WW = new Float32Array(n0), WF = new Float32Array(n0), WG = new Float32Array(n0);
   var DUR_ALL = RM ? 1 : 800, DUR_ONE = RM ? 1 : 380, SPR = .3, raf = 0, ghostOn = true;
@@ -399,7 +410,19 @@ td.m { font-family: var(--f-mono); }
     var c = C[i], now = performance.now(), grow = TT[i] ? 0 : 1;
     go(i, grow, grow ? (LAY[i] ? 0 : 1) : WW[i], 0, DUR_ONE, now);
     track('tap', c.name);
-    gC.appendChild(c.g); selected = i; showCard(i); kick(); uiMode(); chipsSync();
+    if (grow) { SL.push(i); selected = i; }
+    else { var k = SL.indexOf(i); if (k > -1) SL.splice(k, 1); selected = SL.length ? SL[SL.length - 1] : i; }   // last one closed: card stays, as before
+    gC.appendChild(C[selected].g); showCard(selected); kick(); uiMode(); chipsSync();
+  }
+  function closeOne(i) {   // revert one opened county (card moves to the previous one)
+    var k = SL.indexOf(i); if (k < 0) return false;
+    go(i, 0, WW[i], 0, DUR_ONE, performance.now()); SL.splice(k, 1);
+    selected = SL.length ? SL[SL.length - 1] : null; if (selected != null) gC.appendChild(C[selected].g);
+    showCard(selected); kick(); uiMode(); chipsSync(); return true;
+  }
+  function revertAll() {   // revert every opened county and clear the card
+    var now = performance.now(); SL.forEach(function (i) { go(i, 0, WW[i], 0, DUR_ONE, now); }); SL = [];
+    selected = null; peekI = null; clearSel(); showCard(null); kick(); uiMode(); chipsSync();
   }
 
   /* ---------- lens ----------
@@ -525,7 +548,7 @@ td.m { font-family: var(--f-mono); }
   }
   function setView(m) {
     track('view', m);
-    var tok = ++viewTok, was = view; view = m; selected = null; clearSel(); showCard(null); hideTip();
+    var tok = ++viewTok, was = view; view = m; SL = []; selected = null; clearSel(); showCard(null); hideTip();
     svg.classList.toggle('lensmode', m === 'lens'); document.getElementById('lensctl').hidden = true;   // Magnify/Whole-map toggle is retired: the lens control stays hidden (see NOTE: dormant lens code)
     if (m === 'lens') {
       var settled = modeNow() === 'land', viaWarp = !settled && wholeOn() && modeNow() === 'pop';
@@ -622,12 +645,20 @@ td.m { font-family: var(--f-mono); }
       '<tr><td>' + esc(PR.short) + '</td><td class="num">' + a0.toFixed(1) + '%</td><td class="num">' + b0.toFixed(1) + '%</td><td class="num">' + esc(mg(m0, true)) + '</td></tr>' +
       '<tr><td>Change</td><td class="num">' + sg(a1 - a0) + '</td><td class="num">' + sg(b1 - b0) + '</td><td class="num">' + sg(m1 - m0) + '</td></tr></tbody></table><p class="pn-cap">' + esc(PR.short) + ' row is the ' + esc(PR.label) + ' race: ' + esc(PR.a) + ' under ' + esc(META.a) + ', ' + esc(PR.b) + ' under ' + esc(META.b) + '. ' + (PR.same && PR.same.length ? esc(PR.same.join(' and ')) + ' ran in both races, the other candidate did not.' : 'Different candidates ran in each race.') + '</p>';
   }
+  function chipsHTML(cur) {   // Land view, 2+ counties open: one chip per county + a combined summary and Revert all
+    if (view !== 'land' || SL.length < 2) return '';
+    var L = 0, P = 0; SL.forEach(function (i) { L += C[i].landS; P += C[i].popS; });
+    return '<div class="sc-wrap"><div class="sc-row" role="group" aria-label="Open counties">' + SL.map(function (i) {
+      var c = C[i], on = i === cur;
+      return '<button type="button" class="sc' + (on ? ' on' : '') + '" data-i="' + i + '" aria-pressed="' + on + '"><i style="background:' + css(colorAt(c.m)) + '"></i>' + esc(c.name) + '</button>';
+    }).join('') + '</div><div class="sc-sum"><span>' + SL.length + ' counties hold <b>' + pct1(L) + '</b> of the land and <b>' + pct1(P) + '</b> of the people</span><button type="button" class="sc-rv">Revert all</button></div></div>';
+  }
   function cardHTML(c) {
     var cw = colorAt(c.m), dk = lum(cw) < .3, col = css(cw), mx = Math.max(c.landS, c.popS), lead = (c.dem ? META.a : META.b) + ' +' + Math.round(Math.abs(c.m) * 100), w = c.dem ? c.d : c.r, l = c.dem ? c.r : c.d;
     var rows = [[META.a, c.d, c.d / c.tot, css(stops.bm)], [META.b, c.r, c.r / c.tot, css(stops.rm)]].sort(function (a, b) { return b[1] - a[1]; }).map(function (r, k) {
       return '<tr class="' + (k ? '' : 'win') + '"><td><span class="nm2"><i style="background:' + r[3] + '"></i>' + esc(r[0]) + '</span></td><td class="num">' + fmt(r[1]) + '</td><td class="num">' + (r[2] * 100).toFixed(1) + '%</td></tr>';
     }).join('');
-    return '<div class="pn-bar" style="background:' + col + '"></div>' +
+    return '<div class="pn-bar" style="background:' + col + '"></div>' + chipsHTML(c.i) +
       '<div class="pn-hd"><div style="min-width:0"><span class="pn-n">' + esc(c.name) + ' County</span><span class="pn-c">' + fmt(c.pop) + ' residents</span></div>' +
       '<div class="pn-r"><span class="pn-p" style="background:' + col + ';color:' + (dk ? '#fff' : '#0b0b0b') + '">' + esc(lead) + '</span>' +
       '<button type="button" class="pn-b pn-tgl" aria-expanded="' + full + '">' + (full ? 'Less' : 'More') + '</button>' +
@@ -645,7 +676,10 @@ td.m { font-family: var(--f-mono); }
   function showCard(i) {
     hlI = i; syncHL();
     var open = i != null; sheet.classList.toggle('open', open); sheet.classList.toggle('full', full);
+    var ro = sheet.querySelector('.sc-row'), sx = ro ? ro.scrollLeft : 0;
     sheet.innerHTML = open ? cardHTML(C[i]) : emptyHTML(); syncPad();
+    var rn = sheet.querySelector('.sc-row');
+    if (rn) { rn.scrollLeft = sx; var on = rn.querySelector('.sc.on'); if (on) { if (on.offsetLeft < rn.scrollLeft) rn.scrollLeft = on.offsetLeft - 4; else if (on.offsetLeft + on.offsetWidth > rn.scrollLeft + rn.clientWidth) rn.scrollLeft = on.offsetLeft + on.offsetWidth - rn.clientWidth + 4; } }
   }
   function ensureVisible(i) {
     if (!mqPhone.matches) return;
@@ -655,7 +689,10 @@ td.m { font-family: var(--f-mono); }
     }, 120);
   }
   sheet.addEventListener('click', function (e) {
-    if (e.target.closest('.pn-x')) { selected = null; clearSel(); showCard(null); return; }
+    var sc = e.target.closest('.sc'), rv = e.target.closest('.sc-rv');
+    if (rv) { track('revert', 'all'); revertAll(); return; }
+    if (sc) { var ci = +sc.dataset.i; track('chip', C[ci].name); selected = ci; gC.appendChild(C[ci].g); showCard(ci); ensureVisible(ci); return; }
+    if (e.target.closest('.pn-x')) { if (view === 'land' && selected != null && closeOne(selected)) return; selected = null; clearSel(); showCard(null); return; }
     if (e.target.closest('.pn-tgl')) { full = !full; showCard(hlI); if (full && hlI != null) ensureVisible(hlI); }
   });
   var up = C.slice().sort(function (a, b) { return b.f - a.f; }).slice(0, 5), down = C.slice().sort(function (a, b) { return a.f - b.f; }).slice(0, 5);
@@ -698,7 +735,7 @@ td.m { font-family: var(--f-mono); }
     if (view === 'pop' && selected === c.i) { selected = null; clearSel(); peekI = null; showCard(null); return; }   // tap the selected county again: card off
     act(c.i, false); peekI = null; if (view !== 'lens') ensureVisible(c.i);
   });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { selected = null; clearSel(); peekI = null; showCard(null); } });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { if (view === 'land' && SL.length) { revertAll(); return; } selected = null; clearSel(); peekI = null; showCard(null); } });
 
   /* ---------- copy + table ---------- */
   var aW = tot.d > tot.r, W = aW ? META.a : META.b, Wf = aW ? META.af : META.bf, Lf = aW ? META.bf : META.af,
