@@ -81,6 +81,10 @@ else: _ctl = _leg = ''
 # Land outlines checkbox (show/hide the pale real-state shape). Set "ui": {"outline_toggle": false} in the config to leave it off; the shape then stays visible.
 _ol = '<label class="tog"><input type="checkbox" id="outline" checked> Land outlines</label>' if cfg.c.get('ui', {}).get('outline_toggle', True) else ''
 t = t.replace('<!--OUTLINE_TOG-->', _ol)
+# Visitor analytics: set "analytics": {"goatcounter": "<site code>"} in the config to load GoatCounter (count.js) on this page. Off by default.
+_gc = (cfg.c.get('analytics') or {}).get('goatcounter')
+t = t.replace('/*TRK_ID*/', cfg.c.get('id', 'page'))
+t = t.replace('<!--ANALYTICS-->', ('<script data-goatcounter="https://%s.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>' % html.escape(_gc, quote=True)) if _gc else '')
 t = t.replace('<!--SWING_CTL-->', _ctl).replace('<!--SWING_LEG-->', _leg)
 left = re.findall(r'\{\{[A-Z_]+\}\}', t)
 if left: raise SystemExit('unfilled template tokens: %s' % sorted(set(left)))

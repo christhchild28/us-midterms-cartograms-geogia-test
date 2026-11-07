@@ -1,4 +1,5 @@
 <title>{{STATE}} Population Lens</title>
+<!--ANALYTICS-->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -241,6 +242,12 @@ td.m { font-family: var(--f-mono); }
   var D = /*DATA*/;
   var LENS = /*LENS*/;
   var META = /*META*/;
+  /* Visitor analytics (GoatCounter). track() does nothing unless the config sets analytics.goatcounter, which also loads count.js.
+     Events: view (Land / Lens / People / Precincts), color (winner / swing), tap (county or district name).
+     Each event path is <election id>/<kind>/<name>, so every page is counted separately. No cookies, no personal data. */
+  function track(kind, name) {
+    try { if (window.goatcounter && window.goatcounter.count) { var p = '/*TRK_ID*/' + '/' + kind + '/' + name; window.goatcounter.count({ path: p, title: p, event: true }); } } catch (e) {}
+  }
   function dz(a) { var o = Int32Array.from(a); for (var k = 2; k < o.length; k++) o[k] += o[k - 2]; return o; }   // ring arrays ship delta-encoded
   var C = D.counties, NS = 'http://www.w3.org/2000/svg', RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var totPop = 0, totLand = 0, tot = { d: 0, r: 0, popD: 0, landD: 0, cD: 0 };
@@ -391,6 +398,7 @@ td.m { font-family: var(--f-mono); }
   function toggleCounty(i) {
     var c = C[i], now = performance.now(), grow = TT[i] ? 0 : 1;
     go(i, grow, grow ? (LAY[i] ? 0 : 1) : WW[i], 0, DUR_ONE, now);
+    track('tap', c.name);
     gC.appendChild(c.g); selected = i; showCard(i); kick(); uiMode(); chipsSync();
   }
 
@@ -493,8 +501,8 @@ td.m { font-family: var(--f-mono); }
   var olTog = document.getElementById('outline'); if (olTog) olTog.addEventListener('change', function (e) { ghostOn = e.target.checked; if (view === 'lens') lensKick(); else C.forEach(draw); });   // lens view redraws through lensTick; other views through draw()
   function lensKick() { if (!lens.raf) lens.raf = requestAnimationFrame(lensTick); }
   function clearSel() { C.forEach(function (c) { c.g.classList.remove('sel'); }); }
-  function selectCounty(i) { clearSel(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
-  function lensSel(i) { clearSel(); reorder(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
+  function selectCounty(i) { track('tap', C[i].name); clearSel(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
+  function lensSel(i) { track('tap', C[i].name); clearSel(); reorder(); C[i].g.classList.add('sel'); gC.appendChild(C[i].g); selected = i; showCard(i); }
   function act(i, fromChip) {
     if (view === 'land') toggleCounty(i);
     else if (view === 'pop') selectCounty(i);
@@ -516,6 +524,7 @@ td.m { font-family: var(--f-mono); }
     vbMorph(); lensKick();
   }
   function setView(m) {
+    track('view', m);
     var tok = ++viewTok, was = view; view = m; selected = null; clearSel(); showCard(null); hideTip();
     svg.classList.toggle('lensmode', m === 'lens'); document.getElementById('lensctl').hidden = true;   // Magnify/Whole-map toggle is retired: the lens control stays hidden (see NOTE: dormant lens code)
     if (m === 'lens') {
@@ -719,7 +728,7 @@ td.m { font-family: var(--f-mono); }
     C.forEach(function (c) { if (c.fo) c.fo.style.opacity = m === 1 ? 1 : 0; });
     recolor();
   }
-  if (PR) { document.getElementById('mWin').addEventListener('click', function () { setMode(0); }); document.getElementById('mSw').addEventListener('click', function () { setMode(1); }); document.getElementById('swcap').textContent = SWCAP; }
+  if (PR) { document.getElementById('mWin').addEventListener('click', function () { track('color', 'winner'); setMode(0); }); document.getElementById('mSw').addEventListener('click', function () { track('color', 'swing'); setMode(1); }); document.getElementById('swcap').textContent = SWCAP; }
   showCard(null);
   recolor();
   C.forEach(draw);

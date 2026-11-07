@@ -213,6 +213,7 @@
     var edPrevMode = 0;   // colour mode (0 winner, 1 swing) to restore when leaving Precincts
     function enter() {
       if (on) return;
+      track('view', 'precincts');
       build(); on = true; edOn = true;
       selected = null; clearSel(); showCard(null); hideTip(); document.getElementById('lensctl').hidden = true;
       /* the Precincts view has no swing baseline (election-district lines changed after the earlier race): hide Color by and show winner shading */
