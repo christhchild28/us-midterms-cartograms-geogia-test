@@ -1,0 +1,48 @@
+{
+ "id": "il-2026-governor",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "Illinois",
+  "abbr": "IL",
+  "fips": "17",
+  "people": "Illinoisans"
+ },
+ "race": {
+  "office": "Governor",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Pritzker",
+   "full": "JB Pritzker",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Bailey",
+   "full": "Darren Bailey",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "pritzker",
+  "b_col": "bailey"
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": false
+ },
+ "lens": {
+  "start_county": "Cook",
+  "gif_target": "Sangamon",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 95.8% of the expected vote counted statewide. Counts are unofficial and some counties, such as Alexander and Vermilion, had reported less of their vote. Residents: Census Bureau 2019 county estimates via the JHU CSSE lookup table.",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2019"
+ }
+}
