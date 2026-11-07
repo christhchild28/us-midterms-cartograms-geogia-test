@@ -1,0 +1,65 @@
+{
+ "id": "la-2026-senate",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "Louisiana",
+  "abbr": "LA",
+  "fips": "22",
+  "people": "Louisianans"
+ },
+ "race": {
+  "office": "U.S. Senate",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Davis",
+   "full": "Jamie Davis",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Letlow",
+   "full": "Julia Letlow",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "davis",
+  "b_col": "letlow"
+ },
+ "hex": {
+  "unit": 5000,
+  "seed": 1,
+  "frozen": false
+ },
+ "lens": {
+  "start_county": "Orleans",
+  "gif_target": "Lafayette",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: parish returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 99% of the expected vote counted statewide. Counts are unofficial until certified. Louisiana has parishes, not counties; they are drawn here the same way. Swing compares with the official 2024 presidential parish results (two-party share), because Louisiana's recent Senate races were open multi-candidate primaries with no clean two-way comparison. Residents: Census Bureau July 1, 2025 parish estimates (Vintage 2025, table co-est2025-pop-22).",
+  "gif_source": "NBC News/AP parish results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "harris",
+  "b_col": "trump",
+  "label": "2024 President",
+  "short": "2024",
+  "a": "Harris",
+  "b": "Trump"
+ }
+}
