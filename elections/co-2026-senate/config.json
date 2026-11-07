@@ -1,0 +1,66 @@
+{
+ "id": "co-2026-senate",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "Colorado",
+  "abbr": "CO",
+  "fips": "08",
+  "people": "Coloradans"
+ },
+ "race": {
+  "office": "U.S. Senate",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Hickenlooper",
+   "full": "John Hickenlooper",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Baisley",
+   "full": "Mark Baisley",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "hickenlooper",
+  "b_col": "baisley"
+ },
+ "hex": {
+  "unit": 5000,
+  "seed": 1,
+  "frozen": false,
+  "warp_passes": 2
+ },
+ "lens": {
+  "start_county": "Denver",
+  "gif_target": "El Paso",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 98% of the expected vote counted statewide. Counts are unofficial until certified. Independent Bob Chew (2.6% statewide) is not shown on the map. Swing compares with the official 2020 U.S. Senate county results for the same seat (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025, table co-est2025-pop-08).",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "hickenlooper",
+  "b_col": "gardner",
+  "label": "2020 Senate",
+  "short": "2020",
+  "a": "Hickenlooper",
+  "b": "Gardner"
+ }
+}
