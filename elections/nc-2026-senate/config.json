@@ -1,0 +1,65 @@
+{
+ "id": "nc-2026-senate",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "North Carolina",
+  "abbr": "NC",
+  "fips": "37",
+  "people": "North Carolinians"
+ },
+ "race": {
+  "office": "U.S. Senate",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Cooper",
+   "full": "Roy Cooper",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Whatley",
+   "full": "Michael Whatley",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "cooper",
+  "b_col": "whatley"
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": false
+ },
+ "lens": {
+  "start_county": "Mecklenburg",
+  "gif_target": "Wake",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 99% of the expected vote counted statewide. Counts are unofficial until certified. Swing compares with the official 2022 U.S. Senate county results from the North Carolina State Board of Elections (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025, table co-est2025-pop-37).",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "beasley",
+  "b_col": "budd",
+  "label": "2022 Senate",
+  "short": "2022",
+  "a": "Beasley",
+  "b": "Budd"
+ }
+}
