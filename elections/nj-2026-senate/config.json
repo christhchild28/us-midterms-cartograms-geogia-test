@@ -1,0 +1,66 @@
+{
+ "id": "nj-2026-senate",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "New Jersey",
+  "abbr": "NJ",
+  "fips": "34",
+  "people": "New Jerseyans"
+ },
+ "race": {
+  "office": "U.S. Senate",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Booker",
+   "full": "Cory Booker",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Murphy",
+   "full": "Justin Murphy",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "booker",
+  "b_col": "murphy"
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": false,
+  "warp_passes": 3
+ },
+ "lens": {
+  "start_county": "Essex",
+  "gif_target": "Bergen",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 96% of the expected vote counted statewide. Counts are unofficial until certified. Shares are two-party (Cory Booker vs. Justin Murphy); independent Veronica Fernandez and other minor candidates are left out. Swing compares with the 2020 U.S. Senate county results (two-party share, Booker vs. Rikin Mehta). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025, table co-est2025-pop-34).",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "booker",
+  "b_col": "mehta",
+  "label": "2020 Senate",
+  "short": "2020",
+  "a": "Booker",
+  "b": "Mehta"
+ }
+}
