@@ -1,0 +1,66 @@
+{
+ "id": "nd-2026-house",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "North Dakota",
+  "abbr": "ND",
+  "fips": "38",
+  "people": "North Dakotans"
+ },
+ "race": {
+  "office": "U.S. House (at-large)",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Hammer",
+   "full": "Trygve Hammer",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Fedorchak",
+   "full": "Julie Fedorchak",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "hammer",
+  "b_col": "fedorchak"
+ },
+ "hex": {
+  "unit": 2000,
+  "seed": 1,
+  "frozen": false,
+  "warp_passes": 2
+ },
+ "lens": {
+  "start_county": "Cass",
+  "gif_target": "Burleigh",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 98% of the expected vote counted statewide. Counts are unofficial until certified. Shares are two-party (Julie Fedorchak vs. Trygve Hammer, Democratic-NPL); independent Charles Tuttle is left out. Swing compares with the 2024 U.S. House county results (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025, table co-est2025-pop-38).",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "hammer",
+  "b_col": "fedorchak",
+  "label": "2024 U.S. House",
+  "short": "2024",
+  "a": "Hammer",
+  "b": "Fedorchak"
+ }
+}
