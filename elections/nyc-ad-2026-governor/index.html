@@ -350,6 +350,7 @@ td.m { font-family: var(--f-mono); }
   /* ---------- svg ---------- */
   var svg = document.getElementById('map'), B = D.bounds;
   svg.setAttribute('viewBox', [B[0], B[1], B[2] - B[0], B[3] - B[1]].join(' '));
+  var LABFS = +(Math.min(12, Math.max(9, .14 * 345 / (B[2] - B[0]))) / 345 * (B[2] - B[0])).toFixed(4);   // district names: about 9 to 12 px on a phone whatever the state's size (was a fixed .14 map units, which blew up on small states like New Jersey)
   function mk(tag, attrs, parent) { var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
   var gSil = mk('g', {}, svg), gGhost = mk('g', {}, svg), gC = mk('g', {}, svg), gTop = mk('g', {}, svg), gLab = mk('g', {}, svg);
   var side = D.s / Math.sqrt(3);
@@ -377,7 +378,7 @@ td.m { font-family: var(--f-mono); }
     c.hl2 = mk('path', { 'class': 'hxl', d: hexPath(c.cells2) }, c.g); c.hl2.style.opacity = 0;
     c.po = mk('path', { 'class': 'cpo', d: rp }, c.g); c.po.style.opacity = 0;
     if (PR && c.flip) c.fo = mk('path', { 'class': 'flip-o', d: rp }, c.g);
-    if (c.n >= 60) { c.lb = mk('text', { 'class': 'lab', x: c.hx.toFixed(3), y: c.hy.toFixed(3), 'font-size': .14 }, gLab); c.lb.textContent = c.name; c.lb.style.opacity = 0; }
+    if (c.n >= 60) { c.lb = mk('text', { 'class': 'lab', x: c.hx.toFixed(3), y: c.hy.toFixed(3), 'font-size': LABFS }, gLab); c.lb.textContent = c.name; c.lb.style.opacity = 0; }
   });
   var order = C.slice().sort(function (a, b) { return b.pop - a.pop; });
   function reorder() { order.forEach(function (c) { gC.appendChild(c.g); }); }
