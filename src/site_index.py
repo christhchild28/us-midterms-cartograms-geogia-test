@@ -82,6 +82,7 @@ svg.toy path{stroke:var(--bg);stroke-width:2;stroke-linejoin:round}
 .ramp{height:14px;border-radius:7px;border:1px solid var(--hair);background:linear-gradient(90deg,var(--rd),var(--rm),var(--n),var(--bm),var(--bd))}
 .ticks{display:flex;justify-content:space-between;font:500 12px ui-monospace,monospace;color:var(--ink3);margin-top:6px}
 .sw{display:flex;gap:6px;margin:12px 0 4px}.sw div{flex:1;text-align:center;font:500 11px/1.3 ui-monospace,monospace;color:var(--ink3)}.sw i{display:block;height:28px;border-radius:6px;margin-bottom:5px;border:1px solid var(--hair)}
+.hatchkey{display:flex;gap:14px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair)}.hatchkey svg{width:64px;flex:none}.hatchkey p{margin:0;font-size:14px}
 .two{display:grid;gap:12px}@media(min-width:620px){.two{grid-template-columns:1fr 1fr}}
 .hexrow{display:flex;gap:16px;align-items:center}.hexrow svg{width:64px;flex:none}
 .hexrow svg path{stroke:var(--bg);stroke-width:2}
@@ -112,9 +113,9 @@ footer b{color:var(--ink)}
 <section class="i">
 <p class="kick">The problem</p>
 <h2>A mostly red map can still elect a blue winner</h2>
-<p>Nevada's 2026 governor's race, counted four ways. The blue candidate carried only two counties and 13% of the land, yet won the state, because almost nine in ten Nevadans live in those two counties.</p>
+<p>Nevada's 2026 governor's race, counted four ways. The Democrat carried only two counties and 13% of the land, yet won the state, because almost nine in ten Nevadans live in those two counties.</p>
 <div class="fig">
-<div class="keys"><span><i style="background:var(--bd)"></i>Aaron Ford (D)</span><span><i style="background:var(--rd)"></i>Joe Lombardo (R)</span></div>
+<div class="keys"><span><i style="background:var(--bd)"></i>Aaron Ford, Democrat</span><span><i style="background:var(--rd)"></i>Joe Lombardo, Republican</span></div>
 <div class="bars">
 <div class="brow"><span>Land area</span><span class="trk"><i style="width:13%"></i></span><b>13%</b></div>
 <div class="brow"><span>Counties</span><span class="trk"><i style="width:12%"></i></span><b>12%</b></div>
@@ -134,7 +135,8 @@ footer b{color:var(--ink)}
 <div class="fig">@TOYLENS@<div><h3>Lens</h3><p>Counties swell or shrink with population. Drag across the map to magnify the area you touch.</p></div></div>
 <div class="fig">@TOYPEOPLE@<div><h3>People</h3><p>One hexagon for each block of residents, so every hexagon counts the same.</p></div></div>
 </div>
-<p class="cap">In the made-up state, red covers about 90% of the land but holds a quarter of the people. Blue is one small corner on the land map and three quarters of the state on the people map.</p>
+<div class="keys" style="margin-top:4px"><span><i style="background:var(--bd)"></i>Democrat</span><span><i style="background:var(--rd)"></i>Republican</span></div>
+<p class="cap">In the made-up state, Republicans win about 90% of the land but hold a quarter of the people. Democrats are one small corner on the land map and three quarters of the state on the people map.</p>
 </section>
 
 <section class="i">
@@ -142,26 +144,27 @@ footer b{color:var(--ink)}
 <h2>Count the hexagons, not the acres</h2>
 <div class="two">
 <div class="fig hexrow">@HEX1@<p style="margin:0"><b style="color:var(--ink)">One hexagon is a fixed number of residents</b>, often 10,000. Small states use fewer, big states more, so each page states its own size.</p></div>
-<div class="fig hexrow">@HEX3@<p style="margin:0"><b style="color:var(--ink)">More residents, more hexagons.</b> A county of 30,000 people gets three. A county of 3 million gets 300 and becomes a large blue or red block.</p></div>
+<div class="fig hexrow">@HEX3@<p style="margin:0"><b style="color:var(--ink)">More residents, more hexagons.</b> A county of 30,000 people gets three. A county of 3 million gets 300 and becomes a big block of its winner\'s color.</p></div>
 </div>
 <p class="cap" style="margin-top:12px">Hexagons follow the stretched county shapes from the Lens view, so the People map still looks like its state.</p>
 </section>
 
 <section class="i">
 <p class="kick">Reading the colors</p>
-<h2>Blue and red show who won and by how much</h2>
+<h2>Color shows who won, and by how much</h2>
 <div class="fig">
 <h3 style="margin:0 0 8px;font-size:16px">Winner: county margin</h3>
 <div class="ramp"></div>
-<div class="ticks"><span>Red +60</span><span>Even</span><span>Blue +60</span></div>
-<div class="sw"><div><i style="background:var(--rd)"></i>Red<br>+60</div><div><i style="background:var(--rm)"></i>Red<br>+30</div><div><i style="background:var(--n)"></i>Even</div><div><i style="background:var(--bm)"></i>Blue<br>+30</div><div><i style="background:var(--bd)"></i>Blue<br>+60</div></div>
-<p class="cap" style="margin:10px 0 0">Gray is a toss-up. The stronger the color, the bigger the winner's lead in that county. Blue and red are just two slots: the first-named candidate is blue and the second is red, and each page's legend names them.</p>
+<div class="ticks"><span>Republican +60</span><span>Even</span><span>Democrat +60</span></div>
+<div class="sw"><div><i style="background:var(--rd)"></i>Rep.<br>+60</div><div><i style="background:var(--rm)"></i>Rep.<br>+30</div><div><i style="background:var(--n)"></i>Even</div><div><i style="background:var(--bm)"></i>Dem.<br>+30</div><div><i style="background:var(--bd)"></i>Dem.<br>+60</div></div>
+<p class="cap" style="margin:10px 0 0">Blue is the Democratic candidate and red is the Republican. Gray is a toss-up. The stronger the color, the bigger the winner's lead in that county. Each page's legend names the two candidates.</p>
 </div>
 <div class="fig" style="margin-top:12px">
 <h3 style="margin:0 0 8px;font-size:16px">Swing: change since the last comparable race</h3>
 <div class="ramp"></div>
-<div class="ticks"><span>Moved toward red</span><span>No change</span><span>Moved toward blue</span></div>
-<p class="cap" style="margin:10px 0 0">Switch "Color by" from Winner to Swing to see where each side gained or lost ground compared with the earlier race named on the page. A county can lean red and still swing blue.</p>
+<div class="ticks"><span>Toward Republican</span><span>No change</span><span>Toward Democrat</span></div>
+<p class="cap" style="margin:10px 0 0">Switch "Color by" from Winner to Swing to see where each side gained or lost ground compared with the earlier race named on the page. A county can lean Republican and still swing toward the Democrat.</p>
+<div class="hatchkey"><svg viewBox="0 0 56 40" aria-hidden="true"><defs><pattern id="ih" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(45)"><rect width="7" height="7" fill="none"/><rect width="3" height="7" fill="rgba(255,255,255,.95)"/></pattern></defs><rect x="2" y="2" width="52" height="36" rx="6" class="b2"/><rect x="2" y="2" width="52" height="36" rx="6" fill="url(#ih)" stroke="var(--ink3)" stroke-width="1"/></svg><p><b style="color:var(--ink)">Diagonal hatching means the county flipped.</b> A different party won it than in the earlier race. The fill color is still this race's winner, and the card names the party that held it before.</p></div>
 </div>
 </section>
 
