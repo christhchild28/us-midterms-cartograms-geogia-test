@@ -1,5 +1,5 @@
 """Regenerate the root index.html: a plain gallery of every elections/<id>/ that has a built page."""
-import html, json, os, re
+import html, json, os, re, sys, importlib.util
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 items = []; built = []
 for d in sorted(os.listdir(os.path.join(ROOT, 'elections'))):
@@ -13,6 +13,24 @@ for d in sorted(os.listdir(os.path.join(ROOT, 'elections'))):
     off = r['office']; office = 'Senate' if 'Senate' in off else 'Governor' if 'Governor' in off else 'House' if 'House' in off else off
     items.append(dict(id=d, state=c['state']['name'], office=office, gif=gif if has else '', unc=bool(r.get('uncalled')),
                       a=c['candidates']['a']['name'], b=c['candidates']['b']['name']))
+
+
+# ---- gallery theme: decorative background layer, swappable (see src/gallery_themes/README.md) ----
+def load_theme():
+    name = None
+    if '--theme' in sys.argv: name = sys.argv[sys.argv.index('--theme') + 1]
+    else:
+        cp_ = os.path.join(ROOT, 'gallery.config.json')
+        if os.path.exists(cp_): name = json.load(open(cp_)).get('theme')
+    name = name or 'plain'
+    try:
+        path = os.path.join(ROOT, 'src', 'gallery_themes', name.replace('-', '_') + '.py')
+        spec = importlib.util.spec_from_file_location('gallery_theme', path); mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+        out = mod.build(ROOT); out = {k: out.get(k, '') for k in ('css', 'top', 'bottom')}
+    except Exception as e:
+        print('theme %r failed (%s); using plain' % (name, e)); name, out = 'plain', {'css': '', 'top': '', 'bottom': ''}
+    print('gallery theme:', name); return out
+THEME = load_theme()
 
 RAMPS = json.load(open(os.path.join(ROOT, 'src', 'common', 'ramps.json')))
 BL, RD = RAMPS['blue'], RAMPS['red']
@@ -153,7 +171,8 @@ svg.toy path{stroke:var(--bg);stroke-width:2;stroke-linejoin:round}
 .card em i{width:8px;height:8px;border-radius:50%;flex:none}.card em .d{background:var(--bd)}.card em .r{background:var(--rd)}
 main.after{padding-top:0;padding-bottom:40px}footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--hair);font:500 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink3)}
 footer b{color:var(--ink)}
-</style></head><body><main id="top">
+@@THEME_CSS@@
+</style></head><body>@@THEME_TOP@@<main id="top">
 <p class="kick">Election maps, explained</p>
 <h1>Land vs people</h1>
 <p class="lede">A county map shows where the acres are, not where the voters are. Here every race is drawn both ways, so you can see who really won.</p>
@@ -244,11 +263,12 @@ footer b{color:var(--ink)}
 @@BAND@@
 <main class="after"><footer><b>Christian Theodore</b> &middot; Media Intelligence Architect, Fovea<br>County results: AP via NBC News. Population: U.S. Census Bureau. Earlier-race comparisons: official county returns.</footer></main>
 @@JS@@
+@@THEME_BOTTOM@@
 </body></html>"""
 for k, v in (('@BML@', BL['mid_l']), ('@BDL@', BL['deep_l']), ('@RML@', RD['mid_l']), ('@RDL@', RD['deep_l']), ('@BMD@', BL['mid_d']), ('@BDD@', BL['deep_d']), ('@RMD@', RD['mid_d']), ('@RDD@', RD['deep_d']),
              ('@TOYLAND@', TOY_LAND), ('@TOYLENS@', TOY_LENS), ('@TOYPEOPLE@', TOY_PEOPLE), ('@HEX1@', HEX1), ('@HEX3@', HEX3)):
     page = page.replace(k, v)
-page = page.replace("@@BAND@@", BAND).replace("@@JS@@", BAND_JS)
+page = page.replace("@@BAND@@", BAND).replace("@@JS@@", BAND_JS).replace("@@THEME_CSS@@", THEME["css"]).replace("@@THEME_TOP@@", THEME["top"]).replace("@@THEME_BOTTOM@@", THEME["bottom"])
 open(os.path.join(ROOT, 'index.html'), 'w').write(page)
 print('wrote root index.html with', len(items), 'election(s)')
 
