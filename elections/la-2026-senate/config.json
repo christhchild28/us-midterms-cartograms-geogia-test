@@ -42,8 +42,13 @@
   "scale": 1
  },
  "text": {
-  "source": "Results: parish returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 99% of the expected vote counted statewide. Counts are unofficial until certified. Louisiana has parishes, not counties; they are drawn here the same way. Swing compares with the official 2024 presidential parish results (two-party share), because Louisiana's recent Senate races were open multi-candidate primaries with no clean two-way comparison. Residents: Census Bureau July 1, 2025 parish estimates (Vintage 2025, table co-est2025-pop-22).",
-  "gif_source": "NBC News/AP parish results, unofficial \u00b7 Census 2025"
+  "source": "Results: parish returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 99% of the expected vote counted statewide. Counts are unofficial until certified. Swing compares with the official 2024 presidential parish results (two-party share), because Louisiana's recent Senate races were open multi-candidate primaries with no clean two-way comparison. Residents: Census Bureau July 1, 2025 parish estimates (Vintage 2025, table co-est2025-pop-22).",
+  "gif_source": "NBC News/AP parish results, unofficial · Census 2025",
+  "vocab": {
+   "unit": "parish",
+   "units": "parishes",
+   "measure": "residents"
+  }
  },
  "population": {
   "format": "csv",

@@ -81,6 +81,7 @@ if _prior:
     _leg = ('<div class="swleg" id="swleg" hidden><h2>Swing vs %s</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Better for %s%s</span><span>No change</span><span>Better for %s%s</span></div>'
             '<p class="sw-note">Shading compares %s and %s with %s and %s in the %s race: the change in two-party share, in full color at <span id="swcap">5</span> points or more. %s, so this shows how much each party moved, not voters switching candidates. <span class="flip-sw"></span>Hatching marks a county that a different party won in %s.</p></div>') % (
         _e(_prior['label']), _e(b['name']), ptag(b), _e(a['name']), ptag(a), _e(a['name']), _e(b['name']), _e(_prior['a']), _e(_prior['b']), _e(_prior['label']), _e(_who), _e(_prior['short']))
+    _leg = _leg.replace('marks a county that', 'marks a %s that' % ((vocab or {}).get('unit') or 'county'))
 else: _ctl = _leg = ''
 # Land outlines checkbox (show/hide the pale real-state shape). Set "ui": {"outline_toggle": false} in the config to leave it off; the shape then stays visible.
 _ol = '<label class="tog"><input type="checkbox" id="outline" checked> Land outlines</label>' if cfg.c.get('ui', {}).get('outline_toggle', True) else ''

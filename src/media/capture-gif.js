@@ -44,7 +44,7 @@ const W = 720, H = 900, STEP = 50, PAGE = process.argv[3] || 'index.html', SUFFI
   }, [cfg.hex && cfg.hex.unit || 10000, cfg.lens && cfg.lens.gif_target]);
   const unit = (cfg.hex && cfg.hex.unit || 10000).toLocaleString('en-US');
   // Wording for non-county units (districts, parishes) and non-resident weights (votes cast): config text.vocab {unit, units, measure}.
-  const V = (cfg.text && cfg.text.vocab) || {}, UN = V.unit || 'county', UNS = V.units || 'counties', WT = V.measure || 'people';
+  const V = (cfg.text && cfg.text.vocab) || {}, UN = V.unit || 'county', UNS = V.units || 'counties', CUSTOM = !!V.measure && V.measure !== 'residents', WT = CUSTOM ? V.measure : 'people';
   const S1 = ['By land area', `${T.a} carried ${T.land < 40 ? 'just ' : ''}${T.land}% of ${T.state}.`];
   await p.evaluate(([state, office, ca, cb, a, b, src]) => {
     const tg = document.getElementById('tips'); if (tg) tg.click();
@@ -62,9 +62,9 @@ const W = 720, H = 900, STEP = 50, PAGE = process.argv[3] || 'index.html', SUFFI
   await stage('Magnify the people', `Crowded ${UNS} swell as the lens passes over them.`);
   await p.evaluate(() => window.__ga.setView('lens')); await run(1000);
   await p.evaluate(([x, y]) => { window.__ga.lens.tx = x; window.__ga.lens.ty = y; window.__ga.lensKick(); }, [T.cx, T.cy]); await run(1300);
-  await stage('Sized by ' + (V.measure || 'residents'), V.measure ? `Every ${UN}, resized by ${V.measure}.` : `Every ${UN}, resized by population.`);
+  await stage('Sized by ' + (CUSTOM ? V.measure : 'residents'), CUSTOM ? `Every ${UN}, resized by ${V.measure}.` : `Every ${UN}, resized by population.`);
   await p.evaluate(() => document.querySelector('#lsize button[data-s="2"]').click()); await run(2500);
-  await stage(`One hex = ${unit} ${WT}`, V.measure ? `${T.pop}% of ${V.measure} came from ${UNS} ${T.a} won.` : `${T.pop}% of ${T.people} live in ${UNS} ${T.a} won.`);
+  await stage(`One hex = ${unit} ${WT}`, CUSTOM ? `${T.pop}% of ${V.measure} came from ${UNS} ${T.a} won.` : `${T.pop}% of ${T.people} live in ${UNS} ${T.a} won.`);
   await p.evaluate(() => window.__ga.setView('pop')); await run(2800);
   await stage(...S1);
   await p.evaluate(() => window.__ga.setView('land')); await run(1000);
