@@ -220,12 +220,12 @@ td.m { font-family: var(--f-mono); }
       <div class="chips" id="chips"></div>
       <h2>Share of {{STATE}} that {{A}} won</h2>
       <p class="sub">Same election, counted four ways.</p>
-      <div class="keyline"><span><i id="k-b"></i>{{A}}</span><span><i id="k-r"></i>{{B}}</span></div>
+      <div class="keyline"><span><i id="k-b"></i>{{A}}{{A_TAG}}</span><span><i id="k-r"></i>{{B}}{{B_TAG}}</span></div>
       <div class="bars" id="bars"></div>
       <div class="legend" id="legwin">
         <h2>County margin</h2>
         <div class="ramp" id="ramp"></div>
-        <div class="ticks"><span>{{B}} +60</span><span>Even</span><span>{{A}} +60</span></div>
+        <div class="ticks"><span>{{B}}{{B_TAG}} +60</span><span>Even</span><span>{{A}}{{A_TAG}} +60</span></div>
       </div>
       <!--SWING_LEG-->
     </aside>
@@ -234,7 +234,7 @@ td.m { font-family: var(--f-mono); }
   <details>
     <summary>All {{NCOUNTIES}} counties, largest first</summary>
     <div class="tw"><table id="tbl">
-      <thead><tr><th>County</th><th>Residents</th><th>{{A}}</th><th>{{B}}</th><th>Margin</th><th>Land → people</th></tr></thead>
+      <thead><tr><th>County</th><th>Residents</th><th>{{A}}{{A_TAG}}</th><th>{{B}}{{B_TAG}}</th><th>Margin</th><th>Land → people</th></tr></thead>
       <tbody></tbody>
     </table></div>
   </details>

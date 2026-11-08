@@ -41,9 +41,13 @@ _same = [n for n in (cfg.c['candidates']['a']['name'], cfg.c['candidates']['b'][
 if _prior: meta['prior'] = dict(label=_prior['label'], short=_prior['short'], a=_prior['a'], b=_prior['b'], now=year or 'Now', same=_same)
 src = cfg.c.get('text', {}).get('source') or ('Results: county returns as supplied for this build. Residents: Census Bureau county estimates.')
 ra, rb = ramp(a), ramp(b)
+# Party tag shown after the candidate name in legends: set candidates.a/b.party (e.g. "D") in the config; defaults to D for the blue ramp and R for the red ramp.
+def ptag(c):
+    p = c.get('party', {'blue': 'D', 'red': 'R'}.get(c.get('ramp', 'blue'), ''))
+    return ' (%s)' % html.escape(p) if p else ''
 tok = {
     'STATE': cfg.state['name'], 'OFFICE': race['office'], 'DATE': race.get('date', ''), 'RACE': (year + ' ' + race['office']).strip(),
-    'UNIT': format(cfg.unit, ','), 'A': a['name'], 'B': b['name'], 'NCOUNTIES': str(len(names)), 'SOURCE': src,
+    'UNIT': format(cfg.unit, ','), 'A': a['name'], 'B': b['name'], 'A_TAG': ptag(a), 'B_TAG': ptag(b), 'NCOUNTIES': str(len(names)), 'SOURCE': src,
     'A_MID_L': ra['mid_l'], 'A_DEEP_L': ra['deep_l'], 'A_MID_D': ra['mid_d'], 'A_DEEP_D': ra['deep_d'],
     'B_MID_L': rb['mid_l'], 'B_DEEP_L': rb['deep_l'], 'B_MID_D': rb['mid_d'], 'B_DEEP_D': rb['deep_d'],
 }
@@ -74,9 +78,9 @@ if _prior:
     _e = lambda s: html.escape(s, quote=True)
     _who = 'Different candidates ran in each race' if not _same else (' and '.join(_same) + ' ran in both races, the other candidate did not')
     _ctl = '<div class="swctl"><span class="lbl">Color by</span><div class="seg sm" role="group" aria-label="Map color"><button type="button" id="mWin" aria-pressed="true">Winner</button><button type="button" id="mSw" aria-pressed="false">Swing vs %s</button></div></div>' % _e(_prior['label'])
-    _leg = ('<div class="swleg" id="swleg" hidden><h2>Swing vs %s</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Better for %s</span><span>No change</span><span>Better for %s</span></div>'
+    _leg = ('<div class="swleg" id="swleg" hidden><h2>Swing vs %s</h2><div class="ramp" id="swramp"></div><div class="ticks"><span>Better for %s%s</span><span>No change</span><span>Better for %s%s</span></div>'
             '<p class="sw-note">Shading compares %s and %s with %s and %s in the %s race: the change in two-party share, in full color at <span id="swcap">5</span> points or more. %s, so this shows how much each party moved, not voters switching candidates. <span class="flip-sw"></span>Hatching marks a county that a different party won in %s.</p></div>') % (
-        _e(_prior['label']), _e(b['name']), _e(a['name']), _e(a['name']), _e(b['name']), _e(_prior['a']), _e(_prior['b']), _e(_prior['label']), _e(_who), _e(_prior['short']))
+        _e(_prior['label']), _e(b['name']), ptag(b), _e(a['name']), ptag(a), _e(a['name']), _e(b['name']), _e(_prior['a']), _e(_prior['b']), _e(_prior['label']), _e(_who), _e(_prior['short']))
 else: _ctl = _leg = ''
 # Land outlines checkbox (show/hide the pale real-state shape). Set "ui": {"outline_toggle": false} in the config to leave it off; the shape then stays visible.
 _ol = '<label class="tog"><input type="checkbox" id="outline" checked> Land outlines</label>' if cfg.c.get('ui', {}).get('outline_toggle', True) else ''
