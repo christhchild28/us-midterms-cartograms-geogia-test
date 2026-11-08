@@ -1,7 +1,7 @@
 """Regenerate the root index.html: a plain gallery of every elections/<id>/ that has a built page."""
 import html, json, os, re
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-cards = []; built = []
+items = []; built = []
 for d in sorted(os.listdir(os.path.join(ROOT, 'elections'))):
     cp = os.path.join(ROOT, 'elections', d, 'config.json')
     if not (os.path.exists(cp) and os.path.exists(os.path.join(ROOT, 'elections', d, 'index.html'))): continue
@@ -9,10 +9,10 @@ for d in sorted(os.listdir(os.path.join(ROOT, 'elections'))):
     gif = 'elections/%s/media/%s.gif' % (d, c['id'])
     png = gif[:-4] + '.png'
     if not os.path.exists(os.path.join(ROOT, gif)) and os.path.exists(os.path.join(ROOT, png)): gif = png
-    img = '<img src="%s" alt="" loading="lazy">' % gif if os.path.exists(os.path.join(ROOT, gif)) else ''
-    cards.append('<a class="card" href="elections/%s/%s">%s<b>%s</b><span>%s</span><em>%s vs %s</em></a>' % (
-        d, '', img, html.escape(c['state']['name']), html.escape((yr + ' ' + r['office']).strip()),
-        html.escape(c['candidates']['a']['name']), html.escape(c['candidates']['b']['name'])))
+    has = os.path.exists(os.path.join(ROOT, gif))
+    off = r['office']; office = 'Senate' if 'Senate' in off else 'Governor' if 'Governor' in off else 'House' if 'House' in off else off
+    items.append(dict(id=d, state=c['state']['name'], office=office, gif=gif if has else '', unc=bool(r.get('uncalled')),
+                      a=c['candidates']['a']['name'], b=c['candidates']['b']['name']))
 
 RAMPS = json.load(open(os.path.join(ROOT, 'src', 'common', 'ramps.json')))
 BL, RD = RAMPS['blue'], RAMPS['red']
@@ -46,6 +46,29 @@ TOY_LENS = svg(''.join(poly(p, c) for p, c in LENS), 'The same state with counti
 TOY_PEOPLE = svg(hexes(reds, R_, 16, 40, 'r1') + hexes(metro, R_, 96, 22, 'b2'), 'The same state with one hexagon per group of residents: ten red hexagons on the left and thirty blue hexagons on the right.')
 HEX1 = svg(hexes([(0, 0)], 20, 24, 24, 'b1'), 'One hexagon', '0 0 48 48')
 HEX3 = svg(hexes([(0, 0), (1, 0), (0.5, 1)] and [(0, 0), (1, 0)], 20, 24, 24, 'r1') + hexes([(0, 1)], 20, 24, 24, 'r1'), 'Three hexagons', '0 0 80 72')
+
+OFFICES = ['Senate', 'Governor', 'House']
+def card(it):
+    thumb = ('<img src="%s" alt="" loading="lazy">' % it['gif']) if it['gif'] else PH
+    return ('<a class="card" href="elections/%s/">%s<span class="meta"><span class="pill">%s</span>%s</span><b>%s</b>'
+            '<em><span><i class="d"></i>%s</span><span><i class="r"></i>%s</span></em></a>') % (
+        it['id'], thumb, it['office'], '<span class="pill unc">Uncalled</span>' if it['unc'] else '', html.escape(it['state']), html.escape(it['a']), html.escape(it['b']))
+PH = svg(hexes([(q, rw) for rw in range(6) for q in range(4)], 14, 22, 26, 'ph'), 'Preview coming', '0 0 120 150').replace('class="toy"', 'class="toy phs"') + '<span class="phl">Preview coming</span>'
+PH = '<div class="phbox">' + PH + '</div>'
+groups = []
+for o in OFFICES:
+    its = sorted([i for i in items if i['office'] == o], key=lambda i: (i['state'], i['id']))
+    if its: groups.append((o, its))
+nstates = len(set(i['state'] for i in items if not i['state'].endswith(' City')))
+chips = '<button type="button" class="chip" data-f="all" aria-pressed="true">All</button>' + ''.join('<button type="button" class="chip" data-f="%s" aria-pressed="false">%s</button>' % (o, o) for o, _ in groups)
+gh = ''.join('<div class="grp" data-g="%s"><h3 class="gh">%s<small>%d race%s</small></h3><div class="grid">%s</div></div>' % (o, o, len(its), '' if len(its) == 1 else 's', ''.join(card(i) for i in its)) for o, its in groups)
+BAND = ('<section class="band" id="elections"><div class="wrap"><p class="kick">Now pick one</p><h2 class="bh">%d races, %d states</h2>'
+        '<p class="bsub">Each card opens one race, drawn by land and by people. Everything in the guide above works the same way on all of them.</p></div>'
+        '<div class="bar"><div class="wrap barin"><div class="chips" role="group" aria-label="Filter by office">%s</div><a class="up" href="#top" aria-label="Back to the guide">&uarr;</a></div></div>'
+        '<div class="wrap" id="picks">%s</div></section>') % (len(items), nstates, chips, gh)
+BAND_JS = """<script>(function(){var cs=document.querySelectorAll('.chip'),gs=document.querySelectorAll('.grp'),pk=document.getElementById('picks');
+cs.forEach(function(c){c.addEventListener('click',function(){var f=c.getAttribute('data-f');cs.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false')});
+gs.forEach(function(g){g.hidden=!(f==='all'||g.getAttribute('data-g')===f)});pk.scrollIntoView({behavior:'smooth',block:'start'})})})})();</script>"""
 
 page = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Land vs people: how to read an election map</title>
@@ -97,13 +120,40 @@ svg.toy path{stroke:var(--bg);stroke-width:2;stroke-linejoin:round}
 .cardm h4{margin:0 0 2px;font-size:18px}.cardm small{color:var(--ink3);font-size:12.5px}
 .mini{display:grid;grid-template-columns:78px 1fr 40px;gap:8px;align-items:center;font:500 12px ui-monospace,monospace;color:var(--ink3);margin-top:7px}.mini .t{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}.mini .t i{display:block;height:100%}.mini b{color:var(--ink);text-align:right}
 .fine{display:grid;gap:10px;margin-top:12px}.fine p{margin:0;font-size:14.5px}.fine b{color:var(--ink)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin-top:16px}
-.card{display:flex;flex-direction:column;gap:4px;background:var(--raised);border:1px solid var(--hair);border-radius:12px;padding:12px;color:inherit;text-decoration:none}
-.card:hover{border-color:var(--ink2)}.card img{width:100%;border-radius:8px;aspect-ratio:4/5;object-fit:cover;object-position:top}
-.card b{font-size:20px}.card span,.card em{color:var(--ink2);font-style:normal;font-size:14px}
-footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--hair);font:500 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink3)}
+.band{--band:#ecebe4;background:var(--band);border-top:4px solid var(--ink);margin-top:48px;padding-bottom:40px}
+@media (prefers-color-scheme:dark){.band{--band:#121211}}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+.band>.wrap:first-child{padding-top:28px}
+.bh{font-size:clamp(30px,8vw,48px);line-height:1.02;letter-spacing:-.03em;margin:0 0 8px}
+.bsub{margin:0 0 18px;max-width:52ch}
+.bar{position:sticky;top:0;z-index:20;background:var(--band);border-bottom:1px solid var(--hair);padding:8px 0}
+.barin{display:flex;gap:8px;align-items:center}
+.chips{flex:1;display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;min-height:40px;padding:0 12px;border-radius:99px;border:1px solid var(--hair);background:var(--raised);color:var(--ink2);font:600 14px system-ui,sans-serif;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.up{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--hair);background:var(--raised);color:var(--ink);display:grid;place-items:center;text-decoration:none;font-size:18px}
+#picks{scroll-margin-top:64px;padding-top:6px}
+.grp[hidden]{display:none}
+.gh{display:flex;align-items:baseline;gap:10px;font-size:22px;letter-spacing:-.01em;margin:26px 0 0;padding-top:14px;border-top:1px solid var(--hair)}
+.grp:first-child .gh{border-top:0;margin-top:14px;padding-top:0}
+.gh small{font:500 12px ui-monospace,monospace;color:var(--ink3);letter-spacing:.04em;text-transform:uppercase}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:12px}
+@media(min-width:620px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}}
+@media(min-width:900px){.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.card{display:flex;flex-direction:column;gap:5px;background:var(--raised);border:1px solid var(--hair);border-radius:12px;padding:8px 8px 11px;color:inherit;text-decoration:none;min-width:0}
+.card:hover,.card:focus-visible{border-color:var(--ink2)}
+.card img,.phbox{width:100%;border-radius:8px;aspect-ratio:4/5;object-fit:cover;object-position:top;display:block}
+.phbox{background:var(--soft);display:grid;place-items:center;position:relative;overflow:hidden}.phbox svg{width:70%;height:auto}.phbox path{fill:var(--n);stroke:var(--bg);stroke-width:2}
+.phl{position:absolute;bottom:8px;left:0;right:0;text-align:center;font:500 11px ui-monospace,monospace;color:var(--ink3);letter-spacing:.04em;text-transform:uppercase}
+.meta{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+.pill{font:600 10.5px/1 ui-monospace,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);border:1px solid var(--hair);border-radius:99px;padding:4px 7px}
+.pill.unc{color:var(--bg);background:var(--ink2);border-color:var(--ink2)}
+.card b{font-size:17px;line-height:1.15;overflow-wrap:anywhere}
+.card em{display:grid;gap:1px;font-style:normal;font-size:13px;color:var(--ink2)}.card em span{display:flex;align-items:center;gap:6px;min-width:0}
+.card em i{width:8px;height:8px;border-radius:50%;flex:none}.card em .d{background:var(--bd)}.card em .r{background:var(--rd)}
+main.after{padding-top:0;padding-bottom:40px}footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--hair);font:500 13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink3)}
 footer b{color:var(--ink)}
-</style></head><body><main>
+</style></head><body><main id="top">
 <p class="kick">Election maps, explained</p>
 <h1>Land vs people</h1>
 <p class="lede">A county map shows where the acres are, not where the voters are. Here every race is drawn both ways, so you can see who really won.</p>
@@ -190,20 +240,17 @@ footer b{color:var(--ink)}
 </div>
 </section>
 
-<section class="i" id="elections">
-<p class="kick">Now pick one</p>
-<h2>The elections</h2>
-<p>Each card opens one race. Everything above works the same way on all of them.</p>
-<div class="grid">@@CARDS@@</div>
-</section>
-<footer><b>Christian Theodore</b> &middot; Media Intelligence Architect, Fovea<br>County results: AP via NBC News. Population: U.S. Census Bureau. Earlier-race comparisons: official county returns.</footer>
-</main></body></html>"""
+</main>
+@@BAND@@
+<main class="after"><footer><b>Christian Theodore</b> &middot; Media Intelligence Architect, Fovea<br>County results: AP via NBC News. Population: U.S. Census Bureau. Earlier-race comparisons: official county returns.</footer></main>
+@@JS@@
+</body></html>"""
 for k, v in (('@BML@', BL['mid_l']), ('@BDL@', BL['deep_l']), ('@RML@', RD['mid_l']), ('@RDL@', RD['deep_l']), ('@BMD@', BL['mid_d']), ('@BDD@', BL['deep_d']), ('@RMD@', RD['mid_d']), ('@RDD@', RD['deep_d']),
              ('@TOYLAND@', TOY_LAND), ('@TOYLENS@', TOY_LENS), ('@TOYPEOPLE@', TOY_PEOPLE), ('@HEX1@', HEX1), ('@HEX3@', HEX3)):
     page = page.replace(k, v)
-page = page.replace("@@CARDS@@", ''.join(cards))
+page = page.replace("@@BAND@@", BAND).replace("@@JS@@", BAND_JS)
 open(os.path.join(ROOT, 'index.html'), 'w').write(page)
-print('wrote root index.html with', len(cards), 'election(s)')
+print('wrote root index.html with', len(items), 'election(s)')
 
 # Next-election link on each page (wraps from last to first, same order as the gallery).
 for i, (d, _) in enumerate(built):
