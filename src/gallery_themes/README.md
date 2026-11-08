@@ -4,7 +4,7 @@ A theme is the decorative layer behind the root gallery (`index.html`): backgrou
 
 - **Choose one:** set `"theme"` in `gallery.config.json` at the repo root, or run `python3 src/site_index.py --theme <name>` for a one-off build.
 - **Roll back to plain:** `"theme": "plain"`, then `python3 src/site_index.py`.
-- **Current themes:** `plain` (nothing added), `nevada-morph` (Nevada's county outlines morph from land to population shapes as the intro scrolls, a red/blue glow behind the headline, plain hexagon outlines behind the Elections band).
+- **Current themes:** `plain` (nothing added), `nevada-morph` (Nevada's county outlines morph from land to population shapes as the intro scrolls, a red/blue glow behind the headline, a dense, very light hexagon mosaic behind the Elections band).
 
 ## Adding a theme
 Create `src/gallery_themes/<name>.py` (use underscores for hyphens: `nevada-morph` is `nevada_morph.py`) with one function:
@@ -15,6 +15,7 @@ def build(root):          # root = repo root path
         'css':    '',     # CSS appended to the page <style>
         'top':    '',     # HTML placed right after <body>
         'bottom': '',     # HTML or <script> placed right before </body>
+        'band':   '',     # HTML placed as the first child of the Elections band (e.g. a texture <svg>)
     }
 ```
 

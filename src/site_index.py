@@ -26,9 +26,9 @@ def load_theme():
     try:
         path = os.path.join(ROOT, 'src', 'gallery_themes', name.replace('-', '_') + '.py')
         spec = importlib.util.spec_from_file_location('gallery_theme', path); mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
-        out = mod.build(ROOT); out = {k: out.get(k, '') for k in ('css', 'top', 'bottom')}
+        out = mod.build(ROOT); out = {k: out.get(k, '') for k in ('css', 'top', 'bottom', 'band')}
     except Exception as e:
-        print('theme %r failed (%s); using plain' % (name, e)); name, out = 'plain', {'css': '', 'top': '', 'bottom': ''}
+        print('theme %r failed (%s); using plain' % (name, e)); name, out = 'plain', {'css': '', 'top': '', 'bottom': '', 'band': ''}
     print('gallery theme:', name); return out
 THEME = load_theme()
 
@@ -80,10 +80,11 @@ for o in OFFICES:
 nstates = len(set(i['state'] for i in items if not i['state'].endswith(' City')))
 chips = '<button type="button" class="chip" data-f="all" aria-pressed="true">All</button>' + ''.join('<button type="button" class="chip" data-f="%s" aria-pressed="false">%s</button>' % (o, o) for o, _ in groups)
 gh = ''.join('<div class="grp" data-g="%s"><h3 class="gh">%s<small>%d race%s</small></h3><div class="grid">%s</div></div>' % (o, o, len(its), '' if len(its) == 1 else 's', ''.join(card(i) for i in its)) for o, its in groups)
-BAND = ('<section class="band" id="elections"><div class="wrap"><p class="kick">Now pick one</p><h2 class="bh">%d races, %d states</h2>'
+BAND = ('<section class="band" id="elections">@@THEME_BAND@@<div class="wrap"><p class="kick">Now pick one</p><h2 class="bh">%d races, %d states</h2>'
         '<p class="bsub">Each card opens one race, drawn by land and by people. Everything in the guide above works the same way on all of them.</p></div>'
         '<div class="bar"><div class="wrap barin"><div class="chips" role="group" aria-label="Filter by office">%s</div><a class="up" href="#top" aria-label="Back to the guide">&uarr;</a></div></div>'
         '<div class="wrap" id="picks">%s</div></section>') % (len(items), nstates, chips, gh)
+BAND = BAND.replace('@@THEME_BAND@@', THEME['band'])
 BAND_JS = """<script>(function(){var cs=document.querySelectorAll('.chip'),gs=document.querySelectorAll('.grp'),pk=document.getElementById('picks');
 cs.forEach(function(c){c.addEventListener('click',function(){var f=c.getAttribute('data-f');cs.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false')});
 gs.forEach(function(g){g.hidden=!(f==='all'||g.getAttribute('data-g')===f)});pk.scrollIntoView({behavior:'smooth',block:'start'})})})})();</script>"""

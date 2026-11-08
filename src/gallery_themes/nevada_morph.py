@@ -1,26 +1,31 @@
 """Nevada's county outlines morph from land shapes to population shapes as the intro scrolls.
 Source geometry: elections/<SOURCE>/warp-rings.json ('real' = land outline, 'warp' = population-warped outline, 200 points each).
-Also adds a red/blue glow behind the headline and a plain hexagon-outline texture behind the Elections band."""
-import json, math, os, urllib.parse
+Also adds a red/blue glow behind the headline and a dense hexagon-mosaic texture (very light grout, faint tile tones) behind the Elections band."""
+import json, math, os, random
 
 SOURCE = 'nv-2026-governor'
 SHAPE_OPACITY = .6        # strength of the hero shape (before it fades after the headline)
-BAND_OPACITY = .5         # strength of the band hexagon texture
+HEX_R, HEX_COLS, HEX_ROWS, HEX_SEED = 9, 20, 24, 9   # band mosaic: hex radius and repeating tile size (cols x even rows)
+GROUT_OPACITY, GROUT_WIDTH = .022, .7                  # grout lines between tiles
+TONES = True                                           # faint per-tile tone shifts (+ a few blue/red tiles)
 
 def _hexpath(cx, cy, r):
     return 'M' + ' L'.join('%.1f %.1f' % (cx + r * math.cos(math.radians(60 * k - 30)), cy + r * math.sin(math.radians(60 * k - 30))) for k in range(6)) + ' Z'
 
-def _tile(stroke):
-    r = 26; w = math.sqrt(3) * r; cols, rows = 6, 8; W, H = w * cols, 1.5 * r * rows; body = ''
-    for dx in (-W, 0, W):
-        for dy in (-H, 0, H):
-            for rw in range(rows):
-                for q in range(cols):
-                    cx = q * w + (w / 2 if rw % 2 else 0) + dx; cy = 1.5 * r * rw + dy
-                    if cx + w / 2 < 0 or cx - w / 2 > W or cy + r < 0 or cy - r > H: continue   # only hexes that touch the tile
-                    body += '<path d="%s" fill="none" stroke="%s"/>' % (_hexpath(cx, cy, r), stroke)
-    s = '<svg xmlns="http://www.w3.org/2000/svg" width="%.1f" height="%.1f" viewBox="0 0 %.1f %.1f">%s</svg>' % (W, H, W, H, body)
-    return 'url("data:image/svg+xml,%s")' % urllib.parse.quote(s, safe="/:=' ")
+def _band_svg():
+    r = HEX_R; w = math.sqrt(3) * r; W, H = w * HEX_COLS, 1.5 * r * HEX_ROWS; rnd = random.Random(HEX_SEED); body = ''
+    for rw in range(HEX_ROWS):
+        for q in range(HEX_COLS):
+            t = rnd.random(); cls = 't3' if t < .06 else 't2' if t < .21 else 't1' if t < .41 else 'tb' if t < .435 else 'tr' if t < .46 else ''
+            cx = q * w + (w / 2 if rw % 2 else 0); cy = 1.5 * r * rw
+            for dx in (-W, 0, W):
+                for dy in (-H, 0, H):
+                    x, y = cx + dx, cy + dy
+                    if x + w / 2 < 0 or x - w / 2 > W or y + r < 0 or y - r > H: continue      # only copies that touch the tile (seamless wrap)
+                    body += '<use href="#hxm" x="%.1f" y="%.1f"%s/>' % (x, y, (' class="%s"' % cls) if cls else '')
+    hexd = 'M' + ' L'.join('%.2f %.2f' % ((r - .3) * math.cos(math.radians(60 * k - 30)), (r - .3) * math.sin(math.radians(60 * k - 30))) for k in range(6)) + ' Z'
+    return ('<svg class="hexbg" aria-hidden="true" focusable="false"><defs><path id="hxm" d="%s"/><pattern id="hxp" patternUnits="userSpaceOnUse" width="%.2f" height="%.2f">%s</pattern></defs>'
+            '<rect width="100%%" height="100%%" fill="url(#hxp)"/></svg>') % (hexd, W, H, body)
 
 def build(root):
     rings = json.load(open(os.path.join(root, 'elections', SOURCE, 'warp-rings.json')))['counties']
@@ -48,11 +53,15 @@ body{position:relative}
 .bg path.tb{fill:var(--bd)}.bg path.tr{fill:var(--rd)}
 main{position:relative;z-index:1}
 .band{position:relative;isolation:isolate}
-.band::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:@BO@;background-image:@TL@}
-@media (prefers-color-scheme:dark){.band::before{background-image:@TD@}}
+.hexbg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
+.hexbg use{fill:none;stroke:var(--ink);stroke-opacity:@GO@;stroke-width:@GW@}
+.hexbg use.t1{fill:var(--ink);fill-opacity:@T1@}.hexbg use.t2{fill:var(--ink);fill-opacity:@T2@}.hexbg use.t3{fill:var(--ink);fill-opacity:@T3@}
+.hexbg use.tb{fill:var(--bd);fill-opacity:@TB@}.hexbg use.tr{fill:var(--rd);fill-opacity:@TR@}
+.bar{background:color-mix(in srgb,var(--band) 84%,transparent)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .band>.wrap{position:relative}
 """
-    for k, v in (("@SO@", str(SHAPE_OPACITY)), ("@BO@", str(BAND_OPACITY)), ("@TL@", _tile('rgba(11,11,11,.07)')), ("@TD@", _tile('rgba(240,239,236,.07)'))): css = css.replace(k, v)
+    tn = 1 if TONES else 0
+    for k, v in (("@SO@", str(SHAPE_OPACITY)), ("@GO@", str(GROUT_OPACITY)), ("@GW@", str(GROUT_WIDTH)), ("@T1@", str(.02 * tn)), ("@T2@", str(.04 * tn)), ("@T3@", str(.065 * tn)), ("@TB@", str(.09 * tn)), ("@TR@", str(.08 * tn))): css = css.replace(k, v)
     top = '<div class="bg" aria-hidden="true">%s</div>' % svg
     js = """<script>/* gallery theme: nevada-morph. Land outlines -> population-warped outlines as the intro scrolls; still half-way pose for reduced motion. */
 (function(){var D=@DATA@,bg=document.querySelector('.bg'),ps=bg&&bg.querySelectorAll('path'),cur=-1,tk=false;if(!ps||!ps.length)return;
@@ -63,4 +72,4 @@ bg.style.setProperty('--fade',(1-.72*Math.min(1,y/420)).toFixed(3));draw(y/Math.
 var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
 if(rm){bg.style.setProperty('--fade','.45');draw(.55)}else{upd();addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',function(){cur=-1;upd()})}})();
 </script>""".replace("@DATA@", json.dumps(pairs, separators=(',', ':')))
-    return {'css': css, 'top': top, 'bottom': js}
+    return {'css': css, 'top': top, 'bottom': js, 'band': _band_svg()}
