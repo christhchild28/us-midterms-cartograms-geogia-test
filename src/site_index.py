@@ -62,6 +62,35 @@ def svg(inner, label, vb='0 0 220 150'):
 TOY_LAND = svg(''.join(poly(p, c) for p, c in LAND), 'A made-up state drawn by land: four red counties cover about nine tenths of the area and one small blue county in the corner covers the rest.')
 TOY_LENS = svg(''.join(poly(p, c) for p, c in LENS), 'The same state with counties resized by population: the small blue county swells to nearly half the map and the red counties are squeezed.')
 TOY_PEOPLE = svg(hexes(reds, R_, 16, 40, 'r1') + hexes(metro, R_, 96, 22, 'b2'), 'The same state with one hexagon per group of residents: ten red hexagons on the left and thirty blue hexagons on the right.')
+# ---- real-map versions of the three intro figures (Nevada Governor 2026); falls back to the toy above if data is missing ----
+def real_toys(src='nv-2026-governor'):
+    import math
+    d = json.load(open(os.path.join(ROOT, 'elections', src, 'warp-rings.json')))
+    cs = d['counties']
+    def cls(c):
+        t = c['d'] + c['r'] or 1; m = (c['d'] - c['r']) / t
+        return ('b' if m > 0 else 'r') + ('2' if abs(m) >= .2 else '1')
+    def ring(c, k): v = c[k]; return [(v[i] / 1000., v[i + 1] / 1000.) for i in range(0, len(v) - 1, 2)]
+    def fit(shapes, W=220, H=150, pad=6):
+        xs = [x for sh in shapes for x, y in sh[0]]; ys = [y for sh in shapes for x, y in sh[0]]
+        x0, x1, y0, y1 = min(xs), max(xs), min(ys), max(ys); k = min((W - 2 * pad) / (x1 - x0), (H - 2 * pad) / (y1 - y0))
+        ox = (W - k * (x1 - x0)) / 2 - k * x0; oy = (H - k * (y1 - y0)) / 2 - k * y0
+        return k, ox, oy
+    def shapes(key): return [(ring(c, key), cls(c)) for c in cs]
+    def draw(sh, k, ox, oy): return ''.join(poly([(x * k + ox, y * k + oy) for x, y in pts], cl) for pts, cl in sh)
+    def mix(c, t=.5):
+        a, b = ring(c, 'real'), ring(c, 'warp'); return [(x0 + (x1 - x0) * t, y0 + (y1 - y0) * t) for (x0, y0), (x1, y1) in zip(a, b)]
+    land, lens = shapes('real'), [(mix(c), cls(c)) for c in cs]   # lens figure: halfway between real and population-warped, readable at small size
+    cells = [((x, y), cls(c)) for c in cs for x, y in c['cells']]
+    k1 = fit(land); k2 = fit(lens); k3 = fit([([p], c) for p, c in cells])
+    r = d['s'] / math.sqrt(3) * k3[0] * .94
+    hx = ''.join('<path class="%s" d="%s"/>' % (c, hexpath(x * k3[0] + k3[1], y * k3[0] + k3[2], r)) for (x, y), c in cells)
+    lab = lambda t: 'Nevada drawn %s: ' % t
+    return (svg(draw(land, *k1), lab('by land') + 'Clark County (Las Vegas) is a blue sliver in the south; the huge rural counties are mostly red.').replace('class="toy"', 'class="toy map"'),
+            svg(draw(lens, *k2), lab('with counties resized by population') + 'Clark and Washoe swell and the rural counties shrink.').replace('class="toy"', 'class="toy map"'),
+            svg(hx, lab('with one hexagon per block of residents') + 'most hexagons sit in blue Clark County in the south.').replace('class="toy"', 'class="toy map hexmap"'))
+try: TOY_LAND, TOY_LENS, TOY_PEOPLE = real_toys()
+except Exception as e: print('real-map intro figures unavailable (%s); using toy' % e)
 HEX1 = svg(hexes([(0, 0)], 20, 24, 24, 'b1'), 'One hexagon', '0 0 48 48')
 HEX3 = svg(hexes([(0, 0), (1, 0), (0.5, 1)] and [(0, 0), (1, 0)], 20, 24, 24, 'r1') + hexes([(0, 1)], 20, 24, 24, 'r1'), 'Three hexagons', '0 0 80 72')
 
@@ -109,6 +138,7 @@ section.i{margin-top:44px;padding-top:28px;border-top:1px solid var(--hair)}
 .b1{fill:var(--bm)}.b2{fill:var(--bd)}.r1{fill:var(--rm)}.r2{fill:var(--rd)}
 svg.toy{display:block;width:100%;height:auto}
 svg.toy path{stroke:var(--bg);stroke-width:2;stroke-linejoin:round}
+svg.toy.map path{stroke-width:.7}svg.toy.hexmap path{stroke-width:.4}
 .fig{background:var(--raised);border:1px solid var(--hair);border-radius:12px;padding:12px}
 .row3{display:grid;gap:12px;margin:16px 0 8px}
 @media(min-width:620px){.row3{grid-template-columns:repeat(3,1fr)}}
@@ -139,7 +169,7 @@ svg.toy path{stroke:var(--bg);stroke-width:2;stroke-linejoin:round}
 .cardm h4{margin:0 0 2px;font-size:18px}.cardm small{color:var(--ink3);font-size:12.5px}
 .mini{display:grid;grid-template-columns:78px 1fr 40px;gap:8px;align-items:center;font:500 12px ui-monospace,monospace;color:var(--ink3);margin-top:7px}.mini .t{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}.mini .t i{display:block;height:100%}.mini b{color:var(--ink);text-align:right}
 .fine{display:grid;gap:10px;margin-top:12px}.fine p{margin:0;font-size:14.5px}.fine b{color:var(--ink)}
-.band{--band:#ecebe4;background:var(--band);border-top:4px solid var(--ink);margin-top:48px;padding-bottom:40px}
+.band{--band:#f6f6f3;background:var(--band);border-top:4px solid var(--ink);margin-top:48px;padding-bottom:40px}
 @media (prefers-color-scheme:dark){.band{--band:#121211}}
 .wrap{max-width:960px;margin:0 auto;padding:0 16px}
 .band>.wrap:first-child{padding-top:28px}

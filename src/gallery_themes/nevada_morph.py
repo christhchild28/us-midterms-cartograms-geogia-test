@@ -7,6 +7,7 @@ SOURCE = 'nv-2026-governor'
 SHAPE_OPACITY = .6        # strength of the hero shape (before it fades after the headline)
 HEX_R, HEX_COLS, HEX_ROWS, HEX_SEED = 9, 20, 24, 9   # band mosaic: hex radius and repeating tile size (cols x even rows)
 GROUT_OPACITY, GROUT_WIDTH = .022, .7                  # grout lines between tiles
+BAND_LIGHT = '#f6f6f3'                                 # light-mode band background (was #ecebe4, then #f1f0eb)
 TONES = True                                           # faint per-tile tone shifts (+ a few blue/red tiles)
 
 def _hexpath(cx, cy, r):
@@ -55,13 +56,17 @@ main{position:relative;z-index:1}
 .band{position:relative;isolation:isolate}
 .hexbg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
 .hexbg use{fill:none;stroke:var(--ink);stroke-opacity:@GO@;stroke-width:@GW@}
-.hexbg use.t1{fill:var(--ink);fill-opacity:@T1@}.hexbg use.t2{fill:var(--ink);fill-opacity:@T2@}.hexbg use.t3{fill:var(--ink);fill-opacity:@T3@}
+.hexbg use.t1,.hexbg use.t2,.hexbg use.t3{fill:var(--tile)}
+.hexbg use.t1{fill-opacity:@L1@}.hexbg use.t2{fill-opacity:@L2@}.hexbg use.t3{fill-opacity:@L3@}
+.band{--tile:#fff}
+@media (prefers-color-scheme:light){.band{--band:@BANDL@}}
+@media (prefers-color-scheme:dark){.band{--tile:var(--ink)}.hexbg use.t1{fill-opacity:@D1@}.hexbg use.t2{fill-opacity:@D2@}.hexbg use.t3{fill-opacity:@D3@}}
 .hexbg use.tb{fill:var(--bd);fill-opacity:@TB@}.hexbg use.tr{fill:var(--rd);fill-opacity:@TR@}
 .bar{background:color-mix(in srgb,var(--band) 84%,transparent)!important;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
 .band>.wrap{position:relative}
 """
     tn = 1 if TONES else 0
-    for k, v in (("@SO@", str(SHAPE_OPACITY)), ("@GO@", str(GROUT_OPACITY)), ("@GW@", str(GROUT_WIDTH)), ("@T1@", str(.02 * tn)), ("@T2@", str(.04 * tn)), ("@T3@", str(.065 * tn)), ("@TB@", str(.09 * tn)), ("@TR@", str(.08 * tn))): css = css.replace(k, v)
+    for k, v in (("@SO@", str(SHAPE_OPACITY)), ("@GO@", str(GROUT_OPACITY)), ("@GW@", str(GROUT_WIDTH)), ("@BANDL@", BAND_LIGHT), ("@L1@", str(.35 * tn)), ("@L2@", str(.6 * tn)), ("@L3@", str(.9 * tn)), ("@D1@", str(.02 * tn)), ("@D2@", str(.04 * tn)), ("@D3@", str(.065 * tn)), ("@TB@", str(.09 * tn)), ("@TR@", str(.08 * tn))): css = css.replace(k, v)
     top = '<div class="bg" aria-hidden="true">%s</div>' % svg
     js = """<script>/* gallery theme: nevada-morph. Land outlines -> population-warped outlines as the intro scrolls; still half-way pose for reduced motion. */
 (function(){var D=@DATA@,bg=document.querySelector('.bg'),ps=bg&&bg.querySelectorAll('path'),cur=-1,tk=false;if(!ps||!ps.length)return;
