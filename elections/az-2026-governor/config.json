@@ -1,0 +1,66 @@
+{
+ "id": "az-2026-governor",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "Arizona",
+  "abbr": "AZ",
+  "fips": "04",
+  "people": "Arizonans"
+ },
+ "race": {
+  "office": "Governor",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Hobbs",
+   "full": "Katie Hobbs",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Biggs",
+   "full": "Andy Biggs",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "hobbs",
+  "b_col": "biggs"
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": false,
+  "warp_passes": 2
+ },
+ "lens": {
+  "start_county": "Maricopa",
+  "gif_target": "Pima",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 7, 2026, with about 95% of the expected vote counted in most counties (Yuma about 69%). Counts are unofficial until certified. Shares are two-party (Katie Hobbs vs. Andy Biggs); independent Risa Lombardo and write-ins are left out. Swing compares with the 2022 Governor county results (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025, table co-est2025-pop-04).",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "hobbs",
+  "b_col": "lake",
+  "label": "2022 Governor",
+  "short": "2022",
+  "a": "Hobbs",
+  "b": "Lake"
+ }
+}
