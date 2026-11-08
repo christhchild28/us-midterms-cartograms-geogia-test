@@ -36,8 +36,8 @@ RAMPS = json.load(open(os.path.join(ROOT, 'src', 'common', 'ramps.json')))
 BL, RD = RAMPS['blue'], RAMPS['red']
 
 # ---- toy "Examplia": 5 counties, drawn three ways (land, lens, people) for the intro ----
-def poly(pts, cls, label=''):
-    return '<path class="%s" d="M%s Z"/>' % (cls, ' L'.join('%g %g' % p for p in pts))
+def poly(pts, cls, style=''):
+    return '<path class="%s"%s d="M%s Z"/>' % (cls, (' style="%s"' % style) if style else '', ' L'.join('%g %g' % p for p in pts))
 def rect(x, y, w, h): return [(x, y), (x + w, y), (x + w, y + h), (x, y + h)]
 LAND = [  # (shape, cls)
     (rect(0, 0, 220, 55), 'r2'), (rect(0, 55, 80, 95), 'r1'), (rect(80, 55, 70, 95), 'r2'),
@@ -68,8 +68,10 @@ def real_toys(src='nv-2026-governor'):
     d = json.load(open(os.path.join(ROOT, 'elections', src, 'warp-rings.json')))
     cs = d['counties']
     def cls(c):
-        t = c['d'] + c['r'] or 1; m = (c['d'] - c['r']) / t
-        return ('b' if m > 0 else 'r') + ('2' if abs(m) >= .2 else '1')
+        # same ramp as the map pages: neutral -> mid at 30pt margin -> deep at 60pt (t = margin/.6)
+        t = max(-1., min(1., ((c['d'] - c['r']) / ((c['d'] + c['r']) or 1)) / .6)); a = abs(t); P = 'b' if t >= 0 else 'r'
+        if a < .5: return 'fill:color-mix(in srgb,var(--%sm) %.1f%%,var(--n))' % (P, a / .5 * 100)
+        return 'fill:color-mix(in srgb,var(--%sd) %.1f%%,var(--%sm))' % (P, (a - .5) / .5 * 100, P)
     def ring(c, k): v = c[k]; return [(v[i] / 1000., v[i + 1] / 1000.) for i in range(0, len(v) - 1, 2)]
     def fit(shapes, W=220, H=150, pad=6):
         xs = [x for sh in shapes for x, y in sh[0]]; ys = [y for sh in shapes for x, y in sh[0]]
@@ -77,14 +79,14 @@ def real_toys(src='nv-2026-governor'):
         ox = (W - k * (x1 - x0)) / 2 - k * x0; oy = (H - k * (y1 - y0)) / 2 - k * y0
         return k, ox, oy
     def shapes(key): return [(ring(c, key), cls(c)) for c in cs]
-    def draw(sh, k, ox, oy): return ''.join(poly([(x * k + ox, y * k + oy) for x, y in pts], cl) for pts, cl in sh)
+    def draw(sh, k, ox, oy): return ''.join(poly([(x * k + ox, y * k + oy) for x, y in pts], '', cl) for pts, cl in sh)
     def mix(c, t=.5):
         a, b = ring(c, 'real'), ring(c, 'warp'); return [(x0 + (x1 - x0) * t, y0 + (y1 - y0) * t) for (x0, y0), (x1, y1) in zip(a, b)]
     land, lens = shapes('real'), [(mix(c), cls(c)) for c in cs]   # lens figure: halfway between real and population-warped, readable at small size
     cells = [((x, y), cls(c)) for c in cs for x, y in c['cells']]
     k1 = fit(land); k2 = fit(lens); k3 = fit([([p], c) for p, c in cells])
     r = d['s'] / math.sqrt(3) * k3[0] * .94
-    hx = ''.join('<path class="%s" d="%s"/>' % (c, hexpath(x * k3[0] + k3[1], y * k3[0] + k3[2], r)) for (x, y), c in cells)
+    hx = ''.join('<path style="%s" d="%s"/>' % (c, hexpath(x * k3[0] + k3[1], y * k3[0] + k3[2], r)) for (x, y), c in cells)
     lab = lambda t: 'Nevada drawn %s: ' % t
     return (svg(draw(land, *k1), lab('by land') + 'Clark County (Las Vegas) is a blue sliver in the south; the huge rural counties are mostly red.').replace('class="toy"', 'class="toy map"'),
             svg(draw(lens, *k2), lab('with counties resized by population') + 'Clark and Washoe swell and the rural counties shrink.').replace('class="toy"', 'class="toy map"'),
@@ -156,8 +158,8 @@ svg.toy.map path{stroke-width:.7}svg.toy.hexmap path{stroke-width:.4}
 .sw{display:flex;gap:6px;margin:12px 0 4px}.sw div{flex:1;text-align:center;font:500 11px/1.3 ui-monospace,monospace;color:var(--ink3)}.sw i{display:block;height:28px;border-radius:6px;margin-bottom:5px;border:1px solid var(--hair)}
 .hatchkey{display:flex;gap:14px;align-items:center;margin-top:12px;padding-top:12px;border-top:1px solid var(--hair)}.hatchkey svg{width:64px;flex:none}.hatchkey p{margin:0;font-size:14px}
 .two{display:grid;gap:12px}@media(min-width:620px){.two{grid-template-columns:1fr 1fr}}
-.hexrow{display:flex;gap:16px;align-items:center}.hexrow svg{width:64px;flex:none}
-.hexrow svg path{stroke:var(--bg);stroke-width:2}
+.hexrow{display:flex;gap:16px;align-items:center}.hexrow svg{width:72px;flex:none;box-sizing:border-box;padding:8px;background:#f1f0ec;border-radius:10px}
+.hexrow svg path{stroke:#fff;stroke-width:1.6;stroke-linejoin:round}
 .steps{list-style:none;margin:16px 0 0;padding:0;display:grid;gap:12px;counter-reset:s}
 .steps li{counter-increment:s;display:grid;grid-template-columns:30px 1fr;gap:4px 12px;align-items:start}
 .steps li::before{content:counter(s);width:30px;height:30px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700;font-size:14px}
@@ -169,7 +171,7 @@ svg.toy.map path{stroke-width:.7}svg.toy.hexmap path{stroke-width:.4}
 .cardm h4{margin:0 0 2px;font-size:18px}.cardm small{color:var(--ink3);font-size:12.5px}
 .mini{display:grid;grid-template-columns:78px 1fr 40px;gap:8px;align-items:center;font:500 12px ui-monospace,monospace;color:var(--ink3);margin-top:7px}.mini .t{height:8px;border-radius:4px;background:var(--soft);overflow:hidden}.mini .t i{display:block;height:100%}.mini b{color:var(--ink);text-align:right}
 .fine{display:grid;gap:10px;margin-top:12px}.fine p{margin:0;font-size:14.5px}.fine b{color:var(--ink)}
-.band{--band:#f6f6f3;background:var(--band);border-top:4px solid var(--ink);margin-top:48px;padding-bottom:40px}
+.band{--band:#f6f6f3;background:var(--band);border-top:4px solid var(--ink);margin-top:48px;padding:28px 0 40px}
 @media (prefers-color-scheme:dark){.band{--band:#121211}}
 .wrap{max-width:960px;margin:0 auto;padding:0 16px}
 .band>.wrap:first-child{padding-top:28px}
