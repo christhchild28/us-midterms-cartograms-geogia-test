@@ -32,6 +32,34 @@ def load_theme():
     print('gallery theme:', name); return out
 THEME = load_theme()
 
+# ---- typography: Source Serif 4 headlines, Archivo body, IBM Plex Mono for labels only; metric-matched fallbacks limit layout shift ----
+TYPE_HEAD = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
+             '<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,400..700&display=swap" rel="stylesheet">')
+TYPE_CSS = """
+@font-face{font-family:"Archivo Fallback";src:local("Arial"),local("Helvetica Neue");size-adjust:103.5%;ascent-override:84.8%;descent-override:20.3%;line-gap-override:0%}
+@font-face{font-family:"Source Serif 4 Fallback";src:local("Times New Roman"),local("Times");size-adjust:109.2%;ascent-override:94.8%;descent-override:30.7%;line-gap-override:0%}
+html{--f-body:"Archivo","Archivo Fallback","Helvetica Neue",Arial,sans-serif;--f-mono:"IBM Plex Mono",ui-monospace,"SF Mono",Menlo,monospace;--f-head:"Source Serif 4","Source Serif 4 Fallback",Georgia,"Times New Roman",serif}
+html body{font-family:var(--f-body);font-size:16px;line-height:1.55}
+html :is(h1,h2,.bh,.gh,.card b,.lede){font-family:var(--f-head);font-optical-sizing:auto;font-weight:600;letter-spacing:-.015em}
+html p.lede{font-weight:400;letter-spacing:-.005em}
+html :is(h3:not(.gh),.steps h3,.row3 h3){font-family:var(--f-body);font-weight:700;font-size:18px;line-height:1.25}
+html :is(.kick,.pill,.gh small,.ticks,.sw div,.phl){font-family:var(--f-mono);font-size:12px;letter-spacing:.08em}
+html .pill{font-size:11px}
+html :is(button,.chip,.skip,.seg span){font-family:var(--f-body)}
+html :is(.by,footer,.chipm span,.mini,.brow b,.sum u){font-family:var(--f-body)}
+html .by{font-size:14px;letter-spacing:0}html footer{font-size:13px;line-height:1.55}
+html :is(.brow b,.mini b,.sum b,.bh,.gh small){font-variant-numeric:tabular-nums lining-nums}
+html h1{font-size:clamp(42px,11vw,72px);line-height:1;letter-spacing:-.025em;font-weight:650}
+html .lede{font-size:clamp(20px,5vw,26px);line-height:1.3;max-width:34ch}
+html h2{font-size:clamp(26px,6.4vw,36px);line-height:1.1}
+html .bh{font-size:clamp(36px,9.5vw,60px);line-height:1;letter-spacing:-.025em}
+html .gh{font-size:26px;line-height:1.1}
+html :is(.steps p,.fine p,.cap,.row3 p,.bsub,.keys,.brow,.hatchkey p,.sum){font-size:15px}
+html .card b{font-size:21px;line-height:1.1}
+html .card em{font-size:14px}
+html :is(h2,.lede,.bh,.gh){text-wrap:balance}
+html p{text-wrap:pretty}
+"""
 RAMPS = json.load(open(os.path.join(ROOT, 'src', 'common', 'ramps.json')))
 BL, RD = RAMPS['blue'], RAMPS['red']
 
@@ -302,6 +330,7 @@ for k, v in (('@BML@', BL['mid_l']), ('@BDL@', BL['deep_l']), ('@RML@', RD['mid_
              ('@TOYLAND@', TOY_LAND), ('@TOYLENS@', TOY_LENS), ('@TOYPEOPLE@', TOY_PEOPLE), ('@HEX1@', HEX1), ('@HEX3@', HEX3)):
     page = page.replace(k, v)
 page = page.replace("@@BAND@@", BAND).replace("@@JS@@", BAND_JS).replace("@@THEME_CSS@@", THEME["css"]).replace("@@THEME_TOP@@", THEME["top"]).replace("@@THEME_BOTTOM@@", THEME["bottom"])
+page = page.replace('</head>', TYPE_HEAD + '<style>' + TYPE_CSS + '</style></head>', 1)
 open(os.path.join(ROOT, 'index.html'), 'w').write(page)
 print('wrote root index.html with', len(items), 'election(s)')
 
