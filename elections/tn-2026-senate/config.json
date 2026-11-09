@@ -1,0 +1,65 @@
+{
+ "id": "tn-2026-senate",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "Tennessee",
+  "abbr": "TN",
+  "fips": "47",
+  "people": "Tennesseans"
+ },
+ "race": {
+  "office": "Senate",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Bradshaw",
+   "full": "Marquita Bradshaw",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Hagerty",
+   "full": "Bill Hagerty",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "fips_col": "fips",
+  "a_col": "bradshaw",
+  "b_col": "hagerty"
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": true
+ },
+ "lens": {
+  "start_county": "Davidson",
+  "gif_target": "Shelby",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 9, 2026, with 97% to 99% of the expected vote counted. Counts are unofficial until certified. Swing compares with the 2024 presidential county results (two-party share, NBC News/AP). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "harris",
+  "b_col": "trump",
+  "label": "2024 president",
+  "short": "2024",
+  "a": "Harris",
+  "b": "Trump"
+ }
+}
