@@ -40,6 +40,12 @@ header { margin-bottom: 16px; }
 .pgnav .back + .back { margin-left: auto; text-align: right; }
 @media (max-width: 400px) { .pgnav .back { font-size: 11px; letter-spacing: .03em; } }
 .back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin: -10px 0 2px -8px; padding: 0 8px; color: var(--ink-2); text-decoration: none; font: 500 12px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; border-radius: 8px; }
+.pgl { display: flex; flex-wrap: wrap; align-items: center; column-gap: 8px; }
+.pgnav .pgl + .back { margin-left: auto; text-align: right; }
+button.back { background: none; border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }
+.pgb[hidden] { display: none; }
+.pgb[hidden] + a::before { content: "\2190"; }
+.pgnav .pgl .back + .back { margin-left: -8px; text-align: left; }
 .back:hover { color: var(--ink); }
 .back:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .kicker { font: 500 11px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3); margin: 0 0 10px; }
@@ -185,7 +191,7 @@ td.m { font-family: var(--f-mono); }
 
 <div class="wrap">
   <header>
-    <nav class="pgnav" aria-label="Elections"><a class="back" href="../../">&larr; All elections</a><!--next--><a class="back" href="../nc-2026-senate/" aria-label="Next election: North Carolina">Next: North Carolina &rarr;</a><!--/next--></nav>
+    <nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb" hidden>&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><a class="back" href="../nc-2026-senate/" aria-label="Next election: North Carolina">Next: North Carolina &rarr;</a><!--/next--></nav><script>(function(){try{var b=document.querySelector(".pgb"),r=document.referrer;if(b&&history.length>1&&r&&new URL(r).origin===location.origin){b.hidden=false;b.addEventListener("click",function(){history.back()})}}catch(e){}})()</script>
     <p class="kicker">Mississippi · U.S. Senate · Nov 3, 2026</p>
     <h1>Mississippi, by land and by people</h1>
     <p class="dek" id="dek"></p>

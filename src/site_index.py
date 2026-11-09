@@ -305,12 +305,17 @@ page = page.replace("@@BAND@@", BAND).replace("@@JS@@", BAND_JS).replace("@@THEM
 open(os.path.join(ROOT, 'index.html'), 'w').write(page)
 print('wrote root index.html with', len(items), 'election(s)')
 
+OLD_NAV = '<nav class="pgnav" aria-label="Elections"><a class="back" href="../../">&larr; All elections</a><!--next--><!--/next--></nav>'
+NEW_NAV = '<nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb" hidden>&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><!--/next--></nav><script>(function(){try{var b=document.querySelector(".pgb"),r=document.referrer;if(b&&history.length>1&&r&&new URL(r).origin===location.origin){b.hidden=false;b.addEventListener("click",function(){history.back()})}}catch(e){}})()</script>'
+NAV_CSS = '.pgl { display: flex; flex-wrap: wrap; align-items: center; column-gap: 8px; }\n.pgnav .pgl + .back { margin-left: auto; text-align: right; }\nbutton.back { background: none; border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }\n.pgb[hidden] { display: none; }\n.pgb[hidden] + a::before { content: "\\2190\\00a0"; }\n'
 # Next-election link on each page (wraps from last to first, same order as the gallery).
 for i, (d, _) in enumerate(built):
     nd, nname = built[(i + 1) % len(built)]
     if nd == d: link = ''
     else: link = '<a class="back" href="../%s/" aria-label="Next election: %s">Next: %s &rarr;</a>' % (nd, html.escape(nname), html.escape(nname))
-    p = os.path.join(ROOT, 'elections', d, 'index.html'); t = open(p).read()
+    p = os.path.join(ROOT, 'elections', d, 'index.html'); t = t0 = open(p).read()
+    if 'class="pgl"' not in t:   # upgrade older pages: add the history Back button next to "All elections"
+        t = re.sub(r'<nav class="pgnav" aria-label="Elections"><a class="back" href="\.\./\.\./">&larr; All elections</a>(<!--next-->.*?<!--/next-->)</nav>', lambda m: NEW_NAV.replace('<!--next--><!--/next-->', m.group(1)), t, count=1, flags=re.S).replace('.back:hover { color: var(--ink); }', NAV_CSS + '.back:hover { color: var(--ink); }', 1)
     t2 = re.sub(r'<!--next-->.*?<!--/next-->', lambda m: '<!--next-->' + link + '<!--/next-->', t, count=1, flags=re.S)
-    if t2 != t: open(p, 'w').write(t2)
+    if t2 != t0: open(p, 'w').write(t2)
 print('linked next-election on', len(built), 'page(s)')
