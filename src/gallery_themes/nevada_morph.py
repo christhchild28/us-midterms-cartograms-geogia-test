@@ -32,17 +32,19 @@ def build(root):
     rings = json.load(open(os.path.join(root, 'elections', SOURCE, 'warp-rings.json')))['counties']
     xs, ys = [], []
     for c in rings:
-        for k in ('real', 'warp'):
+        for k in ('real', 'warp', 'hex'):
             xs += c[k][0::2]; ys += c[k][1::2]
     x0, x1, y0, y1 = min(xs) / 1000, max(xs) / 1000, min(ys) / 1000, max(ys) / 1000
     pad = .08 * max(x1 - x0, y1 - y0)
     vb = '%.3f %.3f %.3f %.3f' % (x0 - pad, y0 - pad, x1 - x0 + 2 * pad, y1 - y0 + 2 * pad)
-    paths = ''; pairs = []
+    meta = json.load(open(os.path.join(root, 'elections', SOURCE, 'warp-rings.json'))); hr = meta['s'] / math.sqrt(3) * 1.0
+    paths = ''; hexes = ''; pairs = []
     for c in rings:
         m = (c['d'] - c['r']) / max(1, c['d'] + c['r'])
-        paths += '<path class="%s" style="fill-opacity:%.2f"/>' % ('tb' if m > 0 else 'tr', .10 + .36 * min(abs(m), .6) / .6)
-        pairs.append([c['real'], c['warp']])
-    svg = '<svg viewBox="%s" preserveAspectRatio="xMaxYMid meet" aria-hidden="true" focusable="false">%s</svg>' % (vb, paths)
+        paths += '<path class="c %s" style="fill-opacity:%.2f"/>' % ('tb' if m > 0 else 'tr', .10 + .36 * min(abs(m), .6) / .6)
+        pairs.append([c['real'], c['warp'], c['hex']])
+        hexes += '<path class="%s" style="fill-opacity:%.2f" d="%s"/>' % ('tb' if m > 0 else 'tr', .34 + .5 * min(abs(m), .6) / .6, ''.join(_hexpath(x, y, hr) for x, y in c['cells']))
+    svg = '<svg viewBox="%s" preserveAspectRatio="xMaxYMid meet" aria-hidden="true" focusable="false">%s<g class="hxg">%s</g></svg>' % (vb, paths, hexes)
     css = """
 :root{--gb:rgba(40,100,200,.15);--gr:rgba(190,50,50,.12)}
 @media (prefers-color-scheme:dark){:root{--gb:rgba(90,150,240,.17);--gr:rgba(240,100,100,.12)}}
@@ -50,6 +52,8 @@ body{position:relative}
 .bg{position:fixed;top:0;left:0;right:0;height:100vh;height:100lvh;overflow:hidden;pointer-events:none;z-index:0;-webkit-mask-image:linear-gradient(#000 62%,transparent);mask-image:linear-gradient(#000 62%,transparent)}
 .bg::before{content:"";position:absolute;inset:0;background:radial-gradient(62% 72% at 3% 4%,var(--gr),transparent 72%),radial-gradient(62% 72% at 97% 9%,var(--gb),transparent 72%)}
 .bg svg{position:absolute;top:5vh;right:-12%;height:74vh;width:auto;max-width:none;opacity:calc(@SO@*var(--fade,1))}
+.bg path.c{opacity:calc(1 - .8*var(--hx,0))}
+.bg .hxg{opacity:var(--hx,0)}.bg .hxg path{stroke:var(--bg);stroke-opacity:.75;stroke-width:.7;opacity:1}
 .bg path{stroke:var(--ink);stroke-opacity:.3;stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round}
 .bg path.tb{fill:var(--bd)}.bg path.tr{fill:var(--rd)}
 @media (min-width:900px){.bg svg{right:4%;top:6vh;height:82vh}}
@@ -70,12 +74,13 @@ main{position:relative;z-index:1}
     for k, v in (("@SO@", str(SHAPE_OPACITY)), ("@GO@", str(GROUT_OPACITY)), ("@GW@", str(GROUT_WIDTH)), ("@BANDL@", BAND_LIGHT), ("@L1@", str(.35 * tn)), ("@L2@", str(.6 * tn)), ("@L3@", str(.9 * tn)), ("@D1@", str(.02 * tn)), ("@D2@", str(.04 * tn)), ("@D3@", str(.065 * tn)), ("@TB@", str(.09 * tn)), ("@TR@", str(.08 * tn))): css = css.replace(k, v)
     top = '<div class="bg" aria-hidden="true">%s</div>' % svg
     js = """<script>/* gallery theme: nevada-morph. Land outlines -> population-warped outlines as the intro scrolls; still half-way pose for reduced motion. */
-(function(){var D=@DATA@,bg=document.querySelector('.bg'),ps=bg&&bg.querySelectorAll('path'),cur=-1,tk=false;if(!ps||!ps.length)return;
-function draw(t){t=Math.max(0,Math.min(1,t));if(Math.abs(t-cur)<.002)return;cur=t;var e=t*t*(3-2*t);
-for(var i=0;i<D.length;i++){var a=D[i][0],b=D[i][1],d='M';for(var k=0;k<a.length;k+=2){d+=(k?'L':'')+((a[k]+(b[k]-a[k])*e)/1000).toFixed(3)+','+((a[k+1]+(b[k+1]-a[k+1])*e)/1000).toFixed(3)}ps[i].setAttribute('d',d+'Z')}}
-function upd(){tk=false;var s=document.querySelectorAll('section.i')[1],end=s?(s.offsetTop+s.offsetHeight*.6-innerHeight*.5):1400,y=window.pageYOffset||0;
-bg.style.setProperty('--fade',(1-.72*Math.min(1,y/420)).toFixed(3));draw(y/Math.max(600,end))}
+(function(){var D=@DATA@,bg=document.querySelector('.bg'),ps=bg&&bg.querySelectorAll('path.c'),cur='',tk=false;if(!ps||!ps.length)return;
+function sm(t){t=Math.max(0,Math.min(1,t));return t*t*(3-2*t)}
+function draw(t,u){u=u||0;var key=t+'|'+u;if(key===cur)return;cur=key;var e=sm(t),f=sm(u);bg.style.setProperty('--hx',sm((u-.45)/.55).toFixed(3));
+for(var i=0;i<D.length;i++){var a=u>0?D[i][1]:D[i][0],b=u>0?D[i][2]:D[i][1],g=u>0?f:e,d='M';for(var k=0;k<a.length;k+=2){d+=(k?'L':'')+((a[k]+(b[k]-a[k])*g)/1000).toFixed(3)+','+((a[k+1]+(b[k+1]-a[k+1])*g)/1000).toFixed(3)}ps[i].setAttribute('d',d+'Z')}}
+function upd(){tk=false;var S=document.querySelectorAll('section.i'),s=S[1],s2=S[2],end=s?(s.offsetTop+s.offsetHeight*.6-innerHeight*.5):1400,end2=s2?(s2.offsetTop+s2.offsetHeight*.7-innerHeight*.5):end+900,y=window.pageYOffset||0;
+var t=y/Math.max(600,end),u=t<1?0:(y-end)/Math.max(300,end2-end);bg.style.setProperty('--fade',(1-.72*Math.min(1,y/420)+.32*sm((u-.45)/.55)).toFixed(3));draw(Math.min(1,t),u)}
 var rm=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-if(rm){bg.style.setProperty('--fade','.45');draw(.55)}else{upd();addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',function(){cur=-1;upd()})}})();
+if(rm){bg.style.setProperty('--fade','.45');draw(.55)}else{upd();addEventListener('scroll',function(){if(!tk){tk=true;requestAnimationFrame(upd)}},{passive:true});addEventListener('resize',function(){cur='';upd()})}})();
 </script>""".replace("@DATA@", json.dumps(pairs, separators=(',', ':')))
     return {'css': css, 'top': top, 'bottom': js, 'band': _band_svg()}
