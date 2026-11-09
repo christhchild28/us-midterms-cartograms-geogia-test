@@ -1,0 +1,69 @@
+{
+ "id": "ga-2026-governor",
+ "analytics": {
+  "goatcounter": "distortmaps"
+ },
+ "state": {
+  "name": "Georgia",
+  "abbr": "GA",
+  "fips": "13",
+  "people": "Georgians"
+ },
+ "race": {
+  "office": "Governor",
+  "date": "Nov 3, 2026"
+ },
+ "candidates": {
+  "a": {
+   "name": "Bottoms",
+   "full": "Keisha Lance Bottoms",
+   "ramp": "blue"
+  },
+  "b": {
+   "name": "Jackson",
+   "full": "Rick Jackson",
+   "ramp": "red"
+  }
+ },
+ "results": {
+  "file": "results.csv",
+  "county_col": "county",
+  "a_col": "bottoms",
+  "b_col": "jackson"
+ },
+ "projection": {
+  "lon0": -83.4,
+  "lat0": 32.7
+ },
+ "hex": {
+  "unit": 10000,
+  "seed": 1,
+  "frozen": true
+ },
+ "lens": {
+  "start_county": "Fulton",
+  "gif_target": "Chatham",
+  "scale": 1
+ },
+ "text": {
+  "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 9, 2026, with 95% to 99% of the expected vote counted in each county. Counts are unofficial until certified. Swing compares with the official 2022 governor county results from the Georgia Secretary of State (two-party share). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025), as published by the Georgia Department of Community Affairs. Island fragments of coastal counties are left off the map.",
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+ },
+ "population": {
+  "format": "csv",
+  "file": "population.csv",
+  "fips_col": "fips",
+  "pop_col": "population",
+  "name_col": "county"
+ },
+ "prior": {
+  "file": "prior.csv",
+  "fips_col": "fips",
+  "a_col": "abrams",
+  "b_col": "kemp",
+  "label": "2022 governor",
+  "short": "2022",
+  "a": "Abrams",
+  "b": "Kemp"
+ }
+}
