@@ -211,6 +211,7 @@ svg.toy.map path{stroke-width:.7}svg.toy.hexmap path{stroke-width:.4}
 .chip{flex:none;min-height:40px;padding:0 12px;border-radius:99px;border:1px solid var(--hair);background:var(--raised);color:var(--ink2);font:600 14px system-ui,sans-serif;cursor:pointer}
 .chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .up{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--hair);background:var(--raised);color:var(--ink);display:grid;place-items:center;text-decoration:none;font-size:18px}
+.grp,.gh{scroll-margin-top:64px}
 #picks{scroll-margin-top:64px;padding-top:6px}
 .grp[hidden]{display:none}
 .gh{display:flex;align-items:baseline;gap:10px;font-size:22px;letter-spacing:-.01em;margin:26px 0 0;padding-top:14px;border-top:1px solid var(--hair)}
@@ -335,7 +336,7 @@ open(os.path.join(ROOT, 'index.html'), 'w').write(page)
 print('wrote root index.html with', len(items), 'election(s)')
 
 OLD_NAV = '<nav class="pgnav" aria-label="Elections"><a class="back" href="../../">&larr; All elections</a><!--next--><!--/next--></nav>'
-NEW_NAV = '<nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb">&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><!--/next--></nav><script>(function(){var b=document.querySelector(".pgb");if(!b)return;b.addEventListener("click",function(){var r=document.referrer,ok=false;try{ok=!!r&&new URL(r).origin===location.origin}catch(e){}if(ok&&history.length>1)history.back();else location.href="../../"})})()</script>'
+NEW_NAV = '<nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb">&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><!--/next--></nav><script>(function(){try{history.scrollRestoration="manual"}catch(e){}if(!location.hash)scrollTo(0,0);addEventListener("pageshow",function(e){if(!e.persisted&&!location.hash)scrollTo(0,0)});var b=document.querySelector(".pgb");if(!b)return;b.addEventListener("click",function(){var r=document.referrer,ok=false;try{ok=!!r&&new URL(r).origin===location.origin}catch(e){}if(ok&&history.length>1)history.back();else location.href="../../"})})()</script>'
 NAV_CSS = '.pgl { display: contents; }\n.pgnav .pgl + .back { margin-left: 0; text-align: right; }\nbutton.back { background: none; border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }\n.pgb[hidden] { display: none; }\n.pgb[hidden] + a::before { content: "\\2190\\00a0"; }\n'
 # Next-election link on each page (wraps from last to first, same order as the gallery).
 for i, (d, _) in enumerate(built):
