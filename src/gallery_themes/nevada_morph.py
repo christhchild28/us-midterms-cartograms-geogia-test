@@ -10,8 +10,9 @@ GROUT_OPACITY, GROUT_WIDTH = .022, .7                  # grout lines between til
 BAND_LIGHT = '#f6f6f3'                                 # light-mode band background (was #ecebe4, then #f1f0eb)
 TONES = True                                           # faint per-tile tone shifts (+ a few blue/red tiles)
 
-def _hexpath(cx, cy, r):
-    return 'M' + ' L'.join('%.1f %.1f' % (cx + r * math.cos(math.radians(60 * k - 30)), cy + r * math.sin(math.radians(60 * k - 30))) for k in range(6)) + ' Z'
+def _hexpath(cx, cy, r, nd=1):
+    f = '%%.%df %%.%df' % (nd, nd)
+    return 'M' + ' L'.join(f % (cx + r * math.cos(math.radians(60 * k - 30)), cy + r * math.sin(math.radians(60 * k - 30))) for k in range(6)) + ' Z'
 
 def _band_svg():
     r = HEX_R; w = math.sqrt(3) * r; W, H = w * HEX_COLS, 1.5 * r * HEX_ROWS; rnd = random.Random(HEX_SEED); body = ''
@@ -43,7 +44,7 @@ def build(root):
         m = (c['d'] - c['r']) / max(1, c['d'] + c['r'])
         paths += '<path class="c %s" style="fill-opacity:%.2f"/>' % ('tb' if m > 0 else 'tr', .10 + .36 * min(abs(m), .6) / .6)
         pairs.append([c['real'], c['warp'], c['hex']])
-        hexes += '<path class="%s" style="fill-opacity:%.2f" d="%s"/>' % ('tb' if m > 0 else 'tr', .34 + .5 * min(abs(m), .6) / .6, ''.join(_hexpath(x, y, hr) for x, y in c['cells']))
+        hexes += '<path class="%s" style="fill-opacity:%.2f" d="%s"/>' % ('tb' if m > 0 else 'tr', .34 + .5 * min(abs(m), .6) / .6, ''.join(_hexpath(x, y, hr, 3) for x, y in c['cells']))
     svg = '<svg viewBox="%s" preserveAspectRatio="xMaxYMid meet" aria-hidden="true" focusable="false">%s<g class="hxg">%s</g></svg>' % (vb, paths, hexes)
     css = """
 :root{--gb:rgba(40,100,200,.15);--gr:rgba(190,50,50,.12)}
