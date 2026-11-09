@@ -335,7 +335,7 @@ open(os.path.join(ROOT, 'index.html'), 'w').write(page)
 print('wrote root index.html with', len(items), 'election(s)')
 
 OLD_NAV = '<nav class="pgnav" aria-label="Elections"><a class="back" href="../../">&larr; All elections</a><!--next--><!--/next--></nav>'
-NEW_NAV = '<nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb" hidden>&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><!--/next--></nav><script>(function(){try{var b=document.querySelector(".pgb"),r=document.referrer;if(b&&history.length>1&&r&&new URL(r).origin===location.origin){b.hidden=false;b.addEventListener("click",function(){history.back()})}}catch(e){}})()</script>'
+NEW_NAV = '<nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb">&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><!--/next--></nav><script>(function(){var b=document.querySelector(".pgb");if(!b)return;b.addEventListener("click",function(){var r=document.referrer,ok=false;try{ok=!!r&&new URL(r).origin===location.origin}catch(e){}if(ok&&history.length>1)history.back();else location.href="../../"})})()</script>'
 NAV_CSS = '.pgl { display: flex; flex-wrap: wrap; align-items: center; column-gap: 8px; }\n.pgnav .pgl + .back { margin-left: auto; text-align: right; }\nbutton.back { background: none; border: 0; cursor: pointer; -webkit-appearance: none; appearance: none; }\n.pgb[hidden] { display: none; }\n.pgb[hidden] + a::before { content: "\\2190\\00a0"; }\n'
 # Next-election link on each page (wraps from last to first, same order as the gallery).
 for i, (d, _) in enumerate(built):

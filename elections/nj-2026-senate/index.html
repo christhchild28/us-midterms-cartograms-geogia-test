@@ -191,7 +191,7 @@ td.m { font-family: var(--f-mono); }
 
 <div class="wrap">
   <header>
-    <nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb" hidden>&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><a class="back" href="../nm-2026-governor/" aria-label="Next election: New Mexico">Next: New Mexico &rarr;</a><!--/next--></nav><script>(function(){try{var b=document.querySelector(".pgb"),r=document.referrer;if(b&&history.length>1&&r&&new URL(r).origin===location.origin){b.hidden=false;b.addEventListener("click",function(){history.back()})}}catch(e){}})()</script>
+    <nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb">&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><a class="back" href="../nm-2026-governor/" aria-label="Next election: New Mexico">Next: New Mexico &rarr;</a><!--/next--></nav><script>(function(){var b=document.querySelector(".pgb");if(!b)return;b.addEventListener("click",function(){var r=document.referrer,ok=false;try{ok=!!r&&new URL(r).origin===location.origin}catch(e){}if(ok&&history.length>1)history.back();else location.href="../../"})})()</script>
     <p class="kicker">New Jersey · U.S. Senate · Nov 3, 2026</p>
     <h1>New Jersey, by land and by people</h1>
     <p class="dek" id="dek"></p>
