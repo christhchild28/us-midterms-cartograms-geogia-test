@@ -52,6 +52,7 @@ body{position:relative}
 .bg svg{position:absolute;top:5vh;right:-12%;height:74vh;width:auto;max-width:none;opacity:calc(@SO@*var(--fade,1))}
 .bg path{stroke:var(--ink);stroke-opacity:.3;stroke-width:1;vector-effect:non-scaling-stroke;stroke-linejoin:round}
 .bg path.tb{fill:var(--bd)}.bg path.tr{fill:var(--rd)}
+@media (min-width:900px){.bg svg{right:4%;top:6vh;height:82vh}}
 main{position:relative;z-index:1}
 .band{position:relative;isolation:isolate}
 .hexbg{position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none}
