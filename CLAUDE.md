@@ -16,7 +16,7 @@ Claude's role here: research program director, personal assistant and adviser to
 - Baseline for the audit: `main` at `c36e91441f` (2026-11-10).
 
 ## Session commands
-- **"start session"**: read the operating system page and `git status`; fill `meta/today` from ready tickets and the current curriculum unit; list decisions waiting on the director.
+- **"start session"**: read the operating system page and `git status`; if `meta/next` is dated today, move it into `meta/today` and clear it, otherwise fill `meta/today` from ready tickets and the current curriculum unit; list decisions waiting on the director.
 - **"run LAB-00x"**: send the ticket's DRI agent, then a different agent as independent reviewer. Relay both reports honestly. Move the ticket on the board. The director approves before a ticket is marked done.
 - **"close session"**: log hours on the current unit, add a research log entry, commit and push `lab`, set tomorrow's first action.
 - **Unit review** (after units 4, 8, 13, 16): review memo, rescore the skills card, turn mature playbooks into skills.
