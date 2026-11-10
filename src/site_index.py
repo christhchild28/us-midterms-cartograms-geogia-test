@@ -127,9 +127,9 @@ HEX3 = svg(hexes([(0, 0), (1, 0), (0.5, 1)] and [(0, 0), (1, 0)], 20, 24, 24, 'r
 OFFICES = ['Senate', 'Governor', 'House']
 def card(it):
     thumb = ('<img src="%s" alt="" loading="lazy">' % it['gif']) if it['gif'] else PH
-    return ('<a class="card" href="elections/%s/">%s<span class="meta"><span class="pill">%s</span>%s</span><b>%s</b>'
+    return ('<a class="card" data-s="%s" href="elections/%s/">%s<span class="meta"><span class="pill">%s</span>%s</span><b>%s</b>'
             '<em><span><i class="d"></i>%s</span><span><i class="r"></i>%s</span></em></a>') % (
-        it['id'], thumb, it['office'], '<span class="pill unc">Uncalled</span>' if it['unc'] else '', html.escape(it['state']), html.escape(it['a']), html.escape(it['b']))
+        html.escape((it['state'] + ' ' + it['id'].split('-')[0] + ' ' + it['a'] + ' ' + it['b']).lower()), it['id'], thumb, it['office'], '<span class="pill unc">Uncalled</span>' if it['unc'] else '', html.escape(it['state']), html.escape(it['a']), html.escape(it['b']))
 PH = svg(hexes([(q, rw) for rw in range(6) for q in range(4)], 14, 22, 26, 'ph'), 'Preview coming', '0 0 120 150').replace('class="toy"', 'class="toy phs"') + '<span class="phl">Preview coming</span>'
 PH = '<div class="phbox">' + PH + '</div>'
 groups = []
@@ -141,12 +141,18 @@ chips = '<button type="button" class="chip" data-f="all" aria-pressed="true">All
 gh = ''.join('<div class="grp" data-g="%s"><h3 class="gh">%s<small>%d race%s</small></h3><div class="grid">%s</div></div>' % (o, o, len(its), '' if len(its) == 1 else 's', ''.join(card(i) for i in its)) for o, its in groups)
 BAND = ('<section class="band" id="elections">@@THEME_BAND@@<div class="wrap"><p class="kick">Now pick one</p><h2 class="bh">%d races, %d states</h2>'
         '<p class="bsub">Each card opens one race, drawn by land and by people. Everything in the guide above works the same way on all of them.</p></div>'
-        '<div class="bar"><div class="wrap barin"><div class="chips" role="group" aria-label="Filter by office">%s</div><a class="up" href="#top" aria-label="Back to the guide">&uarr;</a></div></div>'
+        '<div class="bar"><div class="wrap barin"><div class="chips" role="group" aria-label="Filter by office">%s</div><a class="up" href="#top" aria-label="Back to the guide">&uarr;</a></div>'
+        '<div class="wrap srow"><input id="q" class="q" type="search" placeholder="Search by state or candidate" aria-label="Search by state or candidate" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"></div></div>'
+        '<p class="wrap nomatch" id="nomatch" hidden>No races match. Try a state name like Iowa.</p>'
         '<div class="wrap" id="picks">%s</div></section>') % (len(items), nstates, chips, gh)
 BAND = BAND.replace('@@THEME_BAND@@', THEME['band'])
-BAND_JS = """<script>(function(){var cs=document.querySelectorAll('.chip'),gs=document.querySelectorAll('.grp'),pk=document.getElementById('picks');
-cs.forEach(function(c){c.addEventListener('click',function(){var f=c.getAttribute('data-f');cs.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false')});
-gs.forEach(function(g){g.hidden=!(f==='all'||g.getAttribute('data-g')===f)});pk.scrollIntoView({behavior:'smooth',block:'start'})})})})();</script>"""
+BAND_JS = """<script>(function(){var cs=document.querySelectorAll('.chip'),gs=document.querySelectorAll('.grp'),pk=document.getElementById('picks'),q=document.getElementById('q'),nm=document.getElementById('nomatch'),f='all';
+function apply(){var t=q.value.trim().toLowerCase(),any=false;
+gs.forEach(function(g){var n=0;g.querySelectorAll('.card').forEach(function(c){var w=c.getAttribute('data-s').split(' '),ok=!t||t.split(/\\s+/).every(function(k){return w.some(function(x){return x.indexOf(k)===0})});c.hidden=!ok;if(ok)n++});
+var show=(f==='all'||g.getAttribute('data-g')===f)&&n>0;g.hidden=!show;if(show)any=true;var sm=g.querySelector('.gh small');if(sm){if(!sm.dataset.o)sm.dataset.o=sm.textContent;sm.textContent=t?n+' match'+(n===1?'':'es'):sm.dataset.o}});
+nm.hidden=any}
+cs.forEach(function(c){c.addEventListener('click',function(){f=c.getAttribute('data-f');cs.forEach(function(x){x.setAttribute('aria-pressed',x===c?'true':'false')});apply();pk.scrollIntoView({behavior:'smooth',block:'start'})})});
+q.addEventListener('input',apply);q.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();q.blur()}})})();</script>"""
 
 page = """<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Land vs people: how to read an election map</title>
@@ -213,7 +219,12 @@ svg.toy.map path{stroke-width:.7}svg.toy.hexmap path{stroke-width:.4}
 .up{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--hair);background:var(--raised);color:var(--ink);display:grid;place-items:center;text-decoration:none;font-size:18px}
 .grp,.gh{scroll-margin-top:64px}
 #picks{scroll-margin-top:64px;padding-top:6px}
-.grp[hidden]{display:none}
+.grp[hidden],.card[hidden]{display:none}
+.srow{padding-top:8px}
+.q{width:100%;min-height:44px;border-radius:99px;border:1px solid var(--hair);background:var(--raised);color:var(--ink);padding:0 16px;font:16px system-ui,sans-serif;-webkit-appearance:none;appearance:none}
+.q:focus{outline:2px solid var(--ink2);outline-offset:1px}
+.nomatch{margin:24px auto;color:var(--ink2)}
+.nomatch[hidden]{display:none}
 .gh{display:flex;align-items:baseline;gap:10px;font-size:22px;letter-spacing:-.01em;margin:26px 0 0;padding-top:14px;border-top:1px solid var(--hair)}
 .grp:first-child .gh{border-top:0;margin-top:14px;padding-top:0}
 .gh small{font:500 12px ui-monospace,monospace;color:var(--ink3);letter-spacing:.04em;text-transform:uppercase}
