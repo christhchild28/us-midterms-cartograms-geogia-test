@@ -39,6 +39,6 @@ if a.gif:
     print('\n=== gif ===', flush=True)
     r = subprocess.run(['node', os.path.join(SRC, 'media/capture-gif.js'), cfgp] + (['outline.html', '-outline'] if a.outline else []), env=env)
     if r.returncode: sys.exit('gif step failed')
-if os.path.dirname(os.path.dirname(cfgp)) == os.path.join(ROOT, 'usa', 'elections'):   # only for configs that live in this repo
-    subprocess.run([sys.executable, os.path.join(SRC, 'usa_hub.py')], env=env)
+if os.path.dirname(os.path.dirname(cfgp)) == os.path.join(ROOT, 'elections'):   # only for configs that live in this repo
+    subprocess.run([sys.executable, os.path.join(SRC, 'site_index.py')], env=env)
 print('\nbuilt in %.0fs -> %s' % (time.time() - t0, os.path.join(os.path.dirname(cfgp), 'outline.html' if a.outline else 'index.html')))

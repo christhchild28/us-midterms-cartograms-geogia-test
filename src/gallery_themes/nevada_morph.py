@@ -30,7 +30,7 @@ def _band_svg():
             '<rect width="100%%" height="100%%" fill="url(#hxp)"/></svg>') % (hexd, W, H, body)
 
 def build(root):
-    rings = json.load(open(os.path.join(root, 'usa', 'elections', SOURCE, 'warp-rings.json')))['counties']
+    rings = json.load(open(os.path.join(root, 'elections', SOURCE, 'warp-rings.json')))['counties']
     xs, ys = [], []
     for c in rings:
         for k in ('real', 'warp', 'hex'):
@@ -38,7 +38,7 @@ def build(root):
     x0, x1, y0, y1 = min(xs) / 1000, max(xs) / 1000, min(ys) / 1000, max(ys) / 1000
     pad = .08 * max(x1 - x0, y1 - y0)
     vb = '%.3f %.3f %.3f %.3f' % (x0 - pad, y0 - pad, x1 - x0 + 2 * pad, y1 - y0 + 2 * pad)
-    meta = json.load(open(os.path.join(root, 'usa', 'elections', SOURCE, 'warp-rings.json'))); hr = meta['s'] / math.sqrt(3) * 1.0
+    meta = json.load(open(os.path.join(root, 'elections', SOURCE, 'warp-rings.json'))); hr = meta['s'] / math.sqrt(3) * 1.0
     paths = ''; hexes = ''; pairs = []
     for c in rings:
         m = (c['d'] - c['r']) / max(1, c['d'] + c['r'])
