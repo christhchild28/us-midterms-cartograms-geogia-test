@@ -17,7 +17,7 @@
   "a": {
    "name": "Bodnar",
    "full": "Seth Bodnar",
-   "ramp": "blue",
+   "ramp": {"mid_l": "#b796dc", "deep_l": "#513574", "mid_d": "#8e64c1", "deep_d": "#d0b8e9"},
    "party": "I"
   },
   "b": {

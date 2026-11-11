@@ -43,7 +43,8 @@ src = cfg.c.get('text', {}).get('source') or ('Results: county returns as suppli
 ra, rb = ramp(a), ramp(b)
 # Party tag shown after the candidate name in legends: set candidates.a/b.party (e.g. "D") in the config; defaults to D for the blue ramp and R for the red ramp.
 def ptag(c):
-    p = c.get('party', {'blue': 'D', 'red': 'R'}.get(c.get('ramp', 'blue'), ''))
+    r = c.get('ramp', 'blue')   # a custom ramp (dict) has no default party: set candidates.<a|b>.party explicitly
+    p = c['party'] if 'party' in c else ({'blue': 'D', 'red': 'R'}.get(r, '') if isinstance(r, str) else '')
     return ' (%s)' % html.escape(p) if p else ''
 tok = {
     'STATE': cfg.state['name'], 'OFFICE': race['office'], 'DATE': race.get('date', ''), 'RACE': (year + ' ' + race['office']).strip(),
