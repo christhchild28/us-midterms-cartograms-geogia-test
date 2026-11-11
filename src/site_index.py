@@ -292,7 +292,7 @@ footer b{color:var(--ink)}
 <p>Every page has a Land / Lens / People switch. Here is a made-up state with five counties, drawn all three ways.</p>
 <div class="row3">
 <div class="fig">@TOYLAND@<div><h3>Land</h3><p>The real county shapes. Big counties look important whether or not many people live there.</p></div></div>
-<div class="fig">@TOYLENS@<div><h3>Lens</h3><p>Counties swell or shrink with population. Drag across the map to magnify the area you touch.</p></div></div>
+<div class="fig">@TOYLENS@<div><h3>Lens</h3><p>Counties swell or shrink with population, so the map shows where people live.</p></div></div>
 <div class="fig">@TOYPEOPLE@<div><h3>People</h3><p>One hexagon for each block of residents, so every hexagon counts the same.</p></div></div>
 </div>
 <div class="keys" style="margin-top:4px"><span><i style="background:var(--bd)"></i>Democrat</span><span><i style="background:var(--rd)"></i>Republican</span></div>
