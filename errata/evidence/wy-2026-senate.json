@@ -1,0 +1,18 @@
+{
+ "race": "wy-2026-senate",
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/WY",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Harriet Hageman",
+    "Jim Byrd"
+   ],
+   "exhaustive": true
+  }
+ ]
+}

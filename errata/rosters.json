@@ -696,6 +696,30 @@
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
    "conflicts": []
+  },
+  "wy-2026-governor": {
+   "total": 3,
+   "omitted": [
+    "Rebecca Bextel (Constitution)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/WY",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "wy-2026-senate": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/WY",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
   }
  },
  "unresolved": {}

@@ -1,0 +1,19 @@
+{
+ "race": "wy-2026-governor",
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/WY",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "names": [
+    "Eric Barlow",
+    "Rebecca Bextel (Constitution)",
+    "Ken Casner"
+   ],
+   "exhaustive": true
+  }
+ ]
+}
