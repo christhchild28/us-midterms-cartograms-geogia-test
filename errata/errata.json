@@ -42,11 +42,12 @@
     "ia-2026-senate",
     "id-2026-senate",
     "ms-2026-senate",
-    "sc-2026-senate"
+    "sc-2026-senate",
+    "mn-2026-governor"
    ],
    "found_by": "audit of all pages",
-   "title": "Twenty more pages map only some of the candidates on the ballot",
-   "wrong": "According to Ballotpedia, these pages show two candidates while more were on the ballot. Senate: Georgia, Texas, Nebraska, North Carolina, Kentucky, Michigan, Arkansas, Oklahoma, Florida, Iowa, Idaho, Mississippi and South Carolina. Governor: Arizona, Michigan, Nevada, Ohio, Wisconsin, Pennsylvania and Arkansas. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two race) and the South Dakota Senate race (two candidates) are complete. Iowa governor is unresolved because Ballotpedia pages disagree. 31 other pages have not been checked yet.",
+   "title": "Twenty-one more pages map only some of the candidates on the ballot",
+   "wrong": "According to Ballotpedia, these pages show two candidates while more were on the ballot. Senate: Georgia, Texas, Nebraska, North Carolina, Kentucky, Michigan, Arkansas, Oklahoma, Florida, Iowa, Idaho, Mississippi and South Carolina. Governor: Minnesota, Arizona, Michigan, Nevada, Ohio, Wisconsin, Pennsylvania and Arkansas. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two race) and the South Dakota Senate and governor races (two candidates each) are complete. Iowa governor is unresolved because Ballotpedia pages disagree. 29 other pages have not been checked yet.",
    "done": "Added a dated note with the count, names where known, and a source link to each of each of the audited pages. Map data is unchanged. The audit continues; each result will be added here.",
    "prevent": "Same as E-2026-001."
   },
