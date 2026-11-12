@@ -1,0 +1,32 @@
+{
+ "race": "tn-2026-governor",
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/TN",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 15,
+   "names": [
+    "Marsha Blackburn",
+    "Jerri Green",
+    "David Hatley (Independent)",
+    "Lauren Pinkston (Independent)",
+    "Dean Brewer (Independent)",
+    "Ray Brown (Independent)",
+    "Wendell Jackson (Independent)",
+    "Eddie Murphy (Independent)",
+    "Robert Vick (Independent)",
+    "Misam Abidi (Independent)",
+    "Charles Morgan (Independent)",
+    "L. Webb Taylor (Independent)",
+    "Dave Seeman (Independent)",
+    "Vic Scoggin (Independent)",
+    "Karl Smithson (Independent)"
+   ],
+   "caveat": "The source page header says 15 candidates including one write-in, but lists 15 ballot candidates plus one write-in. Percentages total 100% for the 15."
+  }
+ ]
+}

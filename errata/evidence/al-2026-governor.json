@@ -1,0 +1,18 @@
+{
+ "race": "al-2026-governor",
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/AL",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 2,
+   "names": [
+    "Tommy Tuberville",
+    "Doug Jones"
+   ]
+  }
+ ]
+}

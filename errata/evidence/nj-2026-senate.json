@@ -1,0 +1,20 @@
+{
+ "race": "nj-2026-senate",
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/NJ",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 4,
+   "names": [
+    "Cory Booker",
+    "Justin Murphy",
+    "Veronica Fernandez (End the Corruption)",
+    "Joanne Kuniansky (Socialist Workers)"
+   ]
+  }
+ ]
+}

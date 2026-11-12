@@ -197,7 +197,7 @@ td.m { font-family: var(--f-mono); }
     <nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb">&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><a class="back" href="../ia-2026-governor/" aria-label="Next election: Iowa">Next: Iowa &rarr;</a><!--/next--></nav><script>(function(){try{history.scrollRestoration="manual"}catch(e){}if(!location.hash){var u=0,z=function(){if(!u)scrollTo(0,0)};["touchstart","wheel","keydown","mousedown"].forEach(function(t){addEventListener(t,function(){u=1},{once:true,passive:true})});z();addEventListener("DOMContentLoaded",z);addEventListener("load",z);addEventListener("pageshow",function(e){if(!e.persisted)z()});[60,200,500,1000,2000].forEach(function(t){setTimeout(z,t)});var g=function(){if(!u&&scrollY>0)scrollTo(0,0)};addEventListener("scroll",g,{passive:true});setTimeout(function(){removeEventListener("scroll",g)},6000)}var b=document.querySelector(".pgb");if(!b)return;b.addEventListener("click",function(){var r=document.referrer,ok=false;try{ok=!!r&&new URL(r).origin===location.origin}catch(e){}if(ok&&history.length>1)history.back();else location.href="../../"})})()</script>
     <p class="kicker">Georgia · U.S. Senate · Nov 3, 2026</p>
     <h1>Georgia, by land and by people</h1>
-    <p class="dek" id="dek"></p><!--roster--><details class="fnote" open><summary aria-label="Show or hide this note"><span class="fn-o fn-t">Note, added 2026-11-12</span><span class="fn-s fn-t"><span class="fn-i" aria-hidden="true">i</span> Note</span><span class="fn-o fn-c" aria-hidden="true">&times;</span></summary><div class="fn-b">This map shows two of the 7 candidates on the ballot, according to Ballotpedia. It leaves out 5 other candidates. Shares and colours are each county's share of the two shown candidates' votes, not of all votes. <a style="color:inherit" href="https://news.ballotpedia.org/?p=49963">Source</a> &middot; <a style="color:inherit" href="../../errata/#E-2026-002">Corrections</a></div></details><!--/roster-->
+    <p class="dek" id="dek"></p>
   </header>
 
   <div class="controls">
@@ -230,7 +230,7 @@ td.m { font-family: var(--f-mono); }
       <h2>Share of Georgia that Ossoff won</h2>
       <p class="sub">Same election, counted four ways.</p>
       <div class="keyline"><span><i id="k-b"></i>Ossoff (D)</span><span><i id="k-r"></i>Collins (R)</span></div>
-      <div class="bars" id="bars"></div><!--ballot--><div class="ballot"><b class="bn">7 candidates on the ballot</b>The map shows 2: Jon Ossoff and Mike Collins. Not shown: 5 others (names not yet recorded).<span class="bs">Reported by Ballotpedia, checked 2026-11-12. <a href="https://news.ballotpedia.org/?p=49963">Source</a></span></div><!--/ballot-->
+      <div class="bars" id="bars"></div><!--ballot--><div class="ballot"><b class="bn">2 candidates on the ballot</b>The map shows both: Jon Ossoff and Mike Collins.<span class="bs">Reported by The Green Papers, checked 2026-11-12. <a href="https://www.thegreenpapers.com/G26/GA">Source</a></span></div><!--/ballot-->
       <div class="legend" id="legwin">
         <h2>County margin</h2>
         <div class="ramp" id="ramp"></div>
@@ -609,7 +609,7 @@ td.m { font-family: var(--f-mono); }
   document.querySelectorAll('.seg:not(.sm) button:not([data-ed])').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
 
   /* ---------- share bars ---------- */
-  var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes for the two shown' };
+  var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes cast' };
   function drawBars() {
     var box = document.getElementById('bars'); box.textContent = '';
     ['land', 'tile', 'pop', 'votes'].forEach(function (k) {
@@ -753,9 +753,9 @@ td.m { font-family: var(--f-mono); }
     vW = Math.max(tot.d, tot.r) / (tot.d + tot.r) * 100, ppl = META.people || (META.state + ' residents');
   var dek = document.getElementById('dek'), parts =
     landW < .5 ? [
-    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + (META.uncalled ? ' leads with ' : ' won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the two shown candidates’ votes, because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
+    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + (META.uncalled ? ' leads with ' : ' won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote, because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
     ] : [
-    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and ' + (META.uncalled ? 'leads with ' : 'won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the two shown candidates’ votes. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
+    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and ' + (META.uncalled ? 'leads with ' : 'won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
     ];
   parts.forEach(function (p) { if (p[0] === 'b') { var b = document.createElement('b'); b.textContent = p[1]; dek.appendChild(b); } else dek.appendChild(document.createTextNode(p[1])); });
   document.getElementById('method').textContent = 'The cartogram uses hexpack: ' + fmt(D.N) + ' hexagons (one per ' + fmt(D.unit) + ' residents, at least one per county) are laid out along the population-warped county shapes so that every county is one connected piece. ' + D.stats.kept + ' of the ' + D.stats.real + ' county borders on the real map are still shared borders here (' + pct(D.stats.kept / D.stats.real) + '%). The misses are mostly tiny rural counties with one or two hexagons, which cannot touch all of their neighbors. In Lens view the warp is a density-equalizing flow computed for each lens position, so counties stretch and compress without overlapping.';

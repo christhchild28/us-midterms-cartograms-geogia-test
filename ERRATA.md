@@ -2,13 +2,33 @@
 
 Generated from `errata/errata.json`. Do not edit by hand.
 
+## E-2026-006 Nebraska Senate: ballot count corrected again, from three to five
+
+2026-11-12 · Corrected (S3) · pages: ne-2026-senate
+
+**Wrong.** E-2026-004 said three candidates were on the ballot. Five were: Ricketts, Osborn, Robin Richards, Mike Marvin and Chuck Conboy. Marvin suspended his campaign but stayed on the ballot. The Nebraska Examiner and The Green Papers both report five.
+
+**Done.** The note and card now say five and name the three candidates not shown. Map data is unchanged.
+
+**Catch.** A candidate who suspends a campaign is counted if the state left the name on the ballot. We confirm this against a second source before lowering a count.
+
+## E-2026-005 Georgia and South Carolina Senate: ballot counts were too high
+
+2026-11-12 · Corrected (S2) · pages: ga-2026-senate, sc-2026-senate
+
+**Wrong.** Our notes said 7 candidates were on the ballot in Georgia and 10 in South Carolina. Both counts came from Ballotpedia and included people who were not on the general election ballot. The Green Papers lists 2 for Georgia (Ossoff and Collins, plus 3 write-ins) and at least 4 for South Carolina (Andrews, Graham, Whitener and Hackett). Georgia is now complete on our map. South Carolina may have more independents; we have not confirmed the list.
+
+**Done.** Both notes now show the corrected count and the source. Map data is unchanged.
+
+**Catch.** When two sources disagree, the higher-ranked source wins and the other is logged. A state election office list will replace these when we can read one.
+
 ## E-2026-004 Nebraska Senate: ballot count corrected from five to three
 
 2026-11-12 · Corrected (S3) · pages: ne-2026-senate
 
 **Wrong.** Our note and card said two of five candidates were on the ballot. A July Ballotpedia report listed three on the ballot after the Democratic nominee withdrew. A later Ballotpedia headline counts five names.
 
-**Done.** The page now says three candidates and names Mike Marvin as not shown. It says the count is being confirmed. Map data is unchanged.
+**Done.** The page now says three candidates and names Mike Marvin as not shown. It says the count is being confirmed. Map data is unchanged. Superseded by E-2026-006: five candidates were on the ballot.
 
 **Catch.** A roster with conflicting sources shows the lower confirmed count and a caveat until a certified list settles it.
 
@@ -22,13 +42,13 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 **Catch.** A label that says "votes cast" or "of the vote" must match its denominator. A check for this wording is planned.
 
-## E-2026-002 Twenty-one more pages map only some of the candidates on the ballot
+## E-2026-002 Thirty-six more pages map only some of the candidates on the ballot
 
-2026-11-11 · Open (S2) · pages: ga-2026-senate, tx-2026-senate, ne-2026-senate, nc-2026-senate, mi-2026-senate, ky-2026-senate, az-2026-governor, mi-2026-governor, nv-2026-governor, oh-2026-governor, wi-2026-governor, pa-2026-governor, ar-2026-senate, ar-2026-governor, ok-2026-senate, fl-2026-senate, ia-2026-senate, id-2026-senate, ms-2026-senate, sc-2026-senate, mn-2026-governor
+2026-11-12 · Open (S2) · pages: ar-2026-governor, ar-2026-senate, az-2026-governor, co-2026-governor, co-2026-senate, fl-2026-governor, fl-2026-senate, ia-2026-senate, id-2026-governor, id-2026-senate, il-2026-governor, il-2026-senate, ky-2026-senate, mi-2026-governor, mi-2026-senate, mn-2026-governor, mn-2026-senate, ms-2026-senate, nc-2026-senate, nd-2026-house, ne-2026-governor, ne-2026-senate, nj-2026-senate, nv-2026-governor, oh-2026-governor, ok-2026-governor, ok-2026-senate, or-2026-governor, or-2026-senate, pa-2026-governor, sc-2026-governor, sc-2026-senate, tn-2026-governor, tn-2026-senate, tx-2026-senate, wi-2026-governor
 
-**Wrong.** According to Ballotpedia, these pages show two candidates while more were on the ballot. Senate: Georgia, Texas, Nebraska, North Carolina, Kentucky, Michigan, Arkansas, Oklahoma, Florida, Iowa, Idaho, Mississippi and South Carolina. Governor: Minnesota, Arizona, Michigan, Nevada, Ohio, Wisconsin, Pennsylvania and Arkansas. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two race) and the South Dakota Senate and governor races (two candidates each) are complete. Iowa governor is unresolved because Ballotpedia pages disagree. 29 other pages have not been checked yet.
+**Wrong.** According to The Green Papers or Ballotpedia, these pages show two candidates while more were on the ballot. Senate: AR, CO, FL, IA, ID, IL, KY, MI, MN, MS, NC, NE, NJ, OK, OR, SC, TN, TX. Governor: AR, AZ, CO, FL, ID, IL, MI, MN, NE, NV, OH, OK, OR, PA, SC, TN, WI. House: ND. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two), Alabama, Georgia, Kansas, New Mexico, New York, Louisiana, Iowa governor and the South Dakota races are complete. South Carolina Senate has at least four candidates; we have not confirmed the full list. 4 other pages (Wyoming governor and Senate, and two New York City pages) have not been checked yet.
 
-**Done.** Added a dated note with the count, names where known, and a source link to each of each of the audited pages. Map data is unchanged. The audit continues; each result will be added here.
+**Done.** Added a dated note with the count, names where known, and a source link to each audited page. Map data is unchanged. The audit continues; each result is added here.
 
 **Catch.** Same as E-2026-001.
 

@@ -1,0 +1,23 @@
+{
+ "race": "co-2026-governor",
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/CO",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 7,
+   "names": [
+    "Phil Weiser",
+    "Victor Marx",
+    "Greg Lopez (Unaffiliated)",
+    "Eric Mulder (Libertarian)",
+    "Stephen Taylor Hamilton (American Constitution)",
+    "Erik Underwood (Approval Voting)",
+    "Jeff Peckman (Unity)"
+   ]
+  }
+ ]
+}

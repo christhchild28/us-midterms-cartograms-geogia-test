@@ -1,0 +1,19 @@
+{
+ "race": "il-2026-governor",
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/IL",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 3,
+   "names": [
+    "JB Pritzker",
+    "Darren Bailey",
+    "Collin Corbett (Independent)"
+   ]
+  }
+ ]
+}

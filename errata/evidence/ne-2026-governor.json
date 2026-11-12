@@ -1,0 +1,20 @@
+{
+ "race": "ne-2026-governor",
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/NE",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 4,
+   "names": [
+    "Jim Pillen",
+    "Lynne Walz",
+    "Brent Lindstrom (America First)",
+    "Rick Beard (Legal Marijuana Now)"
+   ]
+  }
+ ]
+}

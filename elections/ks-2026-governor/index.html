@@ -230,7 +230,7 @@ td.m { font-family: var(--f-mono); }
       <h2>Share of Kansas that Holscher won</h2>
       <p class="sub">Same election, counted four ways.</p>
       <div class="keyline"><span><i id="k-b"></i>Holscher (D)</span><span><i id="k-r"></i>Masterson (R)</span></div>
-      <div class="bars" id="bars"></div><!--ballot--><div class="ballot"><b class="bn">Ballot roster being checked</b>The map shows 2: Cindy Holscher and Ty Masterson. Sources disagree on whether others are on the ballot.</div><!--/ballot-->
+      <div class="bars" id="bars"></div><!--ballot--><div class="ballot"><b class="bn">2 candidates on the ballot</b>The map shows both: Cindy Holscher and Ty Masterson.<span class="bs">Reported by The Green Papers, checked 2026-11-12. <a href="https://www.thegreenpapers.com/G26/KS">Source</a></span></div><!--/ballot-->
       <div class="legend" id="legwin">
         <h2>County margin</h2>
         <div class="ramp" id="ramp"></div>
@@ -609,7 +609,7 @@ td.m { font-family: var(--f-mono); }
   document.querySelectorAll('.seg:not(.sm) button:not([data-ed])').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
 
   /* ---------- share bars ---------- */
-  var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes for the two shown' };
+  var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes cast' };
   function drawBars() {
     var box = document.getElementById('bars'); box.textContent = '';
     ['land', 'tile', 'pop', 'votes'].forEach(function (k) {
@@ -753,9 +753,9 @@ td.m { font-family: var(--f-mono); }
     vW = Math.max(tot.d, tot.r) / (tot.d + tot.r) * 100, ppl = META.people || (META.state + ' residents');
   var dek = document.getElementById('dek'), parts =
     landW < .5 ? [
-    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + (META.uncalled ? ' leads with ' : ' won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the two shown candidates’ votes, because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
+    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + (META.uncalled ? ' leads with ' : ' won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote, because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
     ] : [
-    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and ' + (META.uncalled ? 'leads with ' : 'won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the two shown candidates’ votes. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
+    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and ' + (META.uncalled ? 'leads with ' : 'won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
     ];
   parts.forEach(function (p) { if (p[0] === 'b') { var b = document.createElement('b'); b.textContent = p[1]; dek.appendChild(b); } else dek.appendChild(document.createTextNode(p[1])); });
   document.getElementById('method').textContent = 'The cartogram uses hexpack: ' + fmt(D.N) + ' hexagons (one per ' + fmt(D.unit) + ' residents, at least one per county) are laid out along the population-warped county shapes so that every county is one connected piece. ' + D.stats.kept + ' of the ' + D.stats.real + ' county borders on the real map are still shared borders here (' + pct(D.stats.kept / D.stats.real) + '%). The misses are mostly tiny rural counties with one or two hexagons, which cannot touch all of their neighbors. In Lens view the warp is a density-equalizing flow computed for each lens position, so counties stretch and compress without overlapping.';

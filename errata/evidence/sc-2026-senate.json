@@ -9,6 +9,21 @@
    "retrieved": "2026-11-12",
    "total": 10,
    "exhaustive": true
+  },
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/SC",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": false,
+   "names": [
+    "Annie Andrews",
+    "Darline Graham",
+    "Kathryn \"Kasie\" Whitener (Libertarian)",
+    "Mark J. Hackett (Constitution)"
+   ],
+   "caveat": "FITSNews reports several other independent candidates on the ballot besides these four; Ballotpedia counted ten. We have not confirmed the full list."
   }
  ]
 }

@@ -1,5 +1,18 @@
 {
  "race": "ia-2026-governor",
- "unresolved": "Ballotpedia listed Nicholas Gluba (L) in June; its November result headline names only Sand and Lahn. Being checked.",
- "observations": []
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/IA",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 2,
+   "names": [
+    "Rob Sand",
+    "Zach Lahn"
+   ]
+  }
+ ]
 }

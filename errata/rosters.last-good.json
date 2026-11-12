@@ -2,6 +2,28 @@
  "checked": "2026-11-12",
  "note": "Derived from errata/evidence by src/roster_resolve.py. Do not edit by hand.",
  "races": {
+  "al-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/AL",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "al-2026-senate": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/AL",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
   "ar-2026-governor": {
    "total": 3,
    "omitted": [
@@ -53,29 +75,107 @@
    "retrieved": "2026-11-12",
    "conflicts": []
   },
+  "co-2026-governor": {
+   "total": 7,
+   "omitted": [
+    "Greg Lopez (Unaffiliated)",
+    "Eric Mulder (Libertarian)",
+    "Stephen Taylor Hamilton (American Constitution)",
+    "Erik Underwood (Approval Voting)",
+    "Jeff Peckman (Unity)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/CO",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "co-2026-senate": {
+   "total": 6,
+   "omitted": [
+    "Robert Chew (Forward)",
+    "Blake Huber (Libertarian)",
+    "Adam Withrow (Unity)",
+    "Christopher Baum (Approval Voting)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/CO",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "fl-2026-governor": {
+   "total": 8,
+   "omitted": [
+    "Scott Jewett (Libertarian)",
+    "Frank Russo (No Party)",
+    "Charles Burkett (No Party)",
+    "Dean Abrams (No Party)",
+    "Jeff Datto (No Party)",
+    "Moe Dimanche (No Party)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/FL",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
   "fl-2026-senate": {
    "total": 3,
-   "omitted": [
-    "Neil Gillespie (no party affiliation)"
-   ],
-   "src": "https://news.ballotpedia.org/2026/11/05/incumbent-ashley-b-moody-r-defeated-angie-nixon-d-and-neil-gillespie-no-party-affiliation-in-the-special-election-for-u-s-senate-in-florida/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/FL",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 1,
+   "conflicts": []
+  },
+  "ga-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/GA",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
    "conflicts": []
   },
   "ga-2026-senate": {
-   "total": 7,
+   "total": 2,
    "omitted": null,
-   "src": "https://news.ballotpedia.org/?p=49963",
-   "publisher": "Ballotpedia",
-   "tier": 3,
+   "src": "https://www.thegreenpapers.com/G26/GA",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "n_omitted": 5,
+   "conflicts": [
+    {
+     "publisher": "Ballotpedia",
+     "tier": 3,
+     "url": "https://news.ballotpedia.org/?p=49963",
+     "count": 7
+    }
+   ]
+  },
+  "ia-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/IA",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
    "conflicts": []
   },
   "ia-2026-senate": {
@@ -83,9 +183,24 @@
    "omitted": [
     "Thomas Laehn (Libertarian)"
    ],
-   "src": "https://news.ballotpedia.org/2026/11/06/josh-turek-d-defeated-ashley-hinson-r-and-thomas-laehn-l-in-the-general-election-for-u-s-senate-in-iowa/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
+   "src": "https://www.thegreenpapers.com/G26/IA",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "id-2026-governor": {
+   "total": 5,
+   "omitted": [
+    "John Stegner (Independent)",
+    "Paul Sand (Libertarian)",
+    "Marvin Richardson (Constitution)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/ID",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
@@ -93,13 +208,48 @@
   },
   "id-2026-senate": {
    "total": 4,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/ID",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 2,
+   "conflicts": []
+  },
+  "il-2026-governor": {
+   "total": 3,
    "omitted": [
-    "Matt Loesby (Libertarian)",
-    "Natalie Fleming (independent)"
+    "Collin Corbett (Independent)"
    ],
-   "src": "https://news.ballotpedia.org/2026/09/15/u-s-house-primary-candidacies-increased-in-three-states-after-new-maps-reopened-filing-deadlines/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
+   "src": "https://www.thegreenpapers.com/G26/IL",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "il-2026-senate": {
+   "total": 3,
+   "omitted": [
+    "Whitfield Harrington (American Center)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/IL",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ks-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/KS",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
@@ -113,6 +263,17 @@
    "src": "https://news.ballotpedia.org/2026/10/27/twenty-three-states-are-holding-state-supreme-court-elections-in-november-six-are-battlegrounds/",
    "publisher": "Ballotpedia",
    "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "la-2026-senate": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/LA",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
@@ -148,12 +309,25 @@
   },
   "mn-2026-governor": {
    "total": 3,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/MN",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 1,
+   "conflicts": []
+  },
+  "mn-2026-senate": {
+   "total": 4,
    "omitted": [
-    "Steven Young (Green)"
+    "Marisa Simonetti (Independence)",
+    "Rebecca Whiting (Libertarian)"
    ],
-   "src": "https://www.kaxe.org/2026-09-28/governor-demuth-klobuchar-young-mn-2026-election-guide",
-   "publisher": "KAXE",
-   "tier": 4,
+   "src": "https://www.thegreenpapers.com/G26/MN",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
@@ -202,30 +376,115 @@
    "retrieved": "2026-11-12",
    "conflicts": []
   },
-  "ne-2026-senate": {
-   "total": 3,
+  "nd-2026-house": {
+   "total": 4,
    "omitted": [
-    "Mike Marvin (Legal Marijuana Now Party)"
+    "Charles Tuttle (Independent)",
+    "Helene Neville (Independent)"
    ],
-   "src": "https://news.ballotpedia.org/2026/07/24/nebraska-set-to-have-a-second-straight-u-s-senate-election-without-both-major-parties-on-the-ballot-2/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
+   "src": "https://www.thegreenpapers.com/G26/ND",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "caveat": "Ballotpedia's result headline counts five names, including a nominee who withdrew. We are confirming the exact ballot.",
+   "conflicts": []
+  },
+  "ne-2026-governor": {
+   "total": 4,
+   "omitted": [
+    "Brent Lindstrom (America First)",
+    "Rick Beard (Legal Marijuana Now)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/NE",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ne-2026-senate": {
+   "total": 5,
+   "omitted": [
+    "Robin Richards (Nebraska Working People)",
+    "Mike Marvin (Legal Marijuana Now)",
+    "Chuck Conboy (America First)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/NE",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "caveat": "Mike Marvin suspended his campaign but stayed on the ballot.",
+   "conflicts": [
+    {
+     "publisher": "Ballotpedia",
+     "tier": 3,
+     "url": "https://news.ballotpedia.org/2026/07/24/nebraska-set-to-have-a-second-straight-u-s-senate-election-without-both-major-parties-on-the-ballot-2/",
+     "count": 3
+    }
+   ]
+  },
+  "nj-2026-senate": {
+   "total": 4,
+   "omitted": [
+    "Veronica Fernandez (End the Corruption)",
+    "Joanne Kuniansky (Socialist Workers)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/NJ",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "nm-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/NM",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "nm-2026-senate": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/NM",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
    "conflicts": []
   },
   "nv-2026-governor": {
    "total": 3,
-   "omitted": null,
+   "omitted": [
+    "Danielle Ford (No Political Party)"
+   ],
    "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
    "publisher": "Ballotpedia",
    "tier": 3,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "n_omitted": 1,
+   "conflicts": []
+  },
+  "ny-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/NY",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
    "conflicts": []
   },
   "oh-2026-governor": {
@@ -241,16 +500,58 @@
    "retrieved": "2026-11-12",
    "conflicts": []
   },
+  "ok-2026-governor": {
+   "total": 5,
+   "omitted": [
+    "Robert Brooks (Independent)",
+    "Jerry Griffin (Independent)",
+    "Orlando Bush (Independent)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/OK",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
   "ok-2026-senate": {
    "total": 5,
    "omitted": null,
-   "src": "https://news.ballotpedia.org/2026/10/26/the-democratic-socialists-of-america-endorses-131-candidates-and-takes-sides-on-33-ballot-measures-in-the-nov-3-elections/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
+   "src": "https://www.thegreenpapers.com/G26/OK",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
    "n_omitted": 3,
+   "conflicts": []
+  },
+  "or-2026-governor": {
+   "total": 3,
+   "omitted": [
+    "Brett Smith (Pacific Green)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/OR",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "or-2026-senate": {
+   "total": 4,
+   "omitted": [
+    "Chris Henry (Pacific Green)",
+    "Gary Dye (Libertarian)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/OR",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
    "conflicts": []
   },
   "pa-2026-governor": {
@@ -266,17 +567,41 @@
    "retrieved": "2026-11-12",
    "conflicts": []
   },
-  "sc-2026-senate": {
-   "total": 10,
-   "omitted": null,
-   "src": "https://news.ballotpedia.org/2026/10/06/republican-incumbents-lost-primaries-at-twice-the-rate-of-democrats-in-this-years-state-legislative-elections/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
+  "sc-2026-governor": {
+   "total": 4,
+   "omitted": [
+    "Michael A. Addison (United Citizens)",
+    "Walid N. Hakim (Green)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/SC",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "n_omitted": 8,
    "conflicts": []
+  },
+  "sc-2026-senate": {
+   "total": 4,
+   "omitted": [
+    "Kathryn \"Kasie\" Whitener (Libertarian)",
+    "Mark J. Hackett (Constitution)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/SC",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "caveat": "FITSNews reports several other independent candidates on the ballot besides these four; Ballotpedia counted ten. We have not confirmed the full list.",
+   "conflicts": [
+    {
+     "publisher": "Ballotpedia",
+     "tier": 3,
+     "url": "https://news.ballotpedia.org/2026/10/06/republican-incumbents-lost-primaries-at-twice-the-rate-of-democrats-in-this-years-state-legislative-elections/",
+     "count": 10
+    }
+   ]
   },
   "sd-2026-governor": {
    "total": 2,
@@ -295,6 +620,52 @@
    "src": "https://news.ballotpedia.org/2026/08/06/julian-beaudion-becomes-the-fifth-major-or-minor-party-u-s-senate-nominee-to-withdraw-from-a-general-election-this-year/",
    "publisher": "Ballotpedia",
    "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "tn-2026-governor": {
+   "total": 15,
+   "omitted": [
+    "David Hatley (Independent)",
+    "Lauren Pinkston (Independent)",
+    "Dean Brewer (Independent)",
+    "Ray Brown (Independent)",
+    "Wendell Jackson (Independent)",
+    "Eddie Murphy (Independent)",
+    "Robert Vick (Independent)",
+    "Misam Abidi (Independent)",
+    "Charles Morgan (Independent)",
+    "L. Webb Taylor (Independent)",
+    "Dave Seeman (Independent)",
+    "Vic Scoggin (Independent)",
+    "Karl Smithson (Independent)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/TN",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "caveat": "The source page header says 15 candidates including one write-in, but lists 15 ballot candidates plus one write-in. Percentages total 100% for the 15.",
+   "conflicts": []
+  },
+  "tn-2026-senate": {
+   "total": 10,
+   "omitted": [
+    "Robert Jones (Independent)",
+    "Tharon Chandler (Independent)",
+    "Jeranimo Gerena (Independent)",
+    "Barcy Whitson (Independent)",
+    "Jeremy Hearn (Independent)",
+    "David Sutman (Independent)",
+    "Yoshi Matthews (Independent)",
+    "James Macon (Independent)"
+   ],
+   "src": "https://www.thegreenpapers.com/G26/TN",
+   "publisher": "The Green Papers",
+   "tier": 2,
    "confidence": "reported",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
@@ -326,12 +697,5 @@
    "conflicts": []
   }
  },
- "unresolved": {
-  "ia-2026-governor": "Ballotpedia listed Nicholas Gluba (L) in June; its November result headline names only Sand and Lahn. Being checked.",
-  "ks-2026-governor": "Ballotpedia names only Holscher (D) and Masterson (R) before the election. No full roster found yet.",
-  "mn-2026-senate": "Axios reports third-party candidates in four Minnesota races. The Senate roster is not confirmed.",
-  "nm-2026-governor": "No general-election roster found yet.",
-  "nm-2026-senate": "Source NM says Luján and Marker will face each other. No third candidate found, but we have no state list yet.",
-  "sc-2026-governor": "Wilson (R), Johnson (D) and Michael Addison (United Citizens) are listed by MultiState. The full roster is not confirmed."
- }
+ "unresolved": {}
 }

@@ -1,5 +1,20 @@
 {
  "race": "mn-2026-senate",
- "unresolved": "Axios reports third-party candidates in four Minnesota races. The Senate roster is not confirmed.",
- "observations": []
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/MN",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 4,
+   "names": [
+    "Peggy Flanagan",
+    "Michele Tafoya",
+    "Marisa Simonetti (Independence)",
+    "Rebecca Whiting (Libertarian)"
+   ]
+  }
+ ]
 }

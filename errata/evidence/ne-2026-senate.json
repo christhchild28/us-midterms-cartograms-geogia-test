@@ -15,6 +15,23 @@
     "Mike Marvin (Legal Marijuana Now Party)"
    ],
    "caveat": "Ballotpedia's result headline counts five names, including a nominee who withdrew. We are confirming the exact ballot."
+  },
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/NE",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 5,
+   "names": [
+    "Pete Ricketts",
+    "Dan Osborn",
+    "Robin Richards (Nebraska Working People)",
+    "Mike Marvin (Legal Marijuana Now)",
+    "Chuck Conboy (America First)"
+   ],
+   "caveat": "Mike Marvin suspended his campaign but stayed on the ballot."
   }
  ]
 }

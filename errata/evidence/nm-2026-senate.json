@@ -1,5 +1,18 @@
 {
  "race": "nm-2026-senate",
- "unresolved": "Source NM says Luján and Marker will face each other. No third candidate found, but we have no state list yet.",
- "observations": []
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/NM",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 2,
+   "names": [
+    "Ben Ray Luján",
+    "Larry Marker"
+   ]
+  }
+ ]
 }

@@ -1,5 +1,20 @@
 {
  "race": "sc-2026-governor",
- "unresolved": "Wilson (R), Johnson (D) and Michael Addison (United Citizens) are listed by MultiState. The full roster is not confirmed.",
- "observations": []
+ "observations": [
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/SC",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 4,
+   "names": [
+    "Alan Wilson",
+    "Johnson",
+    "Michael A. Addison (United Citizens)",
+    "Walid N. Hakim (Green)"
+   ]
+  }
+ ]
 }

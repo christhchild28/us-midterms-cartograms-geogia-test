@@ -15,6 +15,15 @@
     "Matt Loesby (Libertarian)",
     "Natalie Fleming (independent)"
    ]
+  },
+  {
+   "tier": 2,
+   "publisher": "The Green Papers",
+   "url": "https://www.thegreenpapers.com/G26/ID",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "exhaustive": true,
+   "total": 4
   }
  ]
 }
