@@ -22,13 +22,13 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 **Catch.** A label that says "votes cast" or "of the vote" must match its denominator. A check for this wording is planned.
 
-## E-2026-002 Eighteen more pages map only some of the candidates on the ballot
+## E-2026-002 Twenty more pages map only some of the candidates on the ballot
 
-2026-11-11 · Open (S2) · pages: ga-2026-senate, tx-2026-senate, ne-2026-senate, nc-2026-senate, mi-2026-senate, ky-2026-senate, az-2026-governor, mi-2026-governor, nv-2026-governor, oh-2026-governor, wi-2026-governor, pa-2026-governor, ar-2026-senate, ar-2026-governor, ok-2026-senate, fl-2026-senate, ia-2026-senate, id-2026-senate
+2026-11-11 · Open (S2) · pages: ga-2026-senate, tx-2026-senate, ne-2026-senate, nc-2026-senate, mi-2026-senate, ky-2026-senate, az-2026-governor, mi-2026-governor, nv-2026-governor, oh-2026-governor, wi-2026-governor, pa-2026-governor, ar-2026-senate, ar-2026-governor, ok-2026-senate, fl-2026-senate, ia-2026-senate, id-2026-senate, ms-2026-senate, sc-2026-senate
 
-**Wrong.** According to Ballotpedia, these pages show two candidates while more were on the ballot. Senate: Georgia, Texas, Nebraska, North Carolina, Kentucky, Michigan, Arkansas, Oklahoma, Florida, Iowa and Idaho. Governor: Arizona, Michigan, Nevada, Ohio, Wisconsin, Pennsylvania and Arkansas. Shares on these pages are shares of the two shown candidates, not of all votes. California is complete (top-two race). Iowa governor is unresolved because Ballotpedia pages disagree. 33 other pages have not been checked yet.
+**Wrong.** According to Ballotpedia, these pages show two candidates while more were on the ballot. Senate: Georgia, Texas, Nebraska, North Carolina, Kentucky, Michigan, Arkansas, Oklahoma, Florida, Iowa, Idaho, Mississippi and South Carolina. Governor: Arizona, Michigan, Nevada, Ohio, Wisconsin, Pennsylvania and Arkansas. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two race) and the South Dakota Senate race (two candidates) are complete. Iowa governor is unresolved because Ballotpedia pages disagree. 31 other pages have not been checked yet.
 
-**Done.** Added a dated note with the count, names where known, and a source link to each of the twelve pages. Map data is unchanged. The audit continues; each result will be added here.
+**Done.** Added a dated note with the count, names where known, and a source link to each of each of the audited pages. Map data is unchanged. The audit continues; each result will be added here.
 
 **Catch.** Same as E-2026-001.
 
