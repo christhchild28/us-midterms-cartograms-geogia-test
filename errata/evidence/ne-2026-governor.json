@@ -15,6 +15,22 @@
     "Brent Lindstrom (America First)",
     "Rick Beard (Legal Marijuana Now)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Nebraska Secretary of State",
+   "url": "https://electionresults.nebraska.gov/resultsSW.aspx?type=SW&map=CTY",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "names": [
+    "Jim Pillen",
+    "Lynne Walz",
+    "Rick Beard (Legal Marijuana Now)",
+    "Brett Lindstrom (America First)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial results."
   }
  ]
 }

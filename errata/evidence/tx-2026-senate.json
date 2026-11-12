@@ -9,6 +9,21 @@
    "retrieved": "2026-11-12",
    "total": 7,
    "exhaustive": true
+  },
+  {
+   "tier": 1,
+   "publisher": "Texas Secretary of State",
+   "url": "https://electionresults.sos.state.tx.us/results.html",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "names": [
+    "Ken Paxton (REP)",
+    "James Talarico (DEM)",
+    "Ted Brown (LIB)"
+   ],
+   "exhaustive": true,
+   "caveat": "Official ballot: Paxton, Talarico, Brown; 4 certified write-ins not counted"
   }
  ]
 }

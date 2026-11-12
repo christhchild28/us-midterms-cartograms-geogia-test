@@ -5,23 +5,25 @@
   "al-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/AL",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://www2.alabamavotes.gov/",
+   "publisher": "Alabama Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial election-night results; write-ins not counted",
    "conflicts": []
   },
   "al-2026-senate": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/AL",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://www2.alabamavotes.gov/",
+   "publisher": "Alabama Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial election-night results; write-ins not counted",
    "conflicts": []
   },
   "ar-2026-governor": {
@@ -53,111 +55,120 @@
   "az-2026-governor": {
    "total": 4,
    "omitted": [
-    "Risa Lombardo (Green)",
-    "Teri Hourihan (No Labels Party)"
+    "Risa Lombardo (GRN)",
+    "Teri Hourihan (NOL)"
    ],
-   "src": "https://news.ballotpedia.org/2026/11/08/incumbent-katie-hobbs-d-defeated-andy-biggs-r-risa-lombardo-g-and-teri-hourihan-no-labels-party-in-the-general-election-for-governor-of-arizona/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://results.arizona.vote/",
+   "publisher": "Arizona Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial election-night results, 15/15 counties; write-ins not counted",
    "conflicts": []
   },
   "ca-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://news.ballotpedia.org/2026/06/24/xavier-becerra-d-and-steve-hilton-r-to-run-for-governor-of-california-on-nov-3/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://electionresults.sos.ca.gov/returns/governor",
+   "publisher": "California Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results, 23,860 of 23,860 precincts partially reporting",
    "conflicts": []
   },
   "co-2026-governor": {
    "total": 7,
    "omitted": [
-    "Greg Lopez (Unaffiliated)",
+    "Stephen T. Hamilton (American Constitution)",
     "Eric Mulder (Libertarian)",
-    "Stephen Taylor Hamilton (American Constitution)",
+    "Jeff Peckman (Unity)",
     "Erik Underwood (Approval Voting)",
-    "Jeff Peckman (Unity)"
+    "Greg Lopez (Unaffiliated)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/CO",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://www.coloradosos.gov/pubs/elections/vote/generalCandidates.html",
+   "publisher": "Colorado Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-09-15",
    "retrieved": "2026-11-12",
+   "caveat": "Official certified candidate list.",
    "conflicts": []
   },
   "co-2026-senate": {
    "total": 6,
    "omitted": [
-    "Robert Chew (Forward)",
+    "Bob Chew (Forward)",
+    "Christopher Baum (Approval Voting)",
     "Blake Huber (Libertarian)",
-    "Adam Withrow (Unity)",
-    "Christopher Baum (Approval Voting)"
+    "Adam Withrow (Unity)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/CO",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://www.coloradosos.gov/pubs/elections/vote/generalCandidates.html",
+   "publisher": "Colorado Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-09-15",
    "retrieved": "2026-11-12",
+   "caveat": "Official certified candidate list; write-in candidates are not counted.",
    "conflicts": []
   },
   "fl-2026-governor": {
    "total": 8,
    "omitted": [
-    "Scott Jewett (Libertarian)",
-    "Frank Russo (No Party)",
-    "Charles Burkett (No Party)",
-    "Dean Abrams (No Party)",
-    "Jeff Datto (No Party)",
-    "Moe Dimanche (No Party)"
+    "Dean Abrams (NPA)",
+    "Charles Burkett (NPA)",
+    "Jeff Datto (NPA)",
+    "Moe Dimanche (NPA)",
+    "Scott Jewett (LPF)",
+    "Frank Russo (NPA)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/FL",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://dos.elections.myflorida.com/candidates/CanList.asp?elecid=20261103-GEN",
+   "publisher": "Florida Division of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Qualified, non-write-in",
    "conflicts": []
   },
   "fl-2026-senate": {
    "total": 3,
-   "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/FL",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "omitted": [
+    "Neil Gillespie (NPA)"
+   ],
+   "src": "https://dos.elections.myflorida.com/candidates/CanList.asp?elecid=20261103-GEN",
+   "publisher": "Florida Division of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "n_omitted": 1,
+   "caveat": "Qualified, non-write-in",
    "conflicts": []
   },
   "ga-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/GA",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://results.sos.ga.gov/results/public/Georgia/elections/11032026GeneralAndSpecialElection",
+   "publisher": "Georgia Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Election-night results, 159/159 localities",
    "conflicts": []
   },
   "ga-2026-senate": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/GA",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://results.sos.ga.gov/results/public/Georgia/elections/11032026GeneralAndSpecialElection",
+   "publisher": "Georgia Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Election-night results, 159/159 localities",
    "conflicts": [
     {
      "publisher": "Ballotpedia",
@@ -170,12 +181,13 @@
   "ia-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/IA",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://sos.iowa.gov/sites/default/files/2026-08/2026%20General%20-%20Candidate%20List%20Database%20-%20All%20Elections_0.pdf",
+   "publisher": "Iowa Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-08-14",
    "retrieved": "2026-11-12",
+   "caveat": "List last updated 8/14/2026",
    "conflicts": []
   },
   "ia-2026-senate": {
@@ -183,12 +195,13 @@
    "omitted": [
     "Thomas Laehn (Libertarian)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/IA",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://sos.iowa.gov/sites/default/files/2026-08/2026%20General%20-%20Candidate%20List%20Database%20-%20All%20Elections_0.pdf",
+   "publisher": "Iowa Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-08-14",
    "retrieved": "2026-11-12",
+   "caveat": "List last updated 8/14/2026",
    "conflicts": []
   },
   "id-2026-governor": {
@@ -198,24 +211,28 @@
     "Paul Sand (Libertarian)",
     "Marvin Richardson (Constitution)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/ID",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://results.voteidaho.gov/results/public/id/elections/nov2026",
+   "publisher": "Idaho Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-10",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results, 44/44 counties; write-ins not counted",
    "conflicts": []
   },
   "id-2026-senate": {
    "total": 4,
-   "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/ID",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "omitted": [
+    "Natalie Fleming (Independent)",
+    "Matt Loesby (Libertarian)"
+   ],
+   "src": "https://results.voteidaho.gov/results/public/id/elections/nov2026",
+   "publisher": "Idaho Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-10",
    "retrieved": "2026-11-12",
-   "n_omitted": 2,
+   "caveat": "Unofficial results, 44/44 counties",
    "conflicts": []
   },
   "il-2026-governor": {
@@ -223,12 +240,13 @@
    "omitted": [
     "Collin Corbett (Independent)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/IL",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://www.elections.il.gov/ElectionOperations/CandidateList.aspx?ElectionID=71",
+   "publisher": "Illinois State Board of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Active, non-write-in",
    "conflicts": []
   },
   "il-2026-senate": {
@@ -236,47 +254,51 @@
    "omitted": [
     "Whitfield Harrington (American Center)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/IL",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://www.elections.il.gov/ElectionOperations/CandidateList.aspx?ElectionID=71",
+   "publisher": "Illinois State Board of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Active, non-write-in; Muhammad removed",
    "conflicts": []
   },
   "ks-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/KS",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://ent.sos.ks.gov/kssos_ent.html",
+   "publisher": "Kansas Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial election night results, 4168 of 4168 precincts",
    "conflicts": []
   },
   "ky-2026-senate": {
    "total": 3,
    "omitted": [
-    "Christopher Campbell (Kentucky Party)"
+    "Christopher Campbell (KEN)"
    ],
-   "src": "https://news.ballotpedia.org/2026/10/27/twenty-three-states-are-holding-state-supreme-court-elections-in-november-six-are-battlegrounds/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://vrsws.sos.ky.gov/liveresults",
+   "publisher": "Kentucky Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results updated 11/12/2026 11:45 AM; write-ins not counted",
    "conflicts": []
   },
   "la-2026-senate": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/LA",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://voterportal.sos.la.gov/CandidateInquiry/ParishCandidate/Print?electionDate=11%2F03%2F2026&electionId=344&parishId=37&parishName=Orleans",
+   "publisher": "Louisiana Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Candidate Inquiry, 11/03/2026 election, U.S. Senator 1 to be elected",
    "conflicts": []
   },
   "mi-2026-governor": {
@@ -309,28 +331,31 @@
   },
   "mn-2026-governor": {
    "total": 3,
-   "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/MN",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "omitted": [
+    "Steven Young (Green)"
+   ],
+   "src": "https://www.sos.mn.gov/elections-voting/election-results/2026/2026-general-election-results/",
+   "publisher": "Minnesota Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-09",
    "retrieved": "2026-11-12",
-   "n_omitted": 1,
+   "caveat": "Unofficial results as of 11/9/2026; write-ins not counted",
    "conflicts": []
   },
   "mn-2026-senate": {
    "total": 4,
    "omitted": [
-    "Marisa Simonetti (Independence)",
+    "Marisa Simonetti (Independent)",
     "Rebecca Whiting (Libertarian)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/MN",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://www.sos.mn.gov/elections-voting/election-results/2026/2026-general-election-results/",
+   "publisher": "Minnesota Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-09",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results as of 11/9/2026; write-ins not counted",
    "conflicts": []
   },
   "ms-2026-senate": {
@@ -338,86 +363,96 @@
    "omitted": [
     "Ty Pinkins (Independent)"
    ],
-   "src": "https://news.ballotpedia.org/2026/10/28/fifteen-of-the-100-most-populous-u-s-cities-are-holding-elections-for-mayor-on-nov-3/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://sos.ms.gov/content/CandidateQualifying/default.aspx",
+   "publisher": "Mississippi Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-03",
    "retrieved": "2026-11-12",
+   "caveat": "Candidate Qualifying List, Candidates for United States Senate",
    "conflicts": []
   },
   "mt-2026-senate": {
    "total": 4,
    "omitted": [
-    "Alani Bankhead (Democratic)",
+    "Alani Bankhead (Democrat)",
     "Kyle Austin (Libertarian)"
    ],
-   "src": "https://news.ballotpedia.org/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://electionresults.mt.gov/resultsSW.aspx?type=FED&map=CTY",
+   "publisher": "Montana Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "extra": "one write-in candidate",
+   "caveat": "Unofficial results, 728/728 precincts; one write-in not counted",
    "conflicts": []
   },
   "nc-2026-senate": {
-   "total": 5,
+   "total": 4,
    "omitted": [
-    "Brian McGinnis (Green)",
-    "Shannon Bray (Libertarian)",
-    "Shaunesi Deberry (independent)"
+    "Shannon Bray (LIB)",
+    "Michael Dublin (GRE)"
    ],
-   "src": "https://news.ballotpedia.org/2026/04/06/roy-cooper-d-michael-whatley-r-and-three-other-candidates-are-running-in-north-carolinas-u-s-senate-election-on-november-3-2026/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://dl.ncsbe.gov/Elections/2026/Candidate%20Filing/2026_general_candidate_list_by_contest_federal_and_state.pdf",
+   "publisher": "North Carolina State Board of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-10-13",
    "retrieved": "2026-11-12",
-   "conflicts": []
+   "caveat": "General candidate list by contest, report dated Oct 13 2026",
+   "conflicts": [
+    {
+     "publisher": "Ballotpedia",
+     "tier": 3,
+     "url": "https://news.ballotpedia.org/2026/04/06/roy-cooper-d-michael-whatley-r-and-three-other-candidates-are-running-in-north-carolinas-u-s-senate-election-on-november-3-2026/",
+     "count": 5
+    }
+   ]
   },
   "nd-2026-house": {
    "total": 4,
    "omitted": [
-    "Charles Tuttle (Independent)",
-    "Helene Neville (Independent)"
+    "Helene Neville",
+    "Charles Tuttle"
    ],
-   "src": "https://www.thegreenpapers.com/G26/ND",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://vip.sos.nd.gov/candidatelist.aspx?eid=348",
+   "publisher": "North Dakota Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "2026 General Election Contest/Candidate List, Representative in Congress",
    "conflicts": []
   },
   "ne-2026-governor": {
    "total": 4,
    "omitted": [
-    "Brent Lindstrom (America First)",
-    "Rick Beard (Legal Marijuana Now)"
+    "Rick Beard (Legal Marijuana Now)",
+    "Brett Lindstrom (America First)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/NE",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://electionresults.nebraska.gov/resultsSW.aspx?type=SW&map=CTY",
+   "publisher": "Nebraska Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results.",
    "conflicts": []
   },
   "ne-2026-senate": {
    "total": 5,
    "omitted": [
-    "Robin Richards (Nebraska Working People)",
     "Mike Marvin (Legal Marijuana Now)",
+    "Robin Richards (Nebraska Working People)",
     "Chuck Conboy (America First)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/NE",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://electionresults.nebraska.gov/resultsSW.aspx?type=SW&map=CTY",
+   "publisher": "Nebraska Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "caveat": "Mike Marvin suspended his campaign but stayed on the ballot.",
+   "caveat": "Unofficial results; Mike Marvin suspended his campaign but stayed on the ballot.",
    "conflicts": [
     {
      "publisher": "Ballotpedia",
@@ -433,47 +468,51 @@
     "Veronica Fernandez (End the Corruption)",
     "Joanne Kuniansky (Socialist Workers)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/NJ",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://www.nj.gov/state/elections/assets/pdf/election-results/2026/2026-official-general-candidates-us-senate.pdf",
+   "publisher": "New Jersey Division of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-07-27",
    "retrieved": "2026-11-12",
+   "caveat": "Official List Candidates for US Senate, dated 07/27/2026",
    "conflicts": []
   },
   "nm-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/NM",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://electionresults.sos.nm.gov/",
+   "publisher": "New Mexico Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-06",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results updated 11/6/2026, 2204/2204 precincts",
    "conflicts": []
   },
   "nm-2026-senate": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/NM",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://electionresults.sos.nm.gov/",
+   "publisher": "New Mexico Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-06",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results updated 11/6/2026, 2204/2204 precincts",
    "conflicts": []
   },
   "nv-2026-governor": {
    "total": 3,
    "omitted": [
-    "Danielle Ford (No Political Party)"
+    "Danielle Ford (NPP)"
    ],
-   "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://silverstateelection.nv.gov/",
+   "publisher": "Nevada Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results, 17 of 17 counties; None of These Candidates not counted",
    "conflicts": []
   },
   "ny-2026-governor": {
@@ -514,41 +553,47 @@
   "oh-2026-governor": {
    "total": 3,
    "omitted": [
-    "Don Kissick (Libertarian)"
+    "Don Kissick (L)"
    ],
-   "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://liveresults.ohiosos.gov/",
+   "publisher": "Ohio Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results; write-ins (WI) not counted",
    "conflicts": []
   },
   "ok-2026-governor": {
    "total": 5,
    "omitted": [
-    "Robert Brooks (Independent)",
-    "Jerry Griffin (Independent)",
-    "Orlando Bush (Independent)"
+    "Orlando Bush (IND)",
+    "Robert Brooks (IND)",
+    "Jerry Griffin (IND)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/OK",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://results.okelections.gov/OKER/?elecDate=20261103",
+   "publisher": "Oklahoma State Election Board",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Official results page, 1984 of 1984 precincts",
    "conflicts": []
   },
   "ok-2026-senate": {
    "total": 5,
-   "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/OK",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "omitted": [
+    "Sevier White (LIB)",
+    "Ron Meinhardt (IND)",
+    "Curtis Stinnett (IND)"
+   ],
+   "src": "https://results.okelections.gov/OKER/?elecDate=20261103",
+   "publisher": "Oklahoma State Election Board",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "n_omitted": 3,
+   "caveat": "Official results page, 1984 of 1984 precincts",
    "conflicts": []
   },
   "or-2026-governor": {
@@ -556,12 +601,13 @@
    "omitted": [
     "Brett Smith (Pacific Green)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/OR",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://results.oregonvotes.gov/",
+   "publisher": "Oregon Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results updated 11/12/2026 9:00 AM PT; write-ins not counted",
    "conflicts": []
   },
   "or-2026-senate": {
@@ -570,25 +616,27 @@
     "Chris Henry (Pacific Green)",
     "Gary Dye (Libertarian)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/OR",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://results.oregonvotes.gov/",
+   "publisher": "Oregon Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results updated 11/12/2026 9:00 AM PT; write-ins not counted",
    "conflicts": []
   },
   "pa-2026-governor": {
    "total": 3,
    "omitted": [
-    "Ken Krawchuk (Libertarian)"
+    "Ken Krawchuk (LIB)"
    ],
-   "src": "https://news.ballotpedia.org/2026/10/14/republicans-cannot-lose-more-than-two-seats-to-keep-control-of-the-u-s-house-democrats-need-to-gain-three-for-a-majority/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://www.electionreturns.pa.gov/",
+   "publisher": "Pennsylvania Department of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial returns",
    "conflicts": []
   },
   "sc-2026-governor": {
@@ -631,23 +679,25 @@
   "sd-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.newsfromthestates.com/node/424723",
-   "publisher": "South Dakota Searchlight",
-   "tier": 4,
-   "confidence": "reported",
+   "src": "https://electionresults.sd.gov/",
+   "publisher": "South Dakota Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results, 671/671 precincts",
    "conflicts": []
   },
   "sd-2026-senate": {
    "total": 2,
    "omitted": null,
-   "src": "https://news.ballotpedia.org/2026/08/06/julian-beaudion-becomes-the-fifth-major-or-minor-party-u-s-senate-nominee-to-withdraw-from-a-general-election-this-year/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://electionresults.sd.gov/",
+   "publisher": "South Dakota Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Unofficial results, 671/671 precincts",
    "conflicts": []
   },
   "tn-2026-governor": {
@@ -698,52 +748,69 @@
    "conflicts": []
   },
   "tx-2026-senate": {
-   "total": 7,
-   "omitted": null,
-   "src": "https://news.ballotpedia.org/?p=52297",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
-   "retrieved": "2026-11-12",
-   "n_omitted": 5,
-   "conflicts": []
-  },
-  "wi-2026-governor": {
    "total": 3,
    "omitted": [
-    "Jamie Jo Carothers (independent write-in)"
+    "Ted Brown (LIB)"
    ],
-   "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://electionresults.sos.state.tx.us/results.html",
+   "publisher": "Texas Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "conflicts": []
+   "caveat": "Official ballot: Paxton, Talarico, Brown; 4 certified write-ins not counted",
+   "conflicts": [
+    {
+     "publisher": "Ballotpedia",
+     "tier": 3,
+     "url": "https://news.ballotpedia.org/?p=52297",
+     "count": 7
+    }
+   ]
+  },
+  "wi-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://elections.wi.gov/sites/default/files/documents/Candidates%20on%20Ballot%20By%20Election_November%203%202026%20General%20Election.pdf",
+   "publisher": "Wisconsin Elections Commission",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "caveat": "Candidates on Ballot list: Total Number of GOVERNOR Candidates 2; write-ins not counted",
+   "conflicts": [
+    {
+     "publisher": "Ballotpedia",
+     "tier": 3,
+     "url": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
+     "count": 3
+    }
+   ]
   },
   "wy-2026-governor": {
    "total": 3,
    "omitted": [
     "Rebecca Bextel (Constitution)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/WY",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://sos.wyo.gov/Elections/Docs/2026/2026_WY_General_Election_Candidates.pdf",
+   "publisher": "Wyoming Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-09-09",
    "retrieved": "2026-11-12",
+   "caveat": "General Election Candidate Roster dated 9/9/2026",
    "conflicts": []
   },
   "wy-2026-senate": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/WY",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://sos.wyo.gov/Elections/Docs/2026/2026_WY_General_Election_Candidates.pdf",
+   "publisher": "Wyoming Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-09-09",
    "retrieved": "2026-11-12",
+   "caveat": "General Election Candidate Roster dated 9/9/2026",
    "conflicts": []
   }
  },

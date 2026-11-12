@@ -17,6 +17,24 @@
     "Adam Withrow (Unity)",
     "Christopher Baum (Approval Voting)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Colorado Secretary of State",
+   "url": "https://www.coloradosos.gov/pubs/elections/vote/generalCandidates.html",
+   "as_of": "2026-09-15",
+   "retrieved": "2026-11-12",
+   "total": 6,
+   "names": [
+    "John Hickenlooper",
+    "Mark Baisley",
+    "Bob Chew (Forward)",
+    "Christopher Baum (Approval Voting)",
+    "Blake Huber (Libertarian)",
+    "Adam Withrow (Unity)"
+   ],
+   "exhaustive": true,
+   "caveat": "Official certified candidate list; write-in candidates are not counted."
   }
  ]
 }

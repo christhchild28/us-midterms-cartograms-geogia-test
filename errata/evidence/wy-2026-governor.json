@@ -14,6 +14,21 @@
     "Ken Casner"
    ],
    "exhaustive": true
+  },
+  {
+   "tier": 1,
+   "publisher": "Wyoming Secretary of State",
+   "url": "https://sos.wyo.gov/Elections/Docs/2026/2026_WY_General_Election_Candidates.pdf",
+   "as_of": "2026-09-09",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "names": [
+    "Eric Barlow (Republican)",
+    "Kenneth Casner (Democratic)",
+    "Rebecca Bextel (Constitution)"
+   ],
+   "exhaustive": true,
+   "caveat": "General Election Candidate Roster dated 9/9/2026"
   }
  ]
 }

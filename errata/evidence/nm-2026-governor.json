@@ -13,6 +13,20 @@
     "Deb Haaland",
     "Greggory Hull"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "New Mexico Secretary of State",
+   "url": "https://electionresults.sos.nm.gov/",
+   "as_of": "2026-11-06",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Deb Haaland (Democrat)",
+    "Greg Hull (Republican)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial results updated 11/6/2026, 2204/2204 precincts"
   }
  ]
 }

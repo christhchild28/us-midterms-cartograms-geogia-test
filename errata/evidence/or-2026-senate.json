@@ -15,6 +15,22 @@
     "Chris Henry (Pacific Green)",
     "Gary Dye (Libertarian)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Oregon Secretary of State",
+   "url": "https://results.oregonvotes.gov/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "names": [
+    "Jeff Merkley (Democrat)",
+    "David Brock Smith (Republican)",
+    "Chris Henry (Pacific Green)",
+    "Gary Dye (Libertarian)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial results updated 11/12/2026 9:00 AM PT; write-ins not counted"
   }
  ]
 }

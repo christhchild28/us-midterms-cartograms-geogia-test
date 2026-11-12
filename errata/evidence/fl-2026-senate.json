@@ -23,6 +23,21 @@
    "retrieved": "2026-11-12",
    "exhaustive": true,
    "total": 3
+  },
+  {
+   "tier": 1,
+   "publisher": "Florida Division of Elections",
+   "url": "https://dos.elections.myflorida.com/candidates/CanList.asp?elecid=20261103-GEN",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "names": [
+    "Neil Gillespie (NPA)",
+    "Ashley Moody (REP)",
+    "Angie Nixon (DEM)"
+   ],
+   "exhaustive": true,
+   "caveat": "Qualified, non-write-in"
   }
  ]
 }

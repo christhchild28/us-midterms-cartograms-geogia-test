@@ -13,6 +13,20 @@
     "Julia Letlow",
     "Jamie Davis"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Louisiana Secretary of State",
+   "url": "https://voterportal.sos.la.gov/CandidateInquiry/ParishCandidate/Print?electionDate=11%2F03%2F2026&electionId=344&parishId=37&parishName=Orleans",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Jamie Davis (Democrat)",
+    "Julia Letlow (Republican)"
+   ],
+   "exhaustive": true,
+   "caveat": "Candidate Inquiry, 11/03/2026 election, U.S. Senator 1 to be elected"
   }
  ]
 }

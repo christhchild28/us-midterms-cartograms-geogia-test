@@ -14,6 +14,20 @@
     "Tom Tiffany",
     "Jamie Jo Carothers (independent write-in)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Wisconsin Elections Commission",
+   "url": "https://elections.wi.gov/sites/default/files/documents/Candidates%20on%20Ballot%20By%20Election_November%203%202026%20General%20Election.pdf",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Tom Tiffany (Republican)",
+    "David Crowley (Democratic)"
+   ],
+   "exhaustive": true,
+   "caveat": "Candidates on Ballot list: Total Number of GOVERNOR Candidates 2; write-ins not counted"
   }
  ]
 }

@@ -16,6 +16,23 @@
     "Paul Sand (Libertarian)",
     "Marvin Richardson (Constitution)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Idaho Secretary of State",
+   "url": "https://results.voteidaho.gov/results/public/id/elections/nov2026",
+   "as_of": "2026-11-10",
+   "retrieved": "2026-11-12",
+   "total": 5,
+   "names": [
+    "Brad Little (Republican)",
+    "Terri Pickens (Democratic)",
+    "John Stegner (Independent)",
+    "Paul Sand (Libertarian)",
+    "Marvin Richardson (Constitution)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial results, 44/44 counties; write-ins not counted"
   }
  ]
 }

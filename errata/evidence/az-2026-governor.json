@@ -15,6 +15,22 @@
     "Risa Lombardo (Green)",
     "Teri Hourihan (No Labels Party)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Arizona Secretary of State",
+   "url": "https://results.arizona.vote/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "names": [
+    "Katie Hobbs (DEM)",
+    "Andy Biggs (REP)",
+    "Risa Lombardo (GRN)",
+    "Teri Hourihan (NOL)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial election-night results, 15/15 counties; write-ins not counted"
   }
  ]
 }

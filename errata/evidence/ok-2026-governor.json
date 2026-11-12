@@ -16,6 +16,23 @@
     "Jerry Griffin (Independent)",
     "Orlando Bush (Independent)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Oklahoma State Election Board",
+   "url": "https://results.okelections.gov/OKER/?elecDate=20261103",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 5,
+   "names": [
+    "Mike Mazzei (REP)",
+    "Cyndi Munson (DEM)",
+    "Orlando Bush (IND)",
+    "Robert Brooks (IND)",
+    "Jerry Griffin (IND)"
+   ],
+   "exhaustive": true,
+   "caveat": "Official results page, 1984 of 1984 precincts"
   }
  ]
 }

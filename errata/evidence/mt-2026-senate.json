@@ -16,6 +16,22 @@
     "Kyle Austin (Libertarian)"
    ],
    "extra": "one write-in candidate"
+  },
+  {
+   "tier": 1,
+   "publisher": "Montana Secretary of State",
+   "url": "https://electionresults.mt.gov/resultsSW.aspx?type=FED&map=CTY",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "names": [
+    "Kurt Alme (Republican)",
+    "Alani Bankhead (Democrat)",
+    "Kyle Austin (Libertarian)",
+    "Seth Bodnar (Independent)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial results, 728/728 precincts; one write-in not counted"
   }
  ]
 }

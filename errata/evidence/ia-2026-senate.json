@@ -28,6 +28,21 @@
     "Ashley Hinson",
     "Thomas Laehn (Libertarian)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Iowa Secretary of State",
+   "url": "https://sos.iowa.gov/sites/default/files/2026-08/2026%20General%20-%20Candidate%20List%20Database%20-%20All%20Elections_0.pdf",
+   "as_of": "2026-08-14",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "names": [
+    "Ashley Hinson (Republican)",
+    "Josh Turek (Democratic)",
+    "Thomas Laehn (Libertarian)"
+   ],
+   "exhaustive": true,
+   "caveat": "List last updated 8/14/2026"
   }
  ]
 }

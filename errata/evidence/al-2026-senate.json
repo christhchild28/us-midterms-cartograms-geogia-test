@@ -13,6 +13,20 @@
     "Barry Moore",
     "Everett Wess"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Alabama Secretary of State",
+   "url": "https://www2.alabamavotes.gov/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Everett Wess (DEM)",
+    "Barry Moore (REP)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial election-night results; write-ins not counted"
   }
  ]
 }

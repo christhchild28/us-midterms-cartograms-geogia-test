@@ -4,6 +4,26 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 - 2026-11-12: Page banners for roster gaps were removed. Every page still shows the "On the ballot" card with the full count, and each gap is still listed here. Banners return for any entry that sets banner or is S1 and open.
 
+## E-2026-008 Texas and North Carolina Senate: ballot counts were too high
+
+2026-11-12 · Corrected (S2, corrections) · pages: tx-2026-senate, nc-2026-senate
+
+**Wrong.** Our notes said 7 candidates were on the Texas Senate ballot and 5 in North Carolina. Both counts came from Ballotpedia. The Texas Secretary of State lists 3 on the ballot (Paxton, Talarico and Brown); the other 4 names were certified write-ins. The North Carolina State Board of Elections lists 4 (Cooper, Whatley, Bray and Dublin); two names in our count were not on its list.
+
+**Done.** Both notes now show the corrected count and cite the state office. Map data is unchanged.
+
+**Catch.** Write-ins are never counted as ballot candidates. The state election office list outranks other sources, and any disagreement is logged.
+
+## E-2026-007 Wisconsin governor: the ballot count was too high
+
+2026-11-12 · Corrected (S2, corrections) · pages: wi-2026-governor
+
+**Wrong.** Our note said 3 candidates were on the Wisconsin governor ballot. That count came from Ballotpedia and included a registered write-in. The Wisconsin Elections Commission's Candidates on Ballot list shows 2: Tiffany (Republican) and Crowley (Democratic). Both are on our map, so the map is complete.
+
+**Done.** The note now shows 2 and cites the Wisconsin Elections Commission. Map data is unchanged.
+
+**Catch.** Write-ins are never counted as ballot candidates. The state election office list outranks other sources, and any disagreement is logged.
+
 ## E-2026-006 Nebraska Senate: ballot count corrected again, from three to five
 
 2026-11-12 · Corrected (S3, corrections) · pages: ne-2026-senate

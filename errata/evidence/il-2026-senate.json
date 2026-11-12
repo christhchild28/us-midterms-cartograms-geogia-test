@@ -14,6 +14,21 @@
     "Don Tracy",
     "Whitfield Harrington (American Center)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Illinois State Board of Elections",
+   "url": "https://www.elections.il.gov/ElectionOperations/CandidateList.aspx?ElectionID=71",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "names": [
+    "Juliana Stratton (Democratic)",
+    "Don Tracy (Republican)",
+    "Whitfield Harrington (American Center)"
+   ],
+   "exhaustive": true,
+   "caveat": "Active, non-write-in; Muhammad removed"
   }
  ]
 }

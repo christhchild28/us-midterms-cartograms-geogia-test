@@ -14,6 +14,21 @@
     "Stacy Garrity",
     "Ken Krawchuk (Libertarian)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Pennsylvania Department of State",
+   "url": "https://www.electionreturns.pa.gov/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "names": [
+    "Josh Shapiro (DEM)",
+    "Stacy Garrity (REP)",
+    "Ken Krawchuk (LIB)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial returns"
   }
  ]
 }

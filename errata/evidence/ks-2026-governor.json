@@ -13,6 +13,20 @@
     "Cindy Holscher",
     "Ty Masterson"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Kansas Secretary of State",
+   "url": "https://ent.sos.ks.gov/kssos_ent.html",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Cindy Holscher (D)",
+    "Ty Masterson (R)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial election night results, 4168 of 4168 precincts"
   }
  ]
 }

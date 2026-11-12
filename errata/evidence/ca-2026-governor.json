@@ -9,6 +9,20 @@
    "retrieved": "2026-11-12",
    "total": 2,
    "exhaustive": true
+  },
+  {
+   "tier": 1,
+   "publisher": "California Secretary of State",
+   "url": "https://electionresults.sos.ca.gov/returns/governor",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Xavier Becerra (DEM)",
+    "Steve Hilton (REP)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial results, 23,860 of 23,860 precincts partially reporting"
   }
  ]
 }

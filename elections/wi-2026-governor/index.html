@@ -230,7 +230,7 @@ td.m { font-family: var(--f-mono); }
       <h2>Share of Wisconsin that Crowley won</h2>
       <p class="sub">Same election, counted four ways.</p>
       <div class="keyline"><span><i id="k-b"></i>Crowley (D)</span><span><i id="k-r"></i>Tiffany (R)</span></div>
-      <div class="bars" id="bars"></div><!--ballot--><div class="ballot"><b class="bn">3 candidates on the ballot</b>The map shows 2: David Crowley and Tom Tiffany. Not shown: Jamie Jo Carothers (independent write-in).<span class="bs">Reported by Ballotpedia, checked 2026-11-12. <a href="https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/">Source</a></span></div><!--/ballot-->
+      <div class="bars" id="bars"></div><!--ballot--><div class="ballot"><b class="bn">2 candidates on the ballot</b>The map shows both: David Crowley and Tom Tiffany.<span class="bs">Candidates on Ballot list: Total Number of GOVERNOR Candidates 2; write-ins not counted</span><span class="bs">Confirmed against the state election office list, checked 2026-11-12. <a href="https://elections.wi.gov/sites/default/files/documents/Candidates%20on%20Ballot%20By%20Election_November%203%202026%20General%20Election.pdf">Source</a></span></div><!--/ballot-->
       <div class="legend" id="legwin">
         <h2>County margin</h2>
         <div class="ramp" id="ramp"></div>
@@ -251,7 +251,7 @@ td.m { font-family: var(--f-mono); }
   <div class="foot">
     <p id="method"></p>
     <p>Results: county returns as published by NBC News (from the Associated Press) on Nov 9, 2026, with about 99% of the expected vote counted. Counts are unofficial until certified. Swing compares with the 2024 presidential county results (two-party share, NBC News/AP). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).</p>
-  <!--corr--><p class="corr"><a style="display:inline-block;padding:10px 0;color:inherit" href="https://github.com/christhchild28/us-midterms-cartograms-geogia-test/issues/new?template=correction.yml&amp;race=wi-2026-governor">Report an error</a> · <a style="display:inline-block;padding:10px 0;color:inherit" href="../../errata/">Corrections (2 for this page)</a></p><!--/corr--></div>
+  <!--corr--><p class="corr"><a style="display:inline-block;padding:10px 0;color:inherit" href="https://github.com/christhchild28/us-midterms-cartograms-geogia-test/issues/new?template=correction.yml&amp;race=wi-2026-governor">Report an error</a> · <a style="display:inline-block;padding:10px 0;color:inherit" href="../../errata/">Corrections (3 for this page)</a></p><!--/corr--></div>
 </div>
 
 <script>
@@ -609,7 +609,7 @@ td.m { font-family: var(--f-mono); }
   document.querySelectorAll('.seg:not(.sm) button:not([data-ed])').forEach(function (b) { b.addEventListener('click', function () { setView(b.dataset.m); }); });
 
   /* ---------- share bars ---------- */
-  var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes for the two shown' };
+  var bl = { land: 'Land area won', tile: 'Counties won', pop: 'Residents of counties won', votes: 'Votes cast' };
   function drawBars() {
     var box = document.getElementById('bars'); box.textContent = '';
     ['land', 'tile', 'pop', 'votes'].forEach(function (k) {
@@ -753,9 +753,9 @@ td.m { font-family: var(--f-mono); }
     vW = Math.max(tot.d, tot.r) / (tot.d + tot.r) * 100, ppl = META.people || (META.state + ' residents');
   var dek = document.getElementById('dek'), parts =
     landW < .5 ? [
-    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + (META.uncalled ? ' leads with ' : ' won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the two shown candidates’ votes, because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
+    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + (META.uncalled ? ' leads with ' : ' won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote, because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
     ] : [
-    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and ' + (META.uncalled ? 'leads with ' : 'won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the two shown candidates’ votes. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
+    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and ' + (META.uncalled ? 'leads with ' : 'won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
     ];
   parts.forEach(function (p) { if (p[0] === 'b') { var b = document.createElement('b'); b.textContent = p[1]; dek.appendChild(b); } else dek.appendChild(document.createTextNode(p[1])); });
   document.getElementById('method').textContent = 'The cartogram uses hexpack: ' + fmt(D.N) + ' hexagons (one per ' + fmt(D.unit) + ' residents, at least one per county) are laid out along the population-warped county shapes so that every county is one connected piece. ' + D.stats.kept + ' of the ' + D.stats.real + ' county borders on the real map are still shared borders here (' + pct(D.stats.kept / D.stats.real) + '%). The misses are mostly tiny rural counties with one or two hexagons, which cannot touch all of their neighbors. In Lens view the warp is a density-equalizing flow computed for each lens position, so counties stretch and compress without overlapping.';

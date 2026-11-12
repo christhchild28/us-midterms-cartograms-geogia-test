@@ -22,6 +22,20 @@
     "Jon Ossoff",
     "Mike Collins"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Georgia Secretary of State",
+   "url": "https://results.sos.ga.gov/results/public/Georgia/elections/11032026GeneralAndSpecialElection",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Mike Collins (Rep)",
+    "Jon Ossoff (Dem)"
+   ],
+   "exhaustive": true,
+   "caveat": "Election-night results, 159/159 localities"
   }
  ]
 }

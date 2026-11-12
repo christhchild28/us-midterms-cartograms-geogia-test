@@ -18,6 +18,25 @@
     "Erik Underwood (Approval Voting)",
     "Jeff Peckman (Unity)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Colorado Secretary of State",
+   "url": "https://www.coloradosos.gov/pubs/elections/vote/generalCandidates.html",
+   "as_of": "2026-09-15",
+   "retrieved": "2026-11-12",
+   "total": 7,
+   "names": [
+    "Phil Weiser",
+    "Victor Marx",
+    "Stephen T. Hamilton (American Constitution)",
+    "Eric Mulder (Libertarian)",
+    "Jeff Peckman (Unity)",
+    "Erik Underwood (Approval Voting)",
+    "Greg Lopez (Unaffiliated)"
+   ],
+   "exhaustive": true,
+   "caveat": "Official certified candidate list."
   }
  ]
 }

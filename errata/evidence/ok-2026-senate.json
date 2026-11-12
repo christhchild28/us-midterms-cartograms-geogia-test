@@ -18,6 +18,23 @@
    "retrieved": "2026-11-12",
    "exhaustive": true,
    "total": 5
+  },
+  {
+   "tier": 1,
+   "publisher": "Oklahoma State Election Board",
+   "url": "https://results.okelections.gov/OKER/?elecDate=20261103",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 5,
+   "names": [
+    "Kevin Hern (REP)",
+    "N'Kiyla Thomas (DEM)",
+    "Sevier White (LIB)",
+    "Ron Meinhardt (IND)",
+    "Curtis Stinnett (IND)"
+   ],
+   "exhaustive": true,
+   "caveat": "Official results page, 1984 of 1984 precincts"
   }
  ]
 }

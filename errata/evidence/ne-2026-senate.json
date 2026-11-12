@@ -32,6 +32,23 @@
     "Chuck Conboy (America First)"
    ],
    "caveat": "Mike Marvin suspended his campaign but stayed on the ballot."
+  },
+  {
+   "tier": 1,
+   "publisher": "Nebraska Secretary of State",
+   "url": "https://electionresults.nebraska.gov/resultsSW.aspx?type=SW&map=CTY",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 5,
+   "names": [
+    "Pete Ricketts",
+    "Dan Osborn",
+    "Mike Marvin (Legal Marijuana Now)",
+    "Robin Richards (Nebraska Working People)",
+    "Chuck Conboy (America First)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial results; Mike Marvin suspended his campaign but stayed on the ballot."
   }
  ]
 }

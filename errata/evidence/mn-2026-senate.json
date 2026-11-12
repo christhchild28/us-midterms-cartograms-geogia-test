@@ -15,6 +15,22 @@
     "Marisa Simonetti (Independence)",
     "Rebecca Whiting (Libertarian)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Minnesota Secretary of State",
+   "url": "https://www.sos.mn.gov/elections-voting/election-results/2026/2026-general-election-results/",
+   "as_of": "2026-11-09",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "names": [
+    "Peggy Flanagan (DFL)",
+    "Michele Tafoya (Republican)",
+    "Marisa Simonetti (Independent)",
+    "Rebecca Whiting (Libertarian)"
+   ],
+   "exhaustive": true,
+   "caveat": "Unofficial results as of 11/9/2026; write-ins not counted"
   }
  ]
 }

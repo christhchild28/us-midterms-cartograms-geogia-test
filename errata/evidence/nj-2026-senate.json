@@ -15,6 +15,22 @@
     "Veronica Fernandez (End the Corruption)",
     "Joanne Kuniansky (Socialist Workers)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "New Jersey Division of Elections",
+   "url": "https://www.nj.gov/state/elections/assets/pdf/election-results/2026/2026-official-general-candidates-us-senate.pdf",
+   "as_of": "2026-07-27",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "names": [
+    "Cory Booker (Democratic)",
+    "Justin Murphy (Republican)",
+    "Veronica Fernandez (End the Corruption)",
+    "Joanne Kuniansky (Socialist Workers)"
+   ],
+   "exhaustive": true,
+   "caveat": "Official List Candidates for US Senate, dated 07/27/2026"
   }
  ]
 }

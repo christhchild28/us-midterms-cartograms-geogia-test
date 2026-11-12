@@ -19,6 +19,26 @@
     "Jeff Datto (No Party)",
     "Moe Dimanche (No Party)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Florida Division of Elections",
+   "url": "https://dos.elections.myflorida.com/candidates/CanList.asp?elecid=20261103-GEN",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 8,
+   "names": [
+    "Dean Abrams (NPA)",
+    "Charles Burkett (NPA)",
+    "Jeff Datto (NPA)",
+    "Moe Dimanche (NPA)",
+    "Byron Donalds (REP)",
+    "Scott Jewett (LPF)",
+    "David Jolly (DEM)",
+    "Frank Russo (NPA)"
+   ],
+   "exhaustive": true,
+   "caveat": "Qualified, non-write-in"
   }
  ]
 }
