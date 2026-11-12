@@ -36,6 +36,7 @@ start = cfg.lens.get('start_county')
 if start not in names: start = max(pops, key=pops.get)
 a, b = cfg.a, cfg.b
 meta = dict(state=cfg.state['name'], people=cfg.state.get('people'), a=a['name'], b=b['name'], af=a.get('full', a['name']), bf=b.get('full', b['name']), start=start, uncalled=bool(cfg.c['race'].get('uncalled')))
+if cfg.c.get('text', {}).get('vote_word'): meta['voteWord'] = cfg.c['text']['vote_word']   # e.g. "the two-candidate vote" when the page shows only two candidates of a larger race
 race = cfg.c['race']; year = (re.findall(r'\d{4}', race.get('date', '')) or [''])[-1]
 _same = [n for n in (cfg.c['candidates']['a']['name'], cfg.c['candidates']['b']['name']) if _prior and n in (_prior['a'], _prior['b'])]
 if _prior: meta['prior'] = dict(label=_prior['label'], short=_prior['short'], a=_prior['a'], b=_prior['b'], now=year or 'Now', same=_same)
@@ -54,6 +55,10 @@ tok = {
 }
 t = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'warp.template.html')).read()
 for k, v in tok.items(): t = t.replace('{{%s}}' % k, html.escape(v, quote=True))
+# Optional correction or disclosure notice under the headline. text.notice = paragraph text, text.notice_date = e.g. "Nov 11, 2026".
+_n = cfg.c.get('text', {}).get('notice')
+_nh = ('<aside class="notice" role="note"><b>Note%s.</b> %s</aside>' % ((', added ' + html.escape(cfg.c['text']['notice_date'])) if cfg.c['text'].get('notice_date') else '', html.escape(_n))) if _n else ''
+t = t.replace('{{NOTICE}}', _nh)
 # Optional vocabulary override for non-county units (districts, wards...) and non-resident weights (votes cast...).
 # text.vocab = {"unit": "district", "units": "districts", "measure": "votes cast", "fix": [[old, new], ...]}
 # "fix" pairs are exact replacements applied first and must each match; then the guarded word swap runs.

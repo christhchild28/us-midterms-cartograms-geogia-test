@@ -44,7 +44,10 @@
  },
  "text": {
   "source": "Results: county returns as published by NBC News (from the Associated Press) on Nov 9, 2026, with 97% to 99% of the expected vote counted. Counts are unofficial until certified. Swing compares with the 2024 presidential county results (two-party share, NBC News/AP). Residents: Census Bureau July 1, 2025 county estimates (Vintage 2025).",
-  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025"
+  "gif_source": "NBC News/AP county results, unofficial \u00b7 Census 2025",
+  "vote_word": "the two-candidate vote",
+  "notice_date": "Nov 11, 2026",
+  "notice": "This map shows two of the candidates on the ballot: Seth Bodnar (independent) and Kurt Alme (Republican). It leaves out Democrat Alani Bankhead, Libertarian Kyle Austin and one write-in candidate. In early election-night returns Bankhead had about 12% and Austin about 2% of the vote. The shares and colours here are each county's share of the two shown candidates' votes, not of all votes. Swing compares Bodnar with Kamala Harris's share of the two-party vote in 2024."
  },
  "population": {
   "format": "csv",

@@ -64,6 +64,8 @@ h1 { font-family: var(--f-display); font-weight: 800; font-size: clamp(26px, 6.2
 .tog input { width: 18px; height: 18px; accent-color: var(--ink); margin: 0; }
 .tog input:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 .seg button:focus-visible, .chip:focus-visible, summary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.notice { border: 1px solid var(--line); border-left: 4px solid var(--ink-2); border-radius: 8px; padding: 10px 12px; margin: 12px 0 0; max-width: 62ch; font-size: 14px; line-height: 1.5; color: var(--ink); }
+.notice b { font-weight: 600; }
 .hint { color: var(--ink-2); font-size: 14px; max-width: 62ch; margin: 0 0 14px; min-height: 2.9em; }
 @media (max-width: 879px) { .hint { min-height: 4.5em; } }
 @media (max-width: 380px) { .hint { min-height: 6em; } }
@@ -197,7 +199,7 @@ td.m { font-family: var(--f-mono); }
     <nav class="pgnav" aria-label="Elections"><span class="pgl"><button type="button" class="back pgb">&larr; Back</button><a class="back" href="../../">All elections</a></span><!--next--><!--/next--></nav><script>(function(){try{history.scrollRestoration="manual"}catch(e){}if(!location.hash){var u=0,z=function(){if(!u)scrollTo(0,0)};["touchstart","wheel","keydown","mousedown"].forEach(function(t){addEventListener(t,function(){u=1},{once:true,passive:true})});z();addEventListener("DOMContentLoaded",z);addEventListener("load",z);addEventListener("pageshow",function(e){if(!e.persisted)z()});[60,200,500,1000,2000].forEach(function(t){setTimeout(z,t)});var g=function(){if(!u&&scrollY>0)scrollTo(0,0)};addEventListener("scroll",g,{passive:true});setTimeout(function(){removeEventListener("scroll",g)},6000)}var b=document.querySelector(".pgb");if(!b)return;b.addEventListener("click",function(){var r=document.referrer,ok=false;try{ok=!!r&&new URL(r).origin===location.origin}catch(e){}if(ok&&history.length>1)history.back();else location.href="../../"})})()</script>
     <p class="kicker">{{STATE}} · {{OFFICE}} · {{DATE}}</p>
     <h1>{{STATE}}, by land and by people</h1>
-    <p class="dek" id="dek"></p>
+    <p class="dek" id="dek"></p>{{NOTICE}}
   </header>
 
   <div class="controls">
@@ -753,9 +755,9 @@ td.m { font-family: var(--f-mono); }
     vW = Math.max(tot.d, tot.r) / (tot.d + tot.r) * 100, ppl = META.people || (META.state + ' residents');
   var dek = document.getElementById('dek'), parts =
     landW < .5 ? [
-    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + (META.uncalled ? ' leads with ' : ' won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote, because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
+    ['t', 'Count by land and ' + Lf + ' carried '], ['b', (C.length - cW) + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(1 - landW) + '% of the area. Count by people and ' + Wf + (META.uncalled ? ' leads with ' : ' won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of ' + (META.voteWord || 'the vote') + ', because ' + pct(popW) + '% of ' + ppl + ' live in the ' + cW + ' counties ' + W + ' carried.']
     ] : [
-    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and ' + (META.uncalled ? 'leads with ' : 'won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of the vote. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
+    ['t', W + ' carried '], ['b', cW + ' of ' + C.length + ' counties'], ['t', ' and ' + pct(landW) + '% of the area, and ' + (META.uncalled ? 'leads with ' : 'won with ')], ['b', vW.toFixed(1) + '%'], ['t', ' of ' + (META.voteWord || 'the vote') + '. ' + pct(popW) + '% of ' + ppl + ' live in the counties ' + W + ' carried.']
     ];
   parts.forEach(function (p) { if (p[0] === 'b') { var b = document.createElement('b'); b.textContent = p[1]; dek.appendChild(b); } else dek.appendChild(document.createTextNode(p[1])); });
   document.getElementById('method').textContent = 'The cartogram uses hexpack: ' + fmt(D.N) + ' hexagons (one per ' + fmt(D.unit) + ' residents, at least one per county) are laid out along the population-warped county shapes so that every county is one connected piece. ' + D.stats.kept + ' of the ' + D.stats.real + ' county borders on the real map are still shared borders here (' + pct(D.stats.kept / D.stats.real) + '%). The misses are mostly tiny rural counties with one or two hexagons, which cannot touch all of their neighbors. In Lens view the warp is a density-equalizing flow computed for each lens position, so counties stretch and compress without overlapping.';
