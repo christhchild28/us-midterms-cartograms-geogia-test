@@ -16,7 +16,7 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 2026-11-12 · Corrected (S2) · pages: ga-2026-senate, sc-2026-senate
 
-**Wrong.** Our notes said 7 candidates were on the ballot in Georgia and 10 in South Carolina. Both counts came from Ballotpedia and included people who were not on the general election ballot. The Green Papers lists 2 for Georgia (Ossoff and Collins, plus 3 write-ins) and at least 4 for South Carolina (Andrews, Graham, Whitener and Hackett). Georgia is now complete on our map. South Carolina may have more independents; we have not confirmed the list.
+**Wrong.** Our notes said 7 candidates were on the ballot in Georgia and 10 in South Carolina. Both counts came from Ballotpedia and included people who were not on the general election ballot. The Green Papers lists 2 for Georgia (Ossoff and Collins, plus 3 write-ins) and 4 for South Carolina (Andrews, Graham, Whitener and Hackett). The South Carolina vote shares add up to 100% across those four plus write-ins, so no other name was on the ballot. Georgia is now complete on our map.
 
 **Done.** Both notes now show the corrected count and the source. Map data is unchanged.
 
@@ -46,7 +46,7 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 2026-11-12 · Open (S2) · pages: ar-2026-governor, ar-2026-senate, az-2026-governor, co-2026-governor, co-2026-senate, fl-2026-governor, fl-2026-senate, ia-2026-senate, id-2026-governor, id-2026-senate, il-2026-governor, il-2026-senate, ky-2026-senate, mi-2026-governor, mi-2026-senate, mn-2026-governor, mn-2026-senate, ms-2026-senate, nc-2026-senate, nd-2026-house, ne-2026-governor, ne-2026-senate, nj-2026-senate, nv-2026-governor, oh-2026-governor, ok-2026-governor, ok-2026-senate, or-2026-governor, or-2026-senate, pa-2026-governor, sc-2026-governor, sc-2026-senate, tn-2026-governor, tn-2026-senate, tx-2026-senate, wi-2026-governor, wy-2026-governor
 
-**Wrong.** According to The Green Papers or Ballotpedia, these pages show two candidates while more were on the ballot. Senate: AR, CO, FL, IA, ID, IL, KY, MI, MN, MS, NC, NE, NJ, OK, OR, SC, TN, TX. Governor: WY, AR, AZ, CO, FL, ID, IL, MI, MN, NE, NV, OH, OK, OR, PA, SC, TN, WI. House: ND. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two), Alabama, Georgia, Kansas, New Mexico, New York (including the two New York City pages), Louisiana, Iowa governor, Wyoming Senate and the South Dakota races are complete. South Carolina Senate has at least four candidates; we have not confirmed the full list. All 54 pages have now been checked.
+**Wrong.** According to The Green Papers or Ballotpedia, these pages show two candidates while more were on the ballot. Senate: AR, CO, FL, IA, ID, IL, KY, MI, MN, MS, NC, NE, NJ, OK, OR, SC, TN, TX. Governor: WY, AR, AZ, CO, FL, ID, IL, MI, MN, NE, NV, OH, OK, OR, PA, SC, TN, WI. House: ND. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two), Alabama, Georgia, Kansas, New Mexico, New York (including the two New York City pages), Louisiana, Iowa governor, Wyoming Senate and the South Dakota races are complete. All 54 pages have now been checked.
 
 **Done.** Added a dated note with the count, names where known, and a source link to each audited page. Map data is unchanged. The audit continues; each result is added here.
 

@@ -63,7 +63,7 @@
    ],
    "found_by": "audit of all pages",
    "title": "Thirty-seven more pages map only some of the candidates on the ballot",
-   "wrong": "According to The Green Papers or Ballotpedia, these pages show two candidates while more were on the ballot. Senate: AR, CO, FL, IA, ID, IL, KY, MI, MN, MS, NC, NE, NJ, OK, OR, SC, TN, TX. Governor: WY, AR, AZ, CO, FL, ID, IL, MI, MN, NE, NV, OH, OK, OR, PA, SC, TN, WI. House: ND. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two), Alabama, Georgia, Kansas, New Mexico, New York (including the two New York City pages), Louisiana, Iowa governor, Wyoming Senate and the South Dakota races are complete. South Carolina Senate has at least four candidates; we have not confirmed the full list. All 54 pages have now been checked.",
+   "wrong": "According to The Green Papers or Ballotpedia, these pages show two candidates while more were on the ballot. Senate: AR, CO, FL, IA, ID, IL, KY, MI, MN, MS, NC, NE, NJ, OK, OR, SC, TN, TX. Governor: WY, AR, AZ, CO, FL, ID, IL, MI, MN, NE, NV, OH, OK, OR, PA, SC, TN, WI. House: ND. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two), Alabama, Georgia, Kansas, New Mexico, New York (including the two New York City pages), Louisiana, Iowa governor, Wyoming Senate and the South Dakota races are complete. All 54 pages have now been checked.",
    "done": "Added a dated note with the count, names where known, and a source link to each audited page. Map data is unchanged. The audit continues; each result is added here.",
    "prevent": "Same as E-2026-001."
   },
@@ -158,7 +158,7 @@
    ],
    "found_by": "cross-check of a second source",
    "title": "Georgia and South Carolina Senate: ballot counts were too high",
-   "wrong": "Our notes said 7 candidates were on the ballot in Georgia and 10 in South Carolina. Both counts came from Ballotpedia and included people who were not on the general election ballot. The Green Papers lists 2 for Georgia (Ossoff and Collins, plus 3 write-ins) and at least 4 for South Carolina (Andrews, Graham, Whitener and Hackett). Georgia is now complete on our map. South Carolina may have more independents; we have not confirmed the list.",
+   "wrong": "Our notes said 7 candidates were on the ballot in Georgia and 10 in South Carolina. Both counts came from Ballotpedia and included people who were not on the general election ballot. The Green Papers lists 2 for Georgia (Ossoff and Collins, plus 3 write-ins) and 4 for South Carolina (Andrews, Graham, Whitener and Hackett). The South Carolina vote shares add up to 100% across those four plus write-ins, so no other name was on the ballot. Georgia is now complete on our map.",
    "done": "Both notes now show the corrected count and the source. Map data is unchanged.",
    "prevent": "When two sources disagree, the higher-ranked source wins and the other is logged. A state election office list will replace these when we can read one."
   },

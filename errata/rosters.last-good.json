@@ -487,6 +487,30 @@
    "retrieved": "2026-11-12",
    "conflicts": []
   },
+  "nyc-ad-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/NY",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": [],
+   "inherits": "ny-2026-governor"
+  },
+  "nyc-council-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.thegreenpapers.com/G26/NY",
+   "publisher": "The Green Papers",
+   "tier": 2,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": [],
+   "inherits": "ny-2026-governor"
+  },
   "oh-2026-governor": {
    "total": 3,
    "omitted": [
