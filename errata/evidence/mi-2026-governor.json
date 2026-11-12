@@ -9,6 +9,22 @@
    "retrieved": "2026-11-12",
    "total": 6,
    "exhaustive": true
+  },
+  {
+   "tier": 1,
+   "publisher": "Michigan Department of State",
+   "url": "https://mi-boe.entellitrak.com/etk-mi-boe-prod/page.request.do?page=page.miboePublicReport&electionType=GEN&electionYear=2026",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 5,
+   "names": [
+    "Jocelyn Benson",
+    "John James",
+    "Anthony Hudson (Libertarian)",
+    "Donna Brandenburg (U.S. Taxpayers)",
+    "Douglas Campbell (Green)"
+   ],
+   "exhaustive": true
   }
  ]
 }

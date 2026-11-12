@@ -4,6 +4,16 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 - 2026-11-12: Page banners for roster gaps were removed. Every page still shows the "On the ballot" card with the full count, and each gap is still listed here. Banners return for any entry that sets banner or is S1 and open.
 
+## E-2026-009 Michigan governor: the ballot count was too high
+
+2026-11-12 · Corrected (S2, corrections) · pages: mi-2026-governor
+
+**Wrong.** Our note said 6 candidates were on the Michigan governor ballot. That count came from Ballotpedia. The Michigan Department of State's official candidate listing shows 5: Benson (Democratic), James (Republican), Hudson (Libertarian), Brandenburg (U.S. Taxpayers) and Campbell (Green). Both major candidates are on our map, so the map is complete.
+
+**Done.** The note now shows 5 and cites the Michigan Department of State. Map data is unchanged.
+
+**Catch.** Write-ins are never counted as ballot candidates. The state election office list outranks other sources, and any disagreement is logged.
+
 ## E-2026-008 Texas and North Carolina Senate: ballot counts were too high
 
 2026-11-12 · Corrected (S2, corrections) · pages: tx-2026-senate, nc-2026-senate

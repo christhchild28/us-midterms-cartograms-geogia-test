@@ -17,6 +17,23 @@
     "Walter Kristy (Natural Law Party in Michigan)",
     "Timothy Long (U.S. Taxpayers Party)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Michigan Department of State",
+   "url": "https://mi-boe.entellitrak.com/etk-mi-boe-prod/page.request.do?page=page.miboePublicReport&electionType=GEN&electionYear=2026",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 6,
+   "names": [
+    "Abdul El-Sayed",
+    "Mike Rogers",
+    "Lydia Christensen (Libertarian)",
+    "Tim Long (U.S. Taxpayers)",
+    "Douglas Marsh (Green)",
+    "Walter Kristy (Natural Law)"
+   ],
+   "exhaustive": true
   }
  ]
 }

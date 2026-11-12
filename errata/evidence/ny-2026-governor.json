@@ -13,6 +13,20 @@
     "Kathy Hochul",
     "Bruce Blakeman"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "New York State Board of Elections",
+   "url": "https://nyenr.elections.ny.gov/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 2,
+   "names": [
+    "Kathy Hochul",
+    "Bruce Blakeman"
+   ],
+   "exhaustive": true,
+   "caveat": "Election-night results page; lists two candidates, with party lines combined per candidate"
   }
  ]
 }

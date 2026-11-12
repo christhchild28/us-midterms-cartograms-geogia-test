@@ -14,6 +14,21 @@
     "Sarah Huckabee Sanders",
     "Colt Shelby (Libertarian)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Arkansas Secretary of State",
+   "url": "https://arkansas.tally-enr.com/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "names": [
+    "Sarah Huckabee Sanders",
+    "Fred Love",
+    "Colt Shelby (Libertarian)"
+   ],
+   "exhaustive": true,
+   "caveat": "Election night reporting site run for the Secretary of State"
   }
  ]
 }

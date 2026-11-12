@@ -31,12 +31,13 @@
    "omitted": [
     "Colt Shelby (Libertarian)"
    ],
-   "src": "https://news.ballotpedia.org/2026/03/05/a-look-at-the-march-3-primary-election-results/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://arkansas.tally-enr.com/",
+   "publisher": "Arkansas Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Election night reporting site run for the Secretary of State",
    "conflicts": []
   },
   "ar-2026-senate": {
@@ -44,12 +45,13 @@
    "omitted": [
     "Jeff Wadlin (Libertarian)"
    ],
-   "src": "https://news.ballotpedia.org/2026/10/01/democrats-have-won-13-previously-republican-held-state-legislative-seats-in-special-elections-since-trump-took-office/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://arkansas.tally-enr.com/",
+   "publisher": "Arkansas Secretary of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Election night reporting site run for the Secretary of State",
    "conflicts": []
   },
   "az-2026-governor": {
@@ -302,29 +304,39 @@
    "conflicts": []
   },
   "mi-2026-governor": {
-   "total": 6,
-   "omitted": null,
-   "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "total": 5,
+   "omitted": [
+    "Anthony Hudson (Libertarian)",
+    "Donna Brandenburg (U.S. Taxpayers)",
+    "Douglas Campbell (Green)"
+   ],
+   "src": "https://mi-boe.entellitrak.com/etk-mi-boe-prod/page.request.do?page=page.miboePublicReport&electionType=GEN&electionYear=2026",
+   "publisher": "Michigan Department of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
-   "n_omitted": 4,
-   "conflicts": []
+   "conflicts": [
+    {
+     "publisher": "Ballotpedia",
+     "tier": 3,
+     "url": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
+     "count": 6
+    }
+   ]
   },
   "mi-2026-senate": {
    "total": 6,
    "omitted": [
-    "Douglas P. Marsh (Green)",
     "Lydia Christensen (Libertarian)",
-    "Walter Kristy (Natural Law Party in Michigan)",
-    "Timothy Long (U.S. Taxpayers Party)"
+    "Tim Long (U.S. Taxpayers)",
+    "Douglas Marsh (Green)",
+    "Walter Kristy (Natural Law)"
    ],
-   "src": "https://news.ballotpedia.org/2026/10/20/ballotpedias-top-50-ballot-measures-and-trends-to-watch-on-election-day/",
-   "publisher": "Ballotpedia",
-   "tier": 3,
-   "confidence": "reported",
+   "src": "https://mi-boe.entellitrak.com/etk-mi-boe-prod/page.request.do?page=page.miboePublicReport&electionType=GEN&electionYear=2026",
+   "publisher": "Michigan Department of State",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
    "conflicts": []
@@ -518,35 +530,38 @@
   "ny-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/NY",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://nyenr.elections.ny.gov/",
+   "publisher": "New York State Board of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Election-night results page; lists two candidates, with party lines combined per candidate",
    "conflicts": []
   },
   "nyc-ad-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/NY",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://nyenr.elections.ny.gov/",
+   "publisher": "New York State Board of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Election-night results page; lists two candidates, with party lines combined per candidate",
    "conflicts": [],
    "inherits": "ny-2026-governor"
   },
   "nyc-council-2026-governor": {
    "total": 2,
    "omitted": null,
-   "src": "https://www.thegreenpapers.com/G26/NY",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
+   "src": "https://nyenr.elections.ny.gov/",
+   "publisher": "New York State Board of Elections",
+   "tier": 1,
+   "confidence": "confirmed",
    "as_of": "2026-11-12",
    "retrieved": "2026-11-12",
+   "caveat": "Election-night results page; lists two candidates, with party lines combined per candidate",
    "conflicts": [],
    "inherits": "ny-2026-governor"
   },
