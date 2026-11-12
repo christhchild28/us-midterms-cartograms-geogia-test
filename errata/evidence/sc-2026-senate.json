@@ -24,6 +24,22 @@
     "Kathryn \"Kasie\" Whitener (Libertarian)",
     "Mark J. Hackett (Constitution)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "South Carolina Election Commission",
+   "url": "https://www.enr-scvotes.org/SC/127300/web.345435/#/summary",
+   "as_of": "2026-11-10",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "names": [
+    "Darline Graham",
+    "Annie Andrews",
+    "Kasie Whitener (Libertarian)",
+    "Mark Hackett (Constitution)"
+   ],
+   "exhaustive": true,
+   "caveat": "Official results page, 46 of 46 counties reporting; candidates are those listed on the results, plus write-ins."
   }
  ]
 }
