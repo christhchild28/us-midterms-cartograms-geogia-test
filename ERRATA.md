@@ -6,7 +6,7 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 ## E-2026-006 Nebraska Senate: ballot count corrected again, from three to five
 
-2026-11-12 · Corrected (S3) · pages: ne-2026-senate
+2026-11-12 · Corrected (S3, corrections) · pages: ne-2026-senate
 
 **Wrong.** E-2026-004 said three candidates were on the ballot. Five were: Ricketts, Osborn, Robin Richards, Mike Marvin and Chuck Conboy. Marvin suspended his campaign but stayed on the ballot. The Nebraska Examiner and The Green Papers both report five.
 
@@ -16,7 +16,7 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 ## E-2026-005 Georgia and South Carolina Senate: ballot counts were too high
 
-2026-11-12 · Corrected (S2) · pages: ga-2026-senate, sc-2026-senate
+2026-11-12 · Corrected (S2, corrections) · pages: ga-2026-senate, sc-2026-senate
 
 **Wrong.** Our notes said 7 candidates were on the ballot in Georgia and 10 in South Carolina. Both counts came from Ballotpedia and included people who were not on the general election ballot. The Green Papers lists 2 for Georgia (Ossoff and Collins, plus 3 write-ins) and 4 for South Carolina (Andrews, Graham, Whitener and Hackett). The South Carolina vote shares add up to 100% across those four plus write-ins, so no other name was on the ballot. Georgia is now complete on our map.
 
@@ -26,7 +26,7 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 ## E-2026-004 Nebraska Senate: ballot count corrected from five to three
 
-2026-11-12 · Corrected (S3) · pages: ne-2026-senate
+2026-11-12 · Corrected (S3, corrections) · pages: ne-2026-senate
 
 **Wrong.** Our note and card said two of five candidates were on the ballot. A July Ballotpedia report listed three on the ballot after the Democratic nominee withdrew. A later Ballotpedia headline counts five names.
 
@@ -36,7 +36,7 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 ## E-2026-003 The "Votes cast" bar counted only the two shown candidates
 
-2026-11-12 · Corrected (S2) · pages: al-2026-governor, al-2026-senate, ar-2026-governor, ar-2026-senate, az-2026-governor, co-2026-governor, co-2026-senate, fl-2026-governor, fl-2026-senate, ga-2026-governor, ga-2026-senate, ia-2026-governor, ia-2026-senate, id-2026-governor, id-2026-senate, il-2026-governor, il-2026-senate, ks-2026-governor, ky-2026-senate, la-2026-senate, mi-2026-governor, mi-2026-senate, mn-2026-governor, mn-2026-senate, ms-2026-senate, mt-2026-senate, nc-2026-senate, nd-2026-house, ne-2026-governor, ne-2026-senate, nj-2026-senate, nm-2026-governor, nm-2026-senate, nv-2026-governor, ny-2026-governor, nyc-ad-2026-governor, nyc-council-2026-governor, oh-2026-governor, ok-2026-governor, ok-2026-senate, or-2026-governor, or-2026-senate, pa-2026-governor, sc-2026-governor, sc-2026-senate, sd-2026-governor, sd-2026-senate, tn-2026-governor, tn-2026-senate, tx-2026-senate, wi-2026-governor, wy-2026-governor, wy-2026-senate
+2026-11-12 · Corrected (S2, corrections) · pages: al-2026-governor, al-2026-senate, ar-2026-governor, ar-2026-senate, az-2026-governor, co-2026-governor, co-2026-senate, fl-2026-governor, fl-2026-senate, ga-2026-governor, ga-2026-senate, ia-2026-governor, ia-2026-senate, id-2026-governor, id-2026-senate, il-2026-governor, il-2026-senate, ks-2026-governor, ky-2026-senate, la-2026-senate, mi-2026-governor, mi-2026-senate, mn-2026-governor, mn-2026-senate, ms-2026-senate, mt-2026-senate, nc-2026-senate, nd-2026-house, ne-2026-governor, ne-2026-senate, nj-2026-senate, nm-2026-governor, nm-2026-senate, nv-2026-governor, ny-2026-governor, nyc-ad-2026-governor, nyc-council-2026-governor, oh-2026-governor, ok-2026-governor, ok-2026-senate, or-2026-governor, or-2026-senate, pa-2026-governor, sc-2026-governor, sc-2026-senate, sd-2026-governor, sd-2026-senate, tn-2026-governor, tn-2026-senate, tx-2026-senate, wi-2026-governor, wy-2026-governor, wy-2026-senate
 
 **Wrong.** The bar labelled "Votes cast" used the sum of the two shown candidates' votes as its total, so it read as a share of all votes cast. On 53 pages that is not what it measures.
 
@@ -46,7 +46,7 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 ## E-2026-002 Thirty-seven more pages map only some of the candidates on the ballot
 
-2026-11-12 · Open (S2) · pages: ar-2026-governor, ar-2026-senate, az-2026-governor, co-2026-governor, co-2026-senate, fl-2026-governor, fl-2026-senate, ia-2026-senate, id-2026-governor, id-2026-senate, il-2026-governor, il-2026-senate, ky-2026-senate, mi-2026-governor, mi-2026-senate, mn-2026-governor, mn-2026-senate, ms-2026-senate, nc-2026-senate, nd-2026-house, ne-2026-governor, ne-2026-senate, nj-2026-senate, nv-2026-governor, oh-2026-governor, ok-2026-governor, ok-2026-senate, or-2026-governor, or-2026-senate, pa-2026-governor, sc-2026-governor, sc-2026-senate, tn-2026-governor, tn-2026-senate, tx-2026-senate, wi-2026-governor, wy-2026-governor
+2026-11-12 · Open (S2, design changes) · pages: ar-2026-governor, ar-2026-senate, az-2026-governor, co-2026-governor, co-2026-senate, fl-2026-governor, fl-2026-senate, ia-2026-senate, id-2026-governor, id-2026-senate, il-2026-governor, il-2026-senate, ky-2026-senate, mi-2026-governor, mi-2026-senate, mn-2026-governor, mn-2026-senate, ms-2026-senate, nc-2026-senate, nd-2026-house, ne-2026-governor, ne-2026-senate, nj-2026-senate, nv-2026-governor, oh-2026-governor, ok-2026-governor, ok-2026-senate, or-2026-governor, or-2026-senate, pa-2026-governor, sc-2026-governor, sc-2026-senate, tn-2026-governor, tn-2026-senate, tx-2026-senate, wi-2026-governor, wy-2026-governor
 
 **Wrong.** According to The Green Papers or Ballotpedia, these pages show two candidates while more were on the ballot. Senate: AR, CO, FL, IA, ID, IL, KY, MI, MN, MS, NC, NE, NJ, OK, OR, SC, TN, TX. Governor: WY, AR, AZ, CO, FL, ID, IL, MI, MN, NE, NV, OH, OK, OR, PA, SC, TN, WI. House: ND. Shares on these pages are shares of the two shown candidates, not of all votes. California (top-two), Alabama, Georgia, Kansas, New Mexico, New York (including the two New York City pages), Louisiana, Iowa governor, Wyoming Senate and the South Dakota races are complete. All 54 pages have now been checked.
 
@@ -56,7 +56,7 @@ Generated from `errata/errata.json`. Do not edit by hand.
 
 ## E-2026-001 Montana Senate map shows two of the candidates on the ballot
 
-2026-11-11 · Disclosed on page (S2) · pages: mt-2026-senate
+2026-11-11 · Disclosed on page (S2, design changes) · pages: mt-2026-senate
 
 **Wrong.** The page maps Seth Bodnar (independent) and Kurt Alme (Republican) only. It leaves out Democrat Alani Bankhead, Libertarian Kyle Austin and one write-in candidate. The headline share is therefore a share of the two shown candidates' votes, not of all votes.
 

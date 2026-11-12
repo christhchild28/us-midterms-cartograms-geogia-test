@@ -20,4 +20,17 @@ class Banner(unittest.TestCase):
     def test_page_not_in_any_entry(self): self.assertFalse(self.run_on([self.e(races=['y'])]))
 
 
+class Drafts(unittest.TestCase):
+    def setUp(self): self.ros, self.ent = C.ROS, C.ENT
+    def tearDown(self): C.ROS, C.ENT = self.ros, self.ent
+    def test_conflict_and_stale_are_reported_unless_already_an_error(self):
+        import datetime
+        C.ROS = {'races': {'a': {'total': 4, 'tier': 2, 'publisher': 'GP', 'retrieved': '2026-01-01', 'conflicts': [{'publisher': 'BP', 'tier': 3, 'count': 7}]},
+                           'b': {'total': 4, 'tier': 2, 'publisher': 'GP', 'retrieved': '2026-11-12', 'conflicts': [{'publisher': 'BP', 'tier': 3, 'count': 7}]}}, 'unresolved': {'u': 'x'}}
+        C.ENT = [{'id': 'E', 'kind': 'error', 'races': ['b']}]
+        out = C.drafts(datetime.date(2026, 11, 12))
+        self.assertTrue(any(x.startswith('a: BP says 7') for x in out)); self.assertTrue(any('a: roster evidence' in x for x in out))
+        self.assertTrue(any(x.startswith('u:') for x in out)); self.assertFalse(any(x.startswith('b:') for x in out))
+
+
 if __name__ == '__main__': unittest.main()

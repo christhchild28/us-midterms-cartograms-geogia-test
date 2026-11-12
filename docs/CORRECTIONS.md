@@ -33,3 +33,9 @@ Banners are per entry. In `errata/errata.json`, `banners.mode` is `per_entry` (d
 - `per_entry`: a page shows a banner only if an entry naming it sets `"banner": true`, or has no `banner` field, is S1 and is not `corrected`.
 - `all`: every page with a roster gap shows a banner again. Change the mode, run `python3 src/corrections.py build`, publish.
 The "On the ballot" card and the footer link are not banners and stay on every page. A hand-written page note (a `text.notice` in a race config, such as Montana) is not governed by this switch.
+
+## Kinds of entry
+Each entry has a `kind`. `error` is something we published that was wrong (a wrong count, a false label). `design` is a limit of how the pages were built and what we changed (for example, a map that shows two candidates in a race with more). The Corrections page lists them under separate headings. `check` fails if an entry has no kind.
+
+## Drafts for review
+`python3 src/corrections.py drafts` lists what a person should look at: sources that disagree on a count, stale roster evidence, unresolved or missing rosters. It never writes an entry and never publishes. A race already covered by an `error` entry is not repeated.

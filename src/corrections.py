@@ -1,5 +1,6 @@
 """Corrections pipeline. Source of truth: errata/errata.json.
   python3 src/corrections.py build   writes errata/index.html, errata/feed.xml, ERRATA.md and the footer link on every page
+  python3 src/corrections.py drafts  lists things a human should review (source conflicts, stale or missing rosters). Publishes nothing
   python3 src/corrections.py check   fails on a page note with no entry, or an entry naming a missing page
 """
 import json, os, re, sys, html
@@ -8,6 +9,7 @@ E = json.load(open(os.path.join(ROOT, 'errata', 'errata.json')))
 ENT = E['entries']; SITE = E['site']; REPO = E['repo']
 BAN = E.get('banners', {})  # {'mode': 'per_entry' | 'all'}
 SEV = {'S1': 'Wrong headline or winner', 'S2': 'Missing or misleading', 'S3': 'Cosmetic'}
+KINDS = {'error': 'Corrections', 'design': 'Design changes'}
 ST = {'open': 'Open', 'disclosed': 'Disclosed on page', 'corrected': 'Corrected'}
 esc = html.escape
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -35,6 +37,8 @@ def check():
     for r, q in ROS['races'].items():
         if r not in races: bad.append('rosters.json names missing page ' + r)
         elif (q.get('n_omitted', len(q.get('omitted') or [])) > 0) and not any(r in e['races'] for e in ENT): bad.append(r + ' omits candidates but has no errata entry')
+    for e in ENT:
+        if e.get('kind') not in KINDS: bad.append('%s needs kind error or design' % e['id'])
     ids = [e['id'] for e in ENT]
     if len(ids) != len(set(ids)): bad.append('duplicate entry id')
     return bad
@@ -45,7 +49,7 @@ def contact():
 def report_url(r=''):
     return REPO + '/issues/new?template=correction.yml' + ('&race=' + r if r else '')
 
-CSS = ':root{color-scheme:light dark;--bg:#fff;--ink:#16181d;--ink2:#555b66;--line:#d9dce2}@media(prefers-color-scheme:dark){:root{--bg:#111318;--ink:#eceef2;--ink2:#a3a9b5;--line:#2c313a}}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,sans-serif}main{max-width:68ch;margin:0 auto;padding:20px 16px 48px}h1{font-size:26px;line-height:1.2;margin:8px 0 4px}h2{font-size:18px;margin:0 0 6px}a{color:inherit}.sub{color:var(--ink2);margin:0 0 20px}.e{border:1px solid var(--line);border-left:4px solid var(--ink2);border-radius:8px;padding:12px 14px;margin:0 0 14px}.m{font-size:13px;color:var(--ink2);margin:0 0 8px}.e p{margin:0 0 8px}.btn{display:inline-block;padding:11px 14px;border:1px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:600;min-height:44px}'
+CSS = ':root{color-scheme:light dark;--bg:#fff;--ink:#16181d;--ink2:#555b66;--line:#d9dce2}@media(prefers-color-scheme:dark){:root{--bg:#111318;--ink:#eceef2;--ink2:#a3a9b5;--line:#2c313a}}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,sans-serif}main{max-width:68ch;margin:0 auto;padding:20px 16px 48px}h1{font-size:26px;line-height:1.2;margin:8px 0 4px}h2{font-size:18px;margin:0 0 6px}a{color:inherit}.sub{color:var(--ink2);margin:0 0 20px}.e{border:1px solid var(--line);border-left:4px solid var(--ink2);border-radius:8px;padding:12px 14px;margin:0 0 14px}.m{font-size:13px;color:var(--ink2);margin:0 0 8px}.e p{margin:0 0 8px}h3{font-size:18px;margin:0 0 6px}h2.sec{margin:26px 0 2px}.btn{display:inline-block;padding:11px 14px;border:1px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:600;min-height:44px}'
 
 def logs():
     L = E.get('log') or []
@@ -53,13 +57,18 @@ def logs():
 
 def page():
     out = []
-    for e in sorted(ENT, key=lambda x: x['id'], reverse=True):
-        links = ' · '.join('<a href="../elections/%s/">%s</a>' % (r, esc(r)) for r in e['races'])
-        out.append('<article class="e" id="%s"><p class="m">%s · %s · %s (%s)</p><h2>%s</h2><p><b>What was wrong.</b> %s</p><p><b>What we did.</b> %s</p><p><b>How we will catch it.</b> %s</p><p class="m">Pages: %s · Found by: %s</p></article>' % (
-            e['id'], esc(e['id']), esc(e['date']), esc(ST[e['status']]), esc(e['severity']), esc(e['title']), esc(e['wrong']), esc(e['done']), esc(e['prevent']), links, esc(e['found_by'])))
+    for kind, title in KINDS.items():
+        grp = [e for e in sorted(ENT, key=lambda x: x['id'], reverse=True) if e.get('kind') == kind]
+        if grp: out.append('<h2 class="sec">%s</h2><p class="m">%s</p>' % (title, 'Something we published that was wrong.' if kind == 'error' else 'A limit of how we built the pages, and what we changed. Not a wrong number.'))
+        out += [_article(e) for e in grp]
     c = contact()
     where = '<a class="btn" href="%s">Report an error</a>' % esc(report_url()) + ('<p class="m">Or write to <a href="mailto:%s">%s</a>.</p>' % (c, c) if c else '')
     return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Corrections</title><link rel="alternate" type="application/atom+xml" title="Corrections" href="feed.xml"><style>%s</style></head><body><main><p><a href="../">&larr; All elections</a></p><h1>Corrections</h1><p class="sub">We list every error we find in our own pages, what we did, and how we will catch the next one. Entries are never deleted. <a href="feed.xml">Feed</a></p>%s%s%s<p class="m">Policy: severity levels and response times are in docs/CORRECTIONS.md in the repository.</p></main></body></html>' % (CSS, where, logs(), ''.join(out))
+
+def _article(e):
+    links = ' · '.join('<a href="../elections/%s/">%s</a>' % (r, esc(r)) for r in e['races'])
+    return ('<article class="e" id="%s"><p class="m">%s · %s · %s (%s)</p><h3>%s</h3><p><b>What was wrong.</b> %s</p><p><b>What we did.</b> %s</p><p><b>How we will catch it.</b> %s</p><p class="m">Pages: %s · Found by: %s</p></article>' % (
+            e['id'], esc(e['id']), esc(e['date']), esc(ST[e['status']]), esc(e['severity']), esc(e['title']), esc(e['wrong']), esc(e['done']), esc(e['prevent']), links, esc(e['found_by'])))
 
 def feed():
     ent = ''.join('<entry><id>tag:fovea,2026:errata:%s</id><title>%s</title><updated>%sT12:00:00Z</updated><link href="%serrata/#%s"/><summary>%s</summary></entry>' % (
@@ -69,9 +78,26 @@ def feed():
 
 def md():
     s = '# Corrections\n\nGenerated from `errata/errata.json`. Do not edit by hand.\n\n' + ''.join('- %s: %s\n' % (x['date'], x['text']) for x in E.get('log') or []) + ('\n' if E.get('log') else '')
-    for e in sorted(ENT, key=lambda x: x['id'], reverse=True):
-        s += '## %s %s\n\n%s · %s (%s) · pages: %s\n\n**Wrong.** %s\n\n**Done.** %s\n\n**Catch.** %s\n\n' % (e['id'], e['title'], e['date'], ST[e['status']], e['severity'], ', '.join(e['races']), e['wrong'], e['done'], e['prevent'])
+    for e in sorted(ENT, key=lambda x: (x.get('kind') != 'error', [-ord(c) for c in x['id']])):
+        s += '## %s %s\n\n%s · %s (%s) · pages: %s\n\n**Wrong.** %s\n\n**Done.** %s\n\n**Catch.** %s\n\n' % (e['id'], e['title'], e['date'], ST[e['status']], e['severity'] + ', ' + KINDS[e['kind']].lower(), ', '.join(e['races']), e['wrong'], e['done'], e['prevent'])
     return s
+
+def drafts(today=None):
+    """Lines for a human to review. Detects, never publishes. A race already covered by an error entry is not repeated."""
+    import datetime
+    today = today or datetime.date.today(); out = []
+    covered = {r for e in ENT if e.get('kind') == 'error' for r in e['races']}
+    for r, q in sorted(ROS['races'].items()):
+        if r in covered: continue
+        for c in q.get('conflicts') or []:
+            out.append('%s: %s says %d candidates, but we show %d from %s (tier %d vs %d). Check before publishing.' % (r, c['publisher'], c['count'], q['total'], q['publisher'], c['tier'], q['tier']))
+        try: age = (today - datetime.date.fromisoformat(q['retrieved'])).days
+        except (KeyError, ValueError): age = None
+        if age is not None and age > RR.STALE_DAYS: out.append('%s: roster evidence is %d days old.' % (r, age))
+    for r, note in sorted(ROS.get('unresolved', {}).items()): out.append('%s: roster unresolved. %s' % (r, note))
+    for r in races:
+        if r not in ROS['races'] and r not in ROS.get('unresolved', {}): out.append('%s: no roster evidence.' % r)
+    return out
 
 def inject():
     n = 0
@@ -192,6 +218,8 @@ if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'check'
     bad = check()
     if bad: print('\n'.join('FAIL ' + b for b in bad)); sys.exit(1)
+    if cmd == 'drafts':
+        d = drafts(); print('\n'.join('DRAFT ' + x for x in d) if d else 'no drafts'); sys.exit(0)
     if cmd == 'build':
         open(os.path.join(ROOT, 'errata', 'index.html'), 'w').write(page())
         open(os.path.join(ROOT, 'errata', 'feed.xml'), 'w').write(feed())
