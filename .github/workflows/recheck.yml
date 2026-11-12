@@ -1,0 +1,33 @@
+name: Certified-list recheck
+# Weekly from the first Monday after the planned recheck date. The script itself only runs inside its date window.
+on:
+  schedule:
+    - cron: '17 13 * * 1'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Run outside the date window'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  issues: write
+jobs:
+  recheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PDF reader
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq poppler-utils
+      - name: Run recheck
+        run: python3 src/recheck.py run ${{ inputs.force && '--force' || '' }} --out recheck-report.md
+      - name: Open issue with the report
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if [ -f recheck-report.md ]; then
+            gh label create recheck --color 5319e7 --description "Certified-list recheck" 2>/dev/null || true
+            gh issue create --title "Certified-list recheck $(date -u +%F)" --label recheck --body-file recheck-report.md
+          else
+            echo "No report (outside window)."
+          fi
