@@ -82,6 +82,25 @@ class Files(unittest.TestCase):
         self.assertEqual(R.resolve(self.d), 0)
         self.assertIn('old', json.load(open(path.replace('.json', '.last-good.json')))['races'])
 
+    def test_same_race_as_inherits_statewide_roster(self):
+        os.makedirs(os.path.join(self.d, 'elections', 'nv-city'))
+        json.dump({'candidates': {'a': {'full': 'Aaron Ford'}, 'b': {'full': 'Joe Lombardo'}}}, open(os.path.join(self.d, 'elections', 'nv-city', 'config.json'), 'w'))
+        self.put('nv.json', json.dumps({'observations': [obs(total=3)]})); self.put('nv-city.json', json.dumps({'same_race_as': 'nv', 'observations': []}))
+        out, warns = R.resolve_all(self.d, TODAY)
+        self.assertEqual(out['races']['nv-city']['total'], 3); self.assertEqual(out['races']['nv-city']['inherits'], 'nv')
+
+    def test_bad_links_leave_race_unverified(self):
+        self.put('nv.json', json.dumps({'observations': [obs(total=3)]}))
+        self.put('a.json', json.dumps({'same_race_as': 'missing'})); self.put('b.json', json.dumps({'same_race_as': 'b'}))
+        self.put('c.json', json.dumps({'same_race_as': 'a'})); self.put('d.json', json.dumps({'same_race_as': 7}))
+        out, warns = R.resolve_all(self.d, TODAY)
+        self.assertEqual(list(out['races']), ['nv']); self.assertEqual(len(warns), 4)
+
+    def test_loss_of_target_does_not_break_others(self):
+        self.put('nv.json', '{broken'); self.put('x.json', json.dumps({'same_race_as': 'nv'})); self.put('y.json', json.dumps({'observations': [obs(total=3)]}))
+        out, warns = R.resolve_all(self.d, TODAY)
+        self.assertIn('y', out['races']); self.assertNotIn('x', out['races'])
+
 
 if __name__ == '__main__':
     unittest.main()

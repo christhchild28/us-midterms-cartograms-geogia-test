@@ -113,16 +113,26 @@ def mapped_names(root, race):
 
 
 def resolve_all(root=ROOT, today=None):
-    today = today or datetime.date.today(); races = {}; unresolved = {}; warns = []; newest = ''
+    today = today or datetime.date.today(); races = {}; unresolved = {}; warns = []; newest = ''; evs = {}
     evd = os.path.join(root, 'errata', 'evidence')
     for fn in sorted(os.listdir(evd)) if os.path.isdir(evd) else []:
         if not fn.endswith('.json'): continue
         race = fn[:-5]; ev, err = load_json(os.path.join(evd, fn))
         if err or not isinstance(ev, dict): warns.append('%s evidence unreadable (%s); race left unverified' % (race, err)); continue
+        evs[race] = ev
+    for race, ev in evs.items():
+        link = ev.get('same_race_as')
+        if link is not None:
+            tgt = evs.get(link) if isinstance(link, str) else None
+            if not isinstance(tgt, dict) or link == race or tgt.get('same_race_as') is not None:
+                warns.append('%s: same_race_as %r is missing, self-referencing or chained; race left unverified' % (race, link)); continue
+            ev = {'observations': tgt.get('observations')}
         try: r, u, w = resolve_race(race, ev, mapped_names(root, race), today)
         except Exception as e: warns.append('%s resolver error (%s); race left unverified' % (race, e)); continue
         warns += w
-        if r: races[race] = r; newest = max(newest, r['retrieved'])
+        if r:
+            if link: r['inherits'] = link
+            races[race] = r; newest = max(newest, r['retrieved'])
         elif u: unresolved[race] = u
     return {'checked': newest, 'note': 'Derived from errata/evidence by src/roster_resolve.py. Do not edit by hand.', 'races': races, 'unresolved': unresolved}, warns
 

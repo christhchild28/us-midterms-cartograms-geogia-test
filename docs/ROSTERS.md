@@ -24,3 +24,7 @@ Tier 1 shows "Confirmed against the state election office list". Tiers 2 to 4 sh
 - Evidence older than 14 days produces a warning.
 
 Tests: `python3 -m unittest tests.test_roster_resolve`
+
+## One race, several pages
+
+A page can slice a race we already checked, for example the New York governor race by city district. Give it an evidence file with `"same_race_as": "<race>"` and no observations. It then uses that race's evidence, and its own mapped candidates decide which names are shown or omitted. The link is per page and is never automatic. A missing, self-referencing or chained link leaves only that page unverified, with a warning.
