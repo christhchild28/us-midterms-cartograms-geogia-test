@@ -79,7 +79,7 @@ FN_CSS = ('<style id="fn-css">.fnote{border:1px solid;border-left-width:4px;bord
   '.fnote .fn-b{padding:0 12px 12px}.fnote .fn-t{font-weight:600}.fnote .fn-c{opacity:.6;font-size:20px;line-height:1}'
   '.fnote[open] .fn-s,.fnote:not([open]) .fn-o{display:none}.fnote:not([open]){border:0;display:block;margin-top:4px}'
   '.fnote:not([open])>summary{padding:0;justify-content:flex-start}.fnote .fn-s{display:inline-flex;align-items:center;gap:6px;opacity:.75}.fnote .fn-i{display:inline-block;width:16px;height:16px;border:1.5px solid;border-radius:50%;text-align:center;font:600 11px/13px system-ui,sans-serif}'
-  '.fnote[open]>summary:hover .fn-c{opacity:1}</style>')
+  '.fnote[open]>summary:hover .fn-c{opacity:1}.ballot{margin:14px 0;padding:12px 0;border-top:1px solid color-mix(in srgb,currentColor 25%,transparent);border-bottom:1px solid color-mix(in srgb,currentColor 25%,transparent);font-size:14px;line-height:1.5}.ballot b{font-weight:600}.ballot .bn{font-size:20px;font-weight:700;line-height:1.2;display:block}.ballot .bs{opacity:.8;font-size:12.5px;margin-top:6px;display:block}.ballot a{color:inherit}</style>')
 
 def fnote(label, body):
     return ('<details class="fnote" open><summary aria-label="Show or hide this note"><span class="fn-o fn-t">%s</span>'
@@ -101,6 +101,24 @@ def wrap_notice(t):
     """Turn the builder's plain note (aside.notice) into the same collapsible component."""
     return re.sub(r'<aside class="notice" role="note"><b>Note, added (.*?)\.</b> (.*?)</aside>', lambda m: fnote('Note, added ' + m.group(1), m.group(2)), t, count=1, flags=re.S)
 
+
+def ballot_card(r):
+    cp = os.path.join(ROOT, 'elections', r, 'config.json')
+    c = json.load(open(cp))['candidates']; shown = [c['a']['full'], c['b']['full']]
+    q = ROS['races'].get(r)
+    if q:
+        n = q.get('n_omitted', len(q.get('omitted') or [])); extra = q.get('extra')
+        tot = ('%d candidates' % q['total']) + (' and %s' % extra if extra else '')
+        if n == 0: line = 'The map shows both: %s and %s.' % tuple(esc(x) for x in shown)
+        else:
+            line = 'The map shows 2: %s and %s.' % tuple(esc(x) for x in shown)
+            line += (' Not shown: ' + '; '.join(esc(x) for x in q['omitted']) + '.') if q.get('omitted') else ' Not shown: %d others (names not yet recorded).' % n
+        src = '<span class="bs">Checked %s against Ballotpedia. <a href="%s">Source</a></span>' % (esc(ROS['checked']), esc(q['src']))
+        return '<!--ballot--><div class="ballot"><b class="bn">%s on the ballot</b>%s%s</div><!--/ballot-->' % (esc(tot), line, src)
+    if r in ROS.get('unresolved', {}):
+        return '<!--ballot--><div class="ballot"><b class="bn">Ballot roster being checked</b>The map shows 2: %s and %s. Sources disagree on whether others are on the ballot.</div><!--/ballot-->' % tuple(esc(x) for x in shown)
+    return '<!--ballot--><div class="ballot"><b class="bn">Ballot roster not yet verified</b>The map shows 2: %s and %s. Other candidates may be on the ballot.</div><!--/ballot-->' % tuple(esc(x) for x in shown)
+
 def inject_roster():
     n = 0
     for r in races:
@@ -108,9 +126,14 @@ def inject_roster():
         blk = roster_note(r)
         t = re.sub(r'<!--roster-->.*?<!--/roster-->', '', t, flags=re.S)
         t = wrap_notice(t)
+        q = ROS['races'].get(r); complete = bool(q) and q.get('n_omitted', len(q.get('omitted') or [])) == 0
+        want = 'Votes cast' if complete else 'Votes for the two shown'
+        t = t.replace("votes: 'Votes cast'", "votes: '" + want + "'").replace("votes: 'Votes for the two shown'", "votes: '" + want + "'")
+        t = re.sub(r'<!--ballot-->.*?<!--/ballot-->', '', t, flags=re.S)
+        t = t.replace('<div class="bars" id="bars"></div>', '<div class="bars" id="bars"></div>' + ballot_card(r), 1)
         if blk and 'class="notice"' not in t and 'class="fnote"' not in t: t = t.replace('<p class="dek" id="dek"></p>', '<p class="dek" id="dek"></p>' + blk, 1)
         t = re.sub(r'<style id="fn-css">.*?</style>', '', t, flags=re.S)
-        if 'class="fnote"' in t: t = t.replace('</style>', '</style>' + FN_CSS, 1)
+        if 'class="fnote"' in t or 'class="ballot"' in t: t = t.replace('</style>', '</style>' + FN_CSS, 1)
         if t != t0: open(p, 'w').write(t); n += 1
     return n
 

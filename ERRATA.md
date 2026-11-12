@@ -2,6 +2,16 @@
 
 Generated from `errata/errata.json`. Do not edit by hand.
 
+## E-2026-003 The "Votes cast" bar counted only the two shown candidates
+
+2026-11-12 · Corrected (S2) · pages: al-2026-governor, al-2026-senate, ar-2026-governor, ar-2026-senate, az-2026-governor, co-2026-governor, co-2026-senate, fl-2026-governor, fl-2026-senate, ga-2026-governor, ga-2026-senate, ia-2026-governor, ia-2026-senate, id-2026-governor, id-2026-senate, il-2026-governor, il-2026-senate, ks-2026-governor, ky-2026-senate, la-2026-senate, mi-2026-governor, mi-2026-senate, mn-2026-governor, mn-2026-senate, ms-2026-senate, mt-2026-senate, nc-2026-senate, nd-2026-house, ne-2026-governor, ne-2026-senate, nj-2026-senate, nm-2026-governor, nm-2026-senate, nv-2026-governor, ny-2026-governor, nyc-ad-2026-governor, nyc-council-2026-governor, oh-2026-governor, ok-2026-governor, ok-2026-senate, or-2026-governor, or-2026-senate, pa-2026-governor, sc-2026-governor, sc-2026-senate, sd-2026-governor, sd-2026-senate, tn-2026-governor, tn-2026-senate, tx-2026-senate, wi-2026-governor, wy-2026-governor, wy-2026-senate
+
+**Wrong.** The bar labelled "Votes cast" used the sum of the two shown candidates' votes as its total, so it read as a share of all votes cast. On 53 pages that is not what it measures.
+
+**Done.** Relabelled the bar "Votes for the two shown" on 53 pages. California, a top-two race, keeps "Votes cast". Every page now also has an "On the ballot" card with the candidate count. Numbers are unchanged.
+
+**Catch.** A label that says "votes cast" or "of the vote" must match its denominator. A check for this wording is planned.
+
 ## E-2026-002 Eighteen more pages map only some of the candidates on the ballot
 
 2026-11-11 · Open (S2) · pages: ga-2026-senate, tx-2026-senate, ne-2026-senate, nc-2026-senate, mi-2026-senate, ky-2026-senate, az-2026-governor, mi-2026-governor, nv-2026-governor, oh-2026-governor, wi-2026-governor, pa-2026-governor, ar-2026-senate, ar-2026-governor, ok-2026-senate, fl-2026-senate, ia-2026-senate, id-2026-senate
