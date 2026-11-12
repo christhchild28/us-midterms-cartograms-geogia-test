@@ -72,16 +72,34 @@ def inject():
     return n
 
 
+
+FN_CSS = ('<style id="fn-css">.fnote{border:1px solid;border-left-width:4px;border-color:color-mix(in srgb,currentColor 35%,transparent);border-radius:8px;margin:12px 0 0;max-width:62ch;font-size:14px;line-height:1.5}'
+  '.fnote>summary{list-style:none;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;padding:0 12px;cursor:pointer;-webkit-tap-highlight-color:transparent}'
+  '.fnote>summary::-webkit-details-marker{display:none}.fnote>summary:focus-visible{outline:2px solid currentColor;outline-offset:2px;border-radius:6px}'
+  '.fnote .fn-b{padding:0 12px 12px}.fnote .fn-t{font-weight:600}.fnote .fn-c{opacity:.6;font-size:20px;line-height:1}'
+  '.fnote[open] .fn-s,.fnote:not([open]) .fn-o{display:none}.fnote:not([open]){border:0;display:block;margin-top:4px}'
+  '.fnote:not([open])>summary{padding:0;justify-content:flex-start}.fnote .fn-s{display:inline-flex;align-items:center;gap:6px;opacity:.75}.fnote .fn-i{display:inline-block;width:16px;height:16px;border:1.5px solid;border-radius:50%;text-align:center;font:600 11px/13px system-ui,sans-serif}'
+  '.fnote[open]>summary:hover .fn-c{opacity:1}</style>')
+
+def fnote(label, body):
+    return ('<details class="fnote" open><summary aria-label="Show or hide this note"><span class="fn-o fn-t">%s</span>'
+            '<span class="fn-s fn-t"><span class="fn-i" aria-hidden="true">i</span> Note</span><span class="fn-o fn-c" aria-hidden="true">&times;</span></summary>'
+            '<div class="fn-b">%s</div></details>') % (label, body)
+
 def roster_note(r):
     q = ROS['races'].get(r)
     if not q or r == 'mt-2026-senate': return ''
     om = q.get('omitted'); n = q.get('n_omitted', len(om or []))
     if n == 0: return ''
     who = (' It leaves out ' + '; '.join(esc(x) for x in om) + '.') if om else (' It leaves out %d other candidate%s.' % (n, '' if n == 1 else 's'))
-    return ('<!--roster--><aside role="note" style="border:1px solid;border-left-width:4px;border-color:color-mix(in srgb,currentColor 35%%,transparent);border-radius:8px;padding:10px 12px;margin:12px 0 0;max-width:62ch;font-size:14px;line-height:1.5">'
-            '<b>Note, added %s.</b> This map shows two of the %d candidates on the ballot, according to Ballotpedia.%s '
-            'Shares and colours are each county\'s share of the two shown candidates\' votes, not of all votes. '
-            '<a style="color:inherit" href="%s">Source</a> &middot; <a style="color:inherit" href="../../errata/#E-2026-002">Corrections</a></aside><!--/roster-->') % (esc(ROS['checked']), q['total'], who, esc(q['src']))
+    body = ('This map shows two of the %d candidates on the ballot, according to Ballotpedia.%s Shares and colours are each county\'s share of the two shown candidates\' votes, not of all votes. '
+            '<a style="color:inherit" href="%s">Source</a> &middot; <a style="color:inherit" href="../../errata/#E-2026-002">Corrections</a>') % (q['total'], who, esc(q['src']))
+    return '<!--roster-->' + fnote('Note, added ' + esc(ROS['checked']), body) + '<!--/roster-->'
+
+
+def wrap_notice(t):
+    """Turn the builder's plain note (aside.notice) into the same collapsible component."""
+    return re.sub(r'<aside class="notice" role="note"><b>Note, added (.*?)\.</b> (.*?)</aside>', lambda m: fnote('Note, added ' + m.group(1), m.group(2)), t, count=1, flags=re.S)
 
 def inject_roster():
     n = 0
@@ -89,7 +107,10 @@ def inject_roster():
         p = os.path.join(ROOT, 'elections', r, 'index.html'); t = t0 = open(p).read()
         blk = roster_note(r)
         t = re.sub(r'<!--roster-->.*?<!--/roster-->', '', t, flags=re.S)
-        if blk and 'class="notice"' not in t: t = t.replace('<p class="dek" id="dek"></p>', '<p class="dek" id="dek"></p>' + blk, 1)
+        t = wrap_notice(t)
+        if blk and 'class="notice"' not in t and 'fnote' not in t.split('<!--roster-->')[0] + t.split('<!--/roster-->')[-1]: t = t.replace('<p class="dek" id="dek"></p>', '<p class="dek" id="dek"></p>' + blk, 1)
+        t = re.sub(r'<style id="fn-css">.*?</style>', '', t, flags=re.S)
+        if 'class="fnote"' in t: t = t.replace('</style>', '</style>' + FN_CSS, 1)
         if t != t0: open(p, 'w').write(t); n += 1
     return n
 
