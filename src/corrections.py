@@ -108,7 +108,7 @@ def inject_roster():
         blk = roster_note(r)
         t = re.sub(r'<!--roster-->.*?<!--/roster-->', '', t, flags=re.S)
         t = wrap_notice(t)
-        if blk and 'class="notice"' not in t and 'fnote' not in t.split('<!--roster-->')[0] + t.split('<!--/roster-->')[-1]: t = t.replace('<p class="dek" id="dek"></p>', '<p class="dek" id="dek"></p>' + blk, 1)
+        if blk and 'class="notice"' not in t and 'class="fnote"' not in t: t = t.replace('<p class="dek" id="dek"></p>', '<p class="dek" id="dek"></p>' + blk, 1)
         t = re.sub(r'<style id="fn-css">.*?</style>', '', t, flags=re.S)
         if 'class="fnote"' in t: t = t.replace('</style>', '</style>' + FN_CSS, 1)
         if t != t0: open(p, 'w').write(t); n += 1
