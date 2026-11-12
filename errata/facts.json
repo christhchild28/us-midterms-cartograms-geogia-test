@@ -1,0 +1,25 @@
+{
+  "note": "Race facts that readers can check. Only entries with a source are shown. Missing means not yet verified, not 'none'.",
+  "races": {
+    "fl-2026-senate": {
+      "kind": "Special election for the rest of a Senate term that ends in January 2029.",
+      "src": "https://news.ballotpedia.org/2026/10/22/49-states-allow-election-recounts-heres-how-laws-vary-in-each-state/"
+    },
+    "ca-2026-governor": {
+      "rules": "Top-two: the two highest vote-getters in the June primary advance, whatever their party.",
+      "src": "https://news.ballotpedia.org/2026/06/12/xavier-becerra-d-and-steve-hilton-r-advance-from-the-top-two-primary-for-governor-of-california/"
+    },
+    "la-2026-senate": {
+      "rules": "Closed party primaries chose each party's nominee this year. Louisiana used one open primary before.",
+      "src": "https://news.ballotpedia.org/2026/06/30/julia-letlow-r-defeated-john-fleming-r-in-the-republican-primary-runoff-for-u-s-senate-in-louisiana/"
+    },
+    "id-2026-senate": {
+      "changes": "The Democratic nominee, David Roth, withdrew on July 28.",
+      "src": "https://news.ballotpedia.org/2026/09/15/u-s-house-primary-candidacies-increased-in-three-states-after-new-maps-reopened-filing-deadlines/"
+    },
+    "ne-2026-senate": {
+      "changes": "The Democratic nominee, Cindy Burbank, withdrew on July 17.",
+      "src": "https://news.ballotpedia.org/2026/07/24/nebraska-set-to-have-a-second-straight-u-s-senate-election-without-both-major-parties-on-the-ballot-2/"
+    }
+  }
+}

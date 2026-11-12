@@ -2,6 +2,16 @@
 
 Generated from `errata/errata.json`. Do not edit by hand.
 
+## E-2026-004 Nebraska Senate: ballot count corrected from five to three
+
+2026-11-12 · Corrected (S3) · pages: ne-2026-senate
+
+**Wrong.** Our note and card said two of five candidates were on the ballot. A July Ballotpedia report listed three on the ballot after the Democratic nominee withdrew. A later Ballotpedia headline counts five names.
+
+**Done.** The page now says three candidates and names Mike Marvin as not shown. It says the count is being confirmed. Map data is unchanged.
+
+**Catch.** A roster with conflicting sources shows the lower confirmed count and a caveat until a certified list settles it.
+
 ## E-2026-003 The "Votes cast" bar counted only the two shown candidates
 
 2026-11-12 · Corrected (S2) · pages: al-2026-governor, al-2026-senate, ar-2026-governor, ar-2026-senate, az-2026-governor, co-2026-governor, co-2026-senate, fl-2026-governor, fl-2026-senate, ga-2026-governor, ga-2026-senate, ia-2026-governor, ia-2026-senate, id-2026-governor, id-2026-senate, il-2026-governor, il-2026-senate, ks-2026-governor, ky-2026-senate, la-2026-senate, mi-2026-governor, mi-2026-senate, mn-2026-governor, mn-2026-senate, ms-2026-senate, mt-2026-senate, nc-2026-senate, nd-2026-house, ne-2026-governor, ne-2026-senate, nj-2026-senate, nm-2026-governor, nm-2026-senate, nv-2026-governor, ny-2026-governor, nyc-ad-2026-governor, nyc-council-2026-governor, oh-2026-governor, ok-2026-governor, ok-2026-senate, or-2026-governor, or-2026-senate, pa-2026-governor, sc-2026-governor, sc-2026-senate, sd-2026-governor, sd-2026-senate, tn-2026-governor, tn-2026-senate, tx-2026-senate, wi-2026-governor, wy-2026-governor, wy-2026-senate

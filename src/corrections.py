@@ -10,6 +10,7 @@ SEV = {'S1': 'Wrong headline or winner', 'S2': 'Missing or misleading', 'S3': 'C
 ST = {'open': 'Open', 'disclosed': 'Disclosed on page', 'corrected': 'Corrected'}
 esc = html.escape
 ROS = json.load(open(os.path.join(ROOT, 'errata', 'rosters.json')))
+FACTS = json.load(open(os.path.join(ROOT, 'errata', 'facts.json')))['races']
 races = sorted(d for d in os.listdir(os.path.join(ROOT, 'elections')) if os.path.exists(os.path.join(ROOT, 'elections', d, 'index.html')))
 
 def check():
@@ -94,6 +95,7 @@ def roster_note(r):
     who = (' It leaves out ' + '; '.join(esc(x) for x in om) + '.') if om else (' It leaves out %d other candidate%s.' % (n, '' if n == 1 else 's'))
     body = ('This map shows two of the %d candidates on the ballot, according to Ballotpedia.%s Shares and colours are each county\'s share of the two shown candidates\' votes, not of all votes. '
             '<a style="color:inherit" href="%s">Source</a> &middot; <a style="color:inherit" href="../../errata/#E-2026-002">Corrections</a>') % (q['total'], who, esc(q['src']))
+    if q.get('caveat'): body = esc(q['caveat']) + ' ' + body
     return '<!--roster-->' + fnote('Note, added ' + esc(ROS['checked']), body) + '<!--/roster-->'
 
 
@@ -101,6 +103,15 @@ def wrap_notice(t):
     """Turn the builder's plain note (aside.notice) into the same collapsible component."""
     return re.sub(r'<aside class="notice" role="note"><b>Note, added (.*?)\.</b> (.*?)</aside>', lambda m: fnote('Note, added ' + m.group(1), m.group(2)), t, count=1, flags=re.S)
 
+
+def _extras(r, q=None):
+    out = ''
+    if q and q.get('caveat'): out += '<span class="bs">%s</span>' % esc(q['caveat'])
+    f = FACTS.get(r)
+    if f:
+        for k, lab in (('kind', ''), ('rules', 'Rules: '), ('changes', 'Change: ')):
+            if f.get(k): out += '<span class="bs">%s%s <a href="%s">Source</a></span>' % (lab, esc(f[k]), esc(f['src']))
+    return out
 
 def ballot_card(r):
     cp = os.path.join(ROOT, 'elections', r, 'config.json')
@@ -113,7 +124,7 @@ def ballot_card(r):
         else:
             line = 'The map shows 2: %s and %s.' % tuple(esc(x) for x in shown)
             line += (' Not shown: ' + '; '.join(esc(x) for x in q['omitted']) + '.') if q.get('omitted') else ' Not shown: %d others (names not yet recorded).' % n
-        src = '<span class="bs">Checked %s against Ballotpedia. <a href="%s">Source</a></span>' % (esc(ROS['checked']), esc(q['src']))
+        src = _extras(r, q) + '<span class="bs">Checked %s against Ballotpedia. <a href="%s">Source</a></span>' % (esc(ROS['checked']), esc(q['src']))
         return '<!--ballot--><div class="ballot"><b class="bn">%s on the ballot</b>%s%s</div><!--/ballot-->' % (esc(tot), line, src)
     if r in ROS.get('unresolved', {}):
         return '<!--ballot--><div class="ballot"><b class="bn">Ballot roster being checked</b>The map shows 2: %s and %s. Sources disagree on whether others are on the ballot.</div><!--/ballot-->' % tuple(esc(x) for x in shown)
@@ -129,6 +140,7 @@ def inject_roster():
         q = ROS['races'].get(r); complete = bool(q) and q.get('n_omitted', len(q.get('omitted') or [])) == 0
         want = 'Votes cast' if complete else 'Votes for the two shown'
         t = t.replace("votes: 'Votes cast'", "votes: '" + want + "'").replace("votes: 'Votes for the two shown'", "votes: '" + want + "'")
+        t = re.sub(r'<!--cmp-->.*?<!--/cmp-->', '', t, flags=re.S)
         t = re.sub(r'<!--ballot-->.*?<!--/ballot-->', '', t, flags=re.S)
         t = t.replace('<div class="bars" id="bars"></div>', '<div class="bars" id="bars"></div>' + ballot_card(r), 1)
         if blk and 'class="notice"' not in t and 'class="fnote"' not in t: t = t.replace('<p class="dek" id="dek"></p>', '<p class="dek" id="dek"></p>' + blk, 1)

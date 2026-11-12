@@ -24,10 +24,12 @@
       "src": "https://news.ballotpedia.org/?p=52297"
     },
     "ne-2026-senate": {
-      "total": 5,
-      "omitted": null,
-      "n_omitted": 3,
-      "src": "https://news.ballotpedia.org/?p=52333"
+      "total": 3,
+      "omitted": [
+        "Mike Marvin (Legal Marijuana Now Party)"
+      ],
+      "caveat": "Ballotpedia's result headline counts five names, including a nominee who withdrew. We are confirming the exact ballot.",
+      "src": "https://news.ballotpedia.org/2026/07/24/nebraska-set-to-have-a-second-straight-u-s-senate-election-without-both-major-parties-on-the-ballot-2/"
     },
     "nc-2026-senate": {
       "total": 5,

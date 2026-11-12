@@ -113,6 +113,20 @@
       "wrong": "The bar labelled \"Votes cast\" used the sum of the two shown candidates' votes as its total, so it read as a share of all votes cast. On 53 pages that is not what it measures.",
       "done": "Relabelled the bar \"Votes for the two shown\" on 53 pages. California, a top-two race, keeps \"Votes cast\". Every page now also has an \"On the ballot\" card with the candidate count. Numbers are unchanged.",
       "prevent": "A label that says \"votes cast\" or \"of the vote\" must match its denominator. A check for this wording is planned."
+    },
+    {
+      "id": "E-2026-004",
+      "date": "2026-11-12",
+      "severity": "S3",
+      "status": "corrected",
+      "races": [
+        "ne-2026-senate"
+      ],
+      "found_by": "editor review of sources",
+      "title": "Nebraska Senate: ballot count corrected from five to three",
+      "wrong": "Our note and card said two of five candidates were on the ballot. A July Ballotpedia report listed three on the ballot after the Democratic nominee withdrew. A later Ballotpedia headline counts five names.",
+      "done": "The page now says three candidates and names Mike Marvin as not shown. It says the count is being confirmed. Map data is unchanged.",
+      "prevent": "A roster with conflicting sources shows the lower confirmed count and a caveat until a certified list settles it."
     }
   ],
   "email_live": false
