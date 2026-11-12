@@ -15,6 +15,7 @@ Each item has: what to capture, when it is knowable, and the check that blocks a
 | 8 | Count and certification rules: mail-ballot receipt deadlines, canvass dates, automatic recount margins | Statute | `what_could_change` | Page states "unofficial" until certification; recount watch flag |
 | 9 | Denominator of every percentage and label | Design time | metric registry | Wording check: "vote", "votes cast" and "of the vote" need an all-candidates denominator |
 | 10 | Source terms and data vintage (population estimates, results provider) | Contract and file headers | `data/SOURCES` | Manifest gates D1 to D12 |
+| 11 | Official vote total and call status per race: certified, counting, recount, uncalled | State results page (tier 1), updated until certification | `errata/results.json` per race: official total, status, as_of, source | `drafts` flags a page total that differs from the official total beyond a set tolerance, and a "won" headline on a race that is uncalled, counting or in recount. A person reviews every draft; nothing publishes itself |
 
 ## Planning field: what could change
 Every race page carries a short list: the real-world change, the date it closes, and the check that would catch it.
