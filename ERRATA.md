@@ -2,6 +2,8 @@
 
 Generated from `errata/errata.json`. Do not edit by hand.
 
+- 2026-11-12: Page banners for roster gaps were removed. Every page still shows the "On the ballot" card with the full count, and each gap is still listed here. Banners return for any entry that sets banner or is S1 and open.
+
 ## E-2026-006 Nebraska Senate: ballot count corrected again, from three to five
 
 2026-11-12 · Corrected (S3) · pages: ne-2026-senate

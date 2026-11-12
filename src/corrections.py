@@ -6,6 +6,7 @@ import json, os, re, sys, html
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 E = json.load(open(os.path.join(ROOT, 'errata', 'errata.json')))
 ENT = E['entries']; SITE = E['site']; REPO = E['repo']
+BAN = E.get('banners', {})  # {'mode': 'per_entry' | 'all'}
 SEV = {'S1': 'Wrong headline or winner', 'S2': 'Missing or misleading', 'S3': 'Cosmetic'}
 ST = {'open': 'Open', 'disclosed': 'Disclosed on page', 'corrected': 'Corrected'}
 esc = html.escape
@@ -46,6 +47,10 @@ def report_url(r=''):
 
 CSS = ':root{color-scheme:light dark;--bg:#fff;--ink:#16181d;--ink2:#555b66;--line:#d9dce2}@media(prefers-color-scheme:dark){:root{--bg:#111318;--ink:#eceef2;--ink2:#a3a9b5;--line:#2c313a}}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,sans-serif}main{max-width:68ch;margin:0 auto;padding:20px 16px 48px}h1{font-size:26px;line-height:1.2;margin:8px 0 4px}h2{font-size:18px;margin:0 0 6px}a{color:inherit}.sub{color:var(--ink2);margin:0 0 20px}.e{border:1px solid var(--line);border-left:4px solid var(--ink2);border-radius:8px;padding:12px 14px;margin:0 0 14px}.m{font-size:13px;color:var(--ink2);margin:0 0 8px}.e p{margin:0 0 8px}.btn{display:inline-block;padding:11px 14px;border:1px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:600;min-height:44px}'
 
+def logs():
+    L = E.get('log') or []
+    return ('<p class="m"><b>Changes to this page.</b></p>' + ''.join('<p class="m">%s: %s</p>' % (esc(x['date']), esc(x['text'])) for x in L)) if L else ''
+
 def page():
     out = []
     for e in sorted(ENT, key=lambda x: x['id'], reverse=True):
@@ -54,7 +59,7 @@ def page():
             e['id'], esc(e['id']), esc(e['date']), esc(ST[e['status']]), esc(e['severity']), esc(e['title']), esc(e['wrong']), esc(e['done']), esc(e['prevent']), links, esc(e['found_by'])))
     c = contact()
     where = '<a class="btn" href="%s">Report an error</a>' % esc(report_url()) + ('<p class="m">Or write to <a href="mailto:%s">%s</a>.</p>' % (c, c) if c else '')
-    return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Corrections</title><link rel="alternate" type="application/atom+xml" title="Corrections" href="feed.xml"><style>%s</style></head><body><main><p><a href="../">&larr; All elections</a></p><h1>Corrections</h1><p class="sub">We list every error we find in our own pages, what we did, and how we will catch the next one. Entries are never deleted. <a href="feed.xml">Feed</a></p>%s%s<p class="m">Policy: severity levels and response times are in docs/CORRECTIONS.md in the repository.</p></main></body></html>' % (CSS, where, ''.join(out))
+    return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Corrections</title><link rel="alternate" type="application/atom+xml" title="Corrections" href="feed.xml"><style>%s</style></head><body><main><p><a href="../">&larr; All elections</a></p><h1>Corrections</h1><p class="sub">We list every error we find in our own pages, what we did, and how we will catch the next one. Entries are never deleted. <a href="feed.xml">Feed</a></p>%s%s%s<p class="m">Policy: severity levels and response times are in docs/CORRECTIONS.md in the repository.</p></main></body></html>' % (CSS, where, logs(), ''.join(out))
 
 def feed():
     ent = ''.join('<entry><id>tag:fovea,2026:errata:%s</id><title>%s</title><updated>%sT12:00:00Z</updated><link href="%serrata/#%s"/><summary>%s</summary></entry>' % (
@@ -63,7 +68,7 @@ def feed():
     return '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><id>tag:fovea,2026:errata</id><title>Corrections</title><updated>%sT12:00:00Z</updated><link rel="self" href="%serrata/feed.xml"/><link href="%serrata/"/>%s</feed>\n' % (upd, SITE, SITE, ent)
 
 def md():
-    s = '# Corrections\n\nGenerated from `errata/errata.json`. Do not edit by hand.\n\n'
+    s = '# Corrections\n\nGenerated from `errata/errata.json`. Do not edit by hand.\n\n' + ''.join('- %s: %s\n' % (x['date'], x['text']) for x in E.get('log') or []) + ('\n' if E.get('log') else '')
     for e in sorted(ENT, key=lambda x: x['id'], reverse=True):
         s += '## %s %s\n\n%s · %s (%s) · pages: %s\n\n**Wrong.** %s\n\n**Done.** %s\n\n**Catch.** %s\n\n' % (e['id'], e['title'], e['date'], ST[e['status']], e['severity'], ', '.join(e['races']), e['wrong'], e['done'], e['prevent'])
     return s
@@ -96,9 +101,20 @@ def fnote(label, body):
             '<span class="fn-s fn-t"><span class="fn-i" aria-hidden="true">i</span> Note</span><span class="fn-o fn-c" aria-hidden="true">&times;</span></summary>'
             '<div class="fn-b">%s</div></details>') % (label, body)
 
+def banner_on(r):
+    """Page banners are per entry. 'all' restores a banner on every page with a roster gap.
+    An entry shows its banner when it sets banner: true, or, if it sets nothing, when it is S1 and not yet corrected."""
+    if BAN.get('mode') == 'all': return True
+    for e in ENT:
+        if r not in e['races']: continue
+        b = e.get('banner')
+        if b is None: b = e['severity'] == 'S1' and e['status'] != 'corrected'
+        if b: return True
+    return False
+
 def roster_note(r):
     q = ROS['races'].get(r)
-    if not q or r == 'mt-2026-senate': return ''
+    if not q or r == 'mt-2026-senate' or not banner_on(r): return ''
     om = q.get('omitted'); n = q.get('n_omitted', len(om or []))
     if n == 0: return ''
     who = (' It leaves out ' + '; '.join(esc(x) for x in om) + '.') if om else (' It leaves out %d other candidate%s.' % (n, '' if n == 1 else 's'))

@@ -9,8 +9,8 @@ An email address will be added to `errata/errata.json` (`contact_email`) when th
 ## Severity
 | Level | Meaning | Response target |
 |---|---|---|
-| S1 | Wrong headline number, wrong winner, or wrong race shown | Page note within 24 hours, fix as soon as possible |
-| S2 | A candidate, party or label is missing or wrong; a share means something other than it says | Page note within 2 days |
+| S1 | Wrong headline number, wrong winner, or wrong race shown | Page banner within 24 hours (automatic while open), fix as soon as possible |
+| S2 | A candidate, party or label is missing or wrong; a share means something other than it says | Logged here and on the page card within 2 days; a banner only if the entry sets `banner: true` |
 | S3 | Cosmetic or wording | Fix in the next release; log it |
 
 ## Triage
@@ -27,3 +27,9 @@ An email address will be added to `errata/errata.json` (`contact_email`) when th
 
 ## What could change (planning)
 Each race should list real-world changes that would alter the page: a nominee withdraws, a runoff, a recount, a new party, ranked-choice voting, a county merger. Add them to the race notes. The detection checks for these are tracked in the roadmap.
+
+## Page banners
+Banners are per entry. In `errata/errata.json`, `banners.mode` is `per_entry` (default) or `all`.
+- `per_entry`: a page shows a banner only if an entry naming it sets `"banner": true`, or has no `banner` field, is S1 and is not `corrected`.
+- `all`: every page with a roster gap shows a banner again. Change the mode, run `python3 src/corrections.py build`, publish.
+The "On the ballot" card and the footer link are not banners and stay on every page. A hand-written page note (a `text.notice` in a race config, such as Montana) is not governed by this switch.
