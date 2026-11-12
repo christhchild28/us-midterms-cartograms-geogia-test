@@ -141,6 +141,9 @@ def inject_roster():
         want = 'Votes cast' if complete else 'Votes for the two shown'
         t = t.replace("votes: 'Votes cast'", "votes: '" + want + "'").replace("votes: 'Votes for the two shown'", "votes: '" + want + "'")
         t = re.sub(r'<!--cmp-->.*?<!--/cmp-->', '', t, flags=re.S)
+        VW = 'the vote' if complete else 'the two shown candidates\u2019 votes'
+        t = re.sub(r"\['t', ' of (?:the vote|the two shown candidates\u2019 votes|the two-candidate vote)", "['t', ' of " + VW, t)
+        t = t.replace('"voteWord": "the two-candidate vote"', '"voteWord": "the two shown candidates\u2019 votes"')
         t = re.sub(r'<!--ballot-->.*?<!--/ballot-->', '', t, flags=re.S)
         t = t.replace('<div class="bars" id="bars"></div>', '<div class="bars" id="bars"></div>' + ballot_card(r), 1)
         if blk and 'class="notice"' not in t and 'class="fnote"' not in t: t = t.replace('<p class="dek" id="dek"></p>', '<p class="dek" id="dek"></p>' + blk, 1)
