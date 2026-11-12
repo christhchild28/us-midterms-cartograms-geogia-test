@@ -1,0 +1,19 @@
+{
+ "race": "pa-2026-governor",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/10/14/republicans-cannot-lose-more-than-two-seats-to-keep-control-of-the-u-s-house-democrats-need-to-gain-three-for-a-majority/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Josh Shapiro",
+    "Stacy Garrity",
+    "Ken Krawchuk (Libertarian)"
+   ]
+  }
+ ]
+}

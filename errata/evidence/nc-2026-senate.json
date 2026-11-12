@@ -1,0 +1,21 @@
+{
+ "race": "nc-2026-senate",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/04/06/roy-cooper-d-michael-whatley-r-and-three-other-candidates-are-running-in-north-carolinas-u-s-senate-election-on-november-3-2026/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 5,
+   "exhaustive": true,
+   "names": [
+    "Roy Cooper",
+    "Michael Whatley",
+    "Brian McGinnis (Green)",
+    "Shannon Bray (Libertarian)",
+    "Shaunesi Deberry (independent)"
+   ]
+  }
+ ]
+}

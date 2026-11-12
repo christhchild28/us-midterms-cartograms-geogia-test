@@ -1,0 +1,19 @@
+{
+ "race": "nv-2026-governor",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Aaron Ford",
+    "Joe Lombardo",
+    "Danielle Ford (No Political Party)"
+   ]
+  }
+ ]
+}

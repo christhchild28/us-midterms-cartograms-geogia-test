@@ -1,0 +1,19 @@
+{
+ "race": "ar-2026-senate",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/10/01/democrats-have-won-13-previously-republican-held-state-legislative-seats-in-special-elections-since-trump-took-office/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Hallie Shoffner",
+    "Tom Cotton",
+    "Jeff Wadlin (Libertarian)"
+   ]
+  }
+ ]
+}

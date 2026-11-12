@@ -9,8 +9,17 @@ ENT = E['entries']; SITE = E['site']; REPO = E['repo']
 SEV = {'S1': 'Wrong headline or winner', 'S2': 'Missing or misleading', 'S3': 'Cosmetic'}
 ST = {'open': 'Open', 'disclosed': 'Disclosed on page', 'corrected': 'Corrected'}
 esc = html.escape
-ROS = json.load(open(os.path.join(ROOT, 'errata', 'rosters.json')))
-FACTS = json.load(open(os.path.join(ROOT, 'errata', 'facts.json')))['races']
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import roster_resolve as RR
+def _safe(name, empty):
+    """Load an errata data file. On a bad file, use the last-good copy, then an empty value, and say so."""
+    p = os.path.join(ROOT, 'errata', name); d, err = RR.load_json(p)
+    if err:
+        print('WARN %s unreadable (%s); trying last-good copy' % (name, err)); d, err2 = RR.load_json(p.replace('.json', '.last-good.json'))
+        if err2: print('WARN no last-good copy; using empty data'); return empty
+    return d
+ROS = _safe('rosters.json', {'checked': '', 'races': {}, 'unresolved': {}})
+FACTS = _safe('facts.json', {'races': {}})['races']
 races = sorted(d for d in os.listdir(os.path.join(ROOT, 'elections')) if os.path.exists(os.path.join(ROOT, 'elections', d, 'index.html')))
 
 def check():
@@ -93,7 +102,7 @@ def roster_note(r):
     om = q.get('omitted'); n = q.get('n_omitted', len(om or []))
     if n == 0: return ''
     who = (' It leaves out ' + '; '.join(esc(x) for x in om) + '.') if om else (' It leaves out %d other candidate%s.' % (n, '' if n == 1 else 's'))
-    body = ('This map shows two of the %d candidates on the ballot, according to Ballotpedia.%s Shares and colours are each county\'s share of the two shown candidates\' votes, not of all votes. '
+    body = ('This map shows two of the %d candidates on the ballot, according to ' + esc(q.get('publisher', 'Ballotpedia')) + '.%s Shares and colours are each county\'s share of the two shown candidates\' votes, not of all votes. '
             '<a style="color:inherit" href="%s">Source</a> &middot; <a style="color:inherit" href="../../errata/#E-2026-002">Corrections</a>') % (q['total'], who, esc(q['src']))
     if q.get('caveat'): body = esc(q['caveat']) + ' ' + body
     return '<!--roster-->' + fnote('Note, added ' + esc(ROS['checked']), body) + '<!--/roster-->'
@@ -113,18 +122,29 @@ def _extras(r, q=None):
             if f.get(k): out += '<span class="bs">%s%s <a href="%s">Source</a></span>' % (lab, esc(f[k]), esc(f['src']))
     return out
 
+def conf_line(q):
+    """Reader-facing confidence: where the roster came from and when."""
+    if q.get('confidence') == 'confirmed': return 'Confirmed against the %s list' % RR.TIERS[1].lower()
+    return 'Reported by %s' % esc(q.get('publisher', 'Ballotpedia'))
+
 def ballot_card(r):
+    try: return _ballot_card(r)
+    except Exception as e:
+        print('WARN ballot card for %s fell back to unverified (%s)' % (r, e))
+        return '<!--ballot--><div class="ballot"><b class="bn">Ballot roster not yet verified</b>Other candidates may be on the ballot.</div><!--/ballot-->'
+
+def _ballot_card(r):
     cp = os.path.join(ROOT, 'elections', r, 'config.json')
     c = json.load(open(cp))['candidates']; shown = [c['a']['full'], c['b']['full']]
     q = ROS['races'].get(r)
     if q:
         n = q.get('n_omitted', len(q.get('omitted') or [])); extra = q.get('extra')
-        tot = ('%d candidates' % q['total']) + (' and %s' % extra if extra else '')
+        tot = ('%s%d candidates' % ('At least ' if q.get('at_least') else '', q['total'])) + (' and %s' % extra if extra else '')
         if n == 0: line = 'The map shows both: %s and %s.' % tuple(esc(x) for x in shown)
         else:
             line = 'The map shows 2: %s and %s.' % tuple(esc(x) for x in shown)
             line += (' Not shown: ' + '; '.join(esc(x) for x in q['omitted']) + '.') if q.get('omitted') else ' Not shown: %d others (names not yet recorded).' % n
-        src = _extras(r, q) + '<span class="bs">Checked %s against Ballotpedia. <a href="%s">Source</a></span>' % (esc(ROS['checked']), esc(q['src']))
+        src = _extras(r, q) + '<span class="bs">%s, checked %s. <a href="%s">Source</a></span>' % (conf_line(q), esc(q.get('retrieved', ROS['checked'])), esc(q['src']))
         return '<!--ballot--><div class="ballot"><b class="bn">%s on the ballot</b>%s%s</div><!--/ballot-->' % (esc(tot), line, src)
     if r in ROS.get('unresolved', {}):
         return '<!--ballot--><div class="ballot"><b class="bn">Ballot roster being checked</b>The map shows 2: %s and %s. Sources disagree on whether others are on the ballot.</div><!--/ballot-->' % tuple(esc(x) for x in shown)

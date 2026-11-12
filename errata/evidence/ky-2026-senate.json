@@ -1,0 +1,19 @@
+{
+ "race": "ky-2026-senate",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/10/27/twenty-three-states-are-holding-state-supreme-court-elections-in-november-six-are-battlegrounds/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Charles Booker",
+    "Andy Barr",
+    "Christopher Campbell (Kentucky Party)"
+   ]
+  }
+ ]
+}

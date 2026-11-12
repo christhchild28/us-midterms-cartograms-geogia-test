@@ -1,0 +1,19 @@
+{
+ "race": "mn-2026-governor",
+ "observations": [
+  {
+   "tier": 4,
+   "publisher": "KAXE",
+   "url": "https://www.kaxe.org/2026-09-28/governor-demuth-klobuchar-young-mn-2026-election-guide",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Amy Klobuchar",
+    "Lisa Demuth",
+    "Steven Young (Green)"
+   ]
+  }
+ ]
+}

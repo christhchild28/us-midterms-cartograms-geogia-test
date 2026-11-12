@@ -1,0 +1,20 @@
+{
+ "race": "az-2026-governor",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/11/08/incumbent-katie-hobbs-d-defeated-andy-biggs-r-risa-lombardo-g-and-teri-hourihan-no-labels-party-in-the-general-election-for-governor-of-arizona/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "exhaustive": true,
+   "names": [
+    "Katie Hobbs",
+    "Andy Biggs",
+    "Risa Lombardo (Green)",
+    "Teri Hourihan (No Labels Party)"
+   ]
+  }
+ ]
+}

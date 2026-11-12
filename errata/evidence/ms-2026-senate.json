@@ -1,0 +1,19 @@
+{
+ "race": "ms-2026-senate",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/10/28/fifteen-of-the-100-most-populous-u-s-cities-are-holding-elections-for-mayor-on-nov-3/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Scott Colom",
+    "Cindy Hyde-Smith",
+    "Ty Pinkins (Independent)"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,19 @@
+{
+ "race": "ar-2026-governor",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/03/05/a-look-at-the-march-3-primary-election-results/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Fred Love",
+    "Sarah Huckabee Sanders",
+    "Colt Shelby (Libertarian)"
+   ]
+  }
+ ]
+}

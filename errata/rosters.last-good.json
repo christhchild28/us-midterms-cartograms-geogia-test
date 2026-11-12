@@ -1,0 +1,337 @@
+{
+ "checked": "2026-11-12",
+ "note": "Derived from errata/evidence by src/roster_resolve.py. Do not edit by hand.",
+ "races": {
+  "ar-2026-governor": {
+   "total": 3,
+   "omitted": [
+    "Colt Shelby (Libertarian)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/03/05/a-look-at-the-march-3-primary-election-results/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ar-2026-senate": {
+   "total": 3,
+   "omitted": [
+    "Jeff Wadlin (Libertarian)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/10/01/democrats-have-won-13-previously-republican-held-state-legislative-seats-in-special-elections-since-trump-took-office/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "az-2026-governor": {
+   "total": 4,
+   "omitted": [
+    "Risa Lombardo (Green)",
+    "Teri Hourihan (No Labels Party)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/11/08/incumbent-katie-hobbs-d-defeated-andy-biggs-r-risa-lombardo-g-and-teri-hourihan-no-labels-party-in-the-general-election-for-governor-of-arizona/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ca-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://news.ballotpedia.org/2026/06/24/xavier-becerra-d-and-steve-hilton-r-to-run-for-governor-of-california-on-nov-3/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "fl-2026-senate": {
+   "total": 3,
+   "omitted": [
+    "Neil Gillespie (no party affiliation)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/11/05/incumbent-ashley-b-moody-r-defeated-angie-nixon-d-and-neil-gillespie-no-party-affiliation-in-the-special-election-for-u-s-senate-in-florida/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ga-2026-senate": {
+   "total": 7,
+   "omitted": null,
+   "src": "https://news.ballotpedia.org/?p=49963",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 5,
+   "conflicts": []
+  },
+  "ia-2026-senate": {
+   "total": 3,
+   "omitted": [
+    "Thomas Laehn (Libertarian)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/11/06/josh-turek-d-defeated-ashley-hinson-r-and-thomas-laehn-l-in-the-general-election-for-u-s-senate-in-iowa/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "id-2026-senate": {
+   "total": 4,
+   "omitted": [
+    "Matt Loesby (Libertarian)",
+    "Natalie Fleming (independent)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/09/15/u-s-house-primary-candidacies-increased-in-three-states-after-new-maps-reopened-filing-deadlines/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ky-2026-senate": {
+   "total": 3,
+   "omitted": [
+    "Christopher Campbell (Kentucky Party)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/10/27/twenty-three-states-are-holding-state-supreme-court-elections-in-november-six-are-battlegrounds/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "mi-2026-governor": {
+   "total": 6,
+   "omitted": null,
+   "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 4,
+   "conflicts": []
+  },
+  "mi-2026-senate": {
+   "total": 6,
+   "omitted": [
+    "Douglas P. Marsh (Green)",
+    "Lydia Christensen (Libertarian)",
+    "Walter Kristy (Natural Law Party in Michigan)",
+    "Timothy Long (U.S. Taxpayers Party)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/10/20/ballotpedias-top-50-ballot-measures-and-trends-to-watch-on-election-day/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "mn-2026-governor": {
+   "total": 3,
+   "omitted": [
+    "Steven Young (Green)"
+   ],
+   "src": "https://www.kaxe.org/2026-09-28/governor-demuth-klobuchar-young-mn-2026-election-guide",
+   "publisher": "KAXE",
+   "tier": 4,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ms-2026-senate": {
+   "total": 3,
+   "omitted": [
+    "Ty Pinkins (Independent)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/10/28/fifteen-of-the-100-most-populous-u-s-cities-are-holding-elections-for-mayor-on-nov-3/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "mt-2026-senate": {
+   "total": 4,
+   "omitted": [
+    "Alani Bankhead (Democratic)",
+    "Kyle Austin (Libertarian)"
+   ],
+   "src": "https://news.ballotpedia.org/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "extra": "one write-in candidate",
+   "conflicts": []
+  },
+  "nc-2026-senate": {
+   "total": 5,
+   "omitted": [
+    "Brian McGinnis (Green)",
+    "Shannon Bray (Libertarian)",
+    "Shaunesi Deberry (independent)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/04/06/roy-cooper-d-michael-whatley-r-and-three-other-candidates-are-running-in-north-carolinas-u-s-senate-election-on-november-3-2026/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ne-2026-senate": {
+   "total": 3,
+   "omitted": [
+    "Mike Marvin (Legal Marijuana Now Party)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/07/24/nebraska-set-to-have-a-second-straight-u-s-senate-election-without-both-major-parties-on-the-ballot-2/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "caveat": "Ballotpedia's result headline counts five names, including a nominee who withdrew. We are confirming the exact ballot.",
+   "conflicts": []
+  },
+  "nv-2026-governor": {
+   "total": 3,
+   "omitted": null,
+   "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 1,
+   "conflicts": []
+  },
+  "oh-2026-governor": {
+   "total": 3,
+   "omitted": [
+    "Don Kissick (Libertarian)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "ok-2026-senate": {
+   "total": 5,
+   "omitted": null,
+   "src": "https://news.ballotpedia.org/2026/10/26/the-democratic-socialists-of-america-endorses-131-candidates-and-takes-sides-on-33-ballot-measures-in-the-nov-3-elections/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 3,
+   "conflicts": []
+  },
+  "pa-2026-governor": {
+   "total": 3,
+   "omitted": [
+    "Ken Krawchuk (Libertarian)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/10/14/republicans-cannot-lose-more-than-two-seats-to-keep-control-of-the-u-s-house-democrats-need-to-gain-three-for-a-majority/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "sc-2026-senate": {
+   "total": 10,
+   "omitted": null,
+   "src": "https://news.ballotpedia.org/2026/10/06/republican-incumbents-lost-primaries-at-twice-the-rate-of-democrats-in-this-years-state-legislative-elections/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 8,
+   "conflicts": []
+  },
+  "sd-2026-governor": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://www.newsfromthestates.com/node/424723",
+   "publisher": "South Dakota Searchlight",
+   "tier": 4,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "sd-2026-senate": {
+   "total": 2,
+   "omitted": null,
+   "src": "https://news.ballotpedia.org/2026/08/06/julian-beaudion-becomes-the-fifth-major-or-minor-party-u-s-senate-nominee-to-withdraw-from-a-general-election-this-year/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  },
+  "tx-2026-senate": {
+   "total": 7,
+   "omitted": null,
+   "src": "https://news.ballotpedia.org/?p=52297",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "n_omitted": 5,
+   "conflicts": []
+  },
+  "wi-2026-governor": {
+   "total": 3,
+   "omitted": [
+    "Jamie Jo Carothers (independent write-in)"
+   ],
+   "src": "https://news.ballotpedia.org/2026/10/14/democrats-are-defending-five-governorships-in-states-trump-won-in-2024-republicans-are-defending-two-in-states-harris-won/",
+   "publisher": "Ballotpedia",
+   "tier": 3,
+   "confidence": "reported",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "conflicts": []
+  }
+ },
+ "unresolved": {
+  "ia-2026-governor": "Ballotpedia listed Nicholas Gluba (L) in June; its November result headline names only Sand and Lahn. Being checked.",
+  "ks-2026-governor": "Ballotpedia names only Holscher (D) and Masterson (R) before the election. No full roster found yet.",
+  "mn-2026-senate": "Axios reports third-party candidates in four Minnesota races. The Senate roster is not confirmed.",
+  "nm-2026-governor": "No general-election roster found yet.",
+  "nm-2026-senate": "Source NM says Luján and Marker will face each other. No third candidate found, but we have no state list yet.",
+  "sc-2026-governor": "Wilson (R), Johnson (D) and Michael Addison (United Citizens) are listed by MultiState. The full roster is not confirmed."
+ }
+}

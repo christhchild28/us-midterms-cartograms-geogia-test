@@ -1,0 +1,22 @@
+{
+ "race": "mi-2026-senate",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/10/20/ballotpedias-top-50-ballot-measures-and-trends-to-watch-on-election-day/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 6,
+   "exhaustive": true,
+   "names": [
+    "Abdul El-Sayed",
+    "Mike Rogers",
+    "Douglas P. Marsh (Green)",
+    "Lydia Christensen (Libertarian)",
+    "Walter Kristy (Natural Law Party in Michigan)",
+    "Timothy Long (U.S. Taxpayers Party)"
+   ]
+  }
+ ]
+}

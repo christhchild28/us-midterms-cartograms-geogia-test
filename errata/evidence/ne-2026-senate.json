@@ -1,0 +1,20 @@
+{
+ "race": "ne-2026-senate",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/07/24/nebraska-set-to-have-a-second-straight-u-s-senate-election-without-both-major-parties-on-the-ballot-2/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Dan Osborn",
+    "Pete Ricketts",
+    "Mike Marvin (Legal Marijuana Now Party)"
+   ],
+   "caveat": "Ballotpedia's result headline counts five names, including a nominee who withdrew. We are confirming the exact ballot."
+  }
+ ]
+}

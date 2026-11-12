@@ -1,0 +1,21 @@
+{
+ "race": "mt-2026-senate",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 4,
+   "exhaustive": true,
+   "names": [
+    "Seth Bodnar",
+    "Kurt Alme",
+    "Alani Bankhead (Democratic)",
+    "Kyle Austin (Libertarian)"
+   ],
+   "extra": "one write-in candidate"
+  }
+ ]
+}

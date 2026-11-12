@@ -1,0 +1,19 @@
+{
+ "race": "ia-2026-senate",
+ "observations": [
+  {
+   "tier": 3,
+   "publisher": "Ballotpedia",
+   "url": "https://news.ballotpedia.org/2026/11/06/josh-turek-d-defeated-ashley-hinson-r-and-thomas-laehn-l-in-the-general-election-for-u-s-senate-in-iowa/",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 3,
+   "exhaustive": true,
+   "names": [
+    "Josh Turek",
+    "Ashley Hinson",
+    "Thomas Laehn (Libertarian)"
+   ]
+  }
+ ]
+}
