@@ -9,6 +9,7 @@ ENT = E['entries']; SITE = E['site']; REPO = E['repo']
 SEV = {'S1': 'Wrong headline or winner', 'S2': 'Missing or misleading', 'S3': 'Cosmetic'}
 ST = {'open': 'Open', 'disclosed': 'Disclosed on page', 'corrected': 'Corrected'}
 esc = html.escape
+ROS = json.load(open(os.path.join(ROOT, 'errata', 'rosters.json')))
 races = sorted(d for d in os.listdir(os.path.join(ROOT, 'elections')) if os.path.exists(os.path.join(ROOT, 'elections', d, 'index.html')))
 
 def check():
@@ -20,6 +21,9 @@ def check():
         cp = os.path.join(ROOT, 'elections', r, 'config.json')
         if os.path.exists(cp) and json.load(open(cp)).get('text', {}).get('notice') and not any(r in e['races'] for e in ENT):
             bad.append('%s has a page note but no errata entry' % r)
+    for r, q in ROS['races'].items():
+        if r not in races: bad.append('rosters.json names missing page ' + r)
+        elif (q.get('n_omitted', len(q.get('omitted') or [])) > 0) and not any(r in e['races'] for e in ENT): bad.append(r + ' omits candidates but has no errata entry')
     ids = [e['id'] for e in ENT]
     if len(ids) != len(set(ids)): bad.append('duplicate entry id')
     return bad
@@ -67,6 +71,28 @@ def inject():
         if t != t0: open(p, 'w').write(t); n += 1
     return n
 
+
+def roster_note(r):
+    q = ROS['races'].get(r)
+    if not q or r == 'mt-2026-senate': return ''
+    om = q.get('omitted'); n = q.get('n_omitted', len(om or []))
+    if n == 0: return ''
+    who = (' It leaves out ' + '; '.join(esc(x) for x in om) + '.') if om else (' It leaves out %d other candidate%s.' % (n, '' if n == 1 else 's'))
+    return ('<!--roster--><aside role="note" style="border:1px solid;border-left-width:4px;border-color:color-mix(in srgb,currentColor 35%%,transparent);border-radius:8px;padding:10px 12px;margin:12px 0 0;max-width:62ch;font-size:14px;line-height:1.5">'
+            '<b>Note, added %s.</b> This map shows two of the %d candidates on the ballot, according to Ballotpedia.%s '
+            'Shares and colours are each county\'s share of the two shown candidates\' votes, not of all votes. '
+            '<a style="color:inherit" href="%s">Source</a> &middot; <a style="color:inherit" href="../../errata/#E-2026-002">Corrections</a></aside><!--/roster-->') % (esc(ROS['checked']), q['total'], who, esc(q['src']))
+
+def inject_roster():
+    n = 0
+    for r in races:
+        p = os.path.join(ROOT, 'elections', r, 'index.html'); t = t0 = open(p).read()
+        blk = roster_note(r)
+        t = re.sub(r'<!--roster-->.*?<!--/roster-->', '', t, flags=re.S)
+        if blk and 'class="notice"' not in t: t = t.replace('<p class="dek" id="dek"></p>', '<p class="dek" id="dek"></p>' + blk, 1)
+        if t != t0: open(p, 'w').write(t); n += 1
+    return n
+
 if __name__ == '__main__':
     cmd = sys.argv[1] if len(sys.argv) > 1 else 'check'
     bad = check()
@@ -75,5 +101,5 @@ if __name__ == '__main__':
         open(os.path.join(ROOT, 'errata', 'index.html'), 'w').write(page())
         open(os.path.join(ROOT, 'errata', 'feed.xml'), 'w').write(feed())
         open(os.path.join(ROOT, 'ERRATA.md'), 'w').write(md())
-        print('wrote errata page, feed, ERRATA.md; footer link on', inject(), 'page(s)')
-    else: print('check ok:', len(ENT), 'entries,', len(races), 'pages')
+        print('wrote errata page, feed, ERRATA.md; footer link on', inject(), 'page(s); roster note on', inject_roster(), 'page(s)')
+    else: print('check ok:', len(ENT), 'entries,', len(races), 'pages;', len(ROS['races']), 'rosters checked,', len(races) - len(ROS['races']), 'pages NOT yet checked')

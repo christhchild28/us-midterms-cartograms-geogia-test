@@ -2,13 +2,13 @@
 
 Generated from `errata/errata.json`. Do not edit by hand.
 
-## E-2026-002 Other pages also map only two candidates
+## E-2026-002 Twelve more pages map only some of the candidates on the ballot
 
-2026-11-11 · Open (S2) · pages: ne-2026-senate, tx-2026-senate
+2026-11-11 · Open (S2) · pages: ga-2026-senate, tx-2026-senate, ne-2026-senate, nc-2026-senate, mi-2026-senate, ky-2026-senate, az-2026-governor, mi-2026-governor, nv-2026-governor, oh-2026-governor, wi-2026-governor, pa-2026-governor
 
-**Wrong.** Nebraska Senate had five candidates on the ballot and Texas Senate had seven, according to Ballotpedia. Each page maps two. We are checking every other page the same way and will add each result to this log.
+**Wrong.** According to Ballotpedia, these pages show two candidates while more were on the ballot: Georgia, Texas, Nebraska, North Carolina, Kentucky and Michigan for Senate, and Arizona, Michigan, Nevada, Ohio, Wisconsin and Pennsylvania for governor. Shares on these pages are shares of the two shown candidates, not of all votes. California is complete (top-two race). About 40 other pages have not been checked yet.
 
-**Done.** Audit in progress. No page data has changed yet.
+**Done.** Added a dated note with the count, names where known, and a source link to each of the twelve pages. Map data is unchanged. The audit continues; each result will be added here.
 
 **Catch.** Same as E-2026-001.
 
