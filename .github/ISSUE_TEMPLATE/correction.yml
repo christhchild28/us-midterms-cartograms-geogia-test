@@ -1,0 +1,38 @@
+name: Report an error
+description: Tell us about a wrong number, a missing candidate, a wrong label or anything else on a page.
+title: "[Correction] "
+labels: ["correction", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Reports here are public. Do not include personal details.
+        We answer within 2 days. Errors that change a headline number or the winner are handled first.
+  - type: input
+    id: race
+    attributes:
+      label: Which page?
+      description: The page address or race name, for example mt-2026-senate.
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong?
+      description: Say what the page shows and what you think is correct.
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source
+      description: A link to an official result or other source that supports your report.
+  - type: dropdown
+    id: effect
+    attributes:
+      label: How serious is it?
+      options:
+        - Changes a headline number or who won
+        - A candidate, label or party is missing or wrong
+        - Small or cosmetic
+        - I am not sure

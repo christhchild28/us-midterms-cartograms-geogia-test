@@ -1,0 +1,37 @@
+{
+  "site": "https://christhchild28.github.io/us-midterms-cartograms-geogia-test/",
+  "repo": "https://github.com/christhchild28/us-midterms-cartograms-geogia-test",
+  "contact_email": "corrections@Fovea.com",
+  "entries": [
+    {
+      "id": "E-2026-001",
+      "date": "2026-11-11",
+      "severity": "S2",
+      "status": "disclosed",
+      "races": [
+        "mt-2026-senate"
+      ],
+      "found_by": "editor review",
+      "title": "Montana Senate map shows two of the candidates on the ballot",
+      "wrong": "The page maps Seth Bodnar (independent) and Kurt Alme (Republican) only. It leaves out Democrat Alani Bankhead, Libertarian Kyle Austin and one write-in candidate. The headline share is therefore a share of the two shown candidates' votes, not of all votes.",
+      "done": "Added a dated note at the top of the page that names the omitted candidates and says what the shares mean. The map data is unchanged. A full four-candidate version is planned.",
+      "prevent": "Every race must list its full ballot, and any omitted candidate must appear in a page note. A check for this is being built."
+    },
+    {
+      "id": "E-2026-002",
+      "date": "2026-11-11",
+      "severity": "S2",
+      "status": "open",
+      "races": [
+        "ne-2026-senate",
+        "tx-2026-senate"
+      ],
+      "found_by": "audit of all pages",
+      "title": "Other pages also map only two candidates",
+      "wrong": "Nebraska Senate had five candidates on the ballot and Texas Senate had seven, according to Ballotpedia. Each page maps two. We are checking every other page the same way and will add each result to this log.",
+      "done": "Audit in progress. No page data has changed yet.",
+      "prevent": "Same as E-2026-001."
+    }
+  ],
+  "email_live": false
+}

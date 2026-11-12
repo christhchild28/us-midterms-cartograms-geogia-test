@@ -1,0 +1,79 @@
+"""Corrections pipeline. Source of truth: errata/errata.json.
+  python3 src/corrections.py build   writes errata/index.html, errata/feed.xml, ERRATA.md and the footer link on every page
+  python3 src/corrections.py check   fails on a page note with no entry, or an entry naming a missing page
+"""
+import json, os, re, sys, html
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+E = json.load(open(os.path.join(ROOT, 'errata', 'errata.json')))
+ENT = E['entries']; SITE = E['site']; REPO = E['repo']
+SEV = {'S1': 'Wrong headline or winner', 'S2': 'Missing or misleading', 'S3': 'Cosmetic'}
+ST = {'open': 'Open', 'disclosed': 'Disclosed on page', 'corrected': 'Corrected'}
+esc = html.escape
+races = sorted(d for d in os.listdir(os.path.join(ROOT, 'elections')) if os.path.exists(os.path.join(ROOT, 'elections', d, 'index.html')))
+
+def check():
+    bad = []
+    for e in ENT:
+        for r in e['races']:
+            if r not in races: bad.append('%s names missing page %s' % (e['id'], r))
+    for r in races:
+        cp = os.path.join(ROOT, 'elections', r, 'config.json')
+        if os.path.exists(cp) and json.load(open(cp)).get('text', {}).get('notice') and not any(r in e['races'] for e in ENT):
+            bad.append('%s has a page note but no errata entry' % r)
+    ids = [e['id'] for e in ENT]
+    if len(ids) != len(set(ids)): bad.append('duplicate entry id')
+    return bad
+
+def contact():
+    return E['contact_email'] if E.get('email_live') and E.get('contact_email') else None
+
+def report_url(r=''):
+    return REPO + '/issues/new?template=correction.yml' + ('&race=' + r if r else '')
+
+CSS = ':root{color-scheme:light dark;--bg:#fff;--ink:#16181d;--ink2:#555b66;--line:#d9dce2}@media(prefers-color-scheme:dark){:root{--bg:#111318;--ink:#eceef2;--ink2:#a3a9b5;--line:#2c313a}}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,sans-serif}main{max-width:68ch;margin:0 auto;padding:20px 16px 48px}h1{font-size:26px;line-height:1.2;margin:8px 0 4px}h2{font-size:18px;margin:0 0 6px}a{color:inherit}.sub{color:var(--ink2);margin:0 0 20px}.e{border:1px solid var(--line);border-left:4px solid var(--ink2);border-radius:8px;padding:12px 14px;margin:0 0 14px}.m{font-size:13px;color:var(--ink2);margin:0 0 8px}.e p{margin:0 0 8px}.btn{display:inline-block;padding:11px 14px;border:1px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:600;min-height:44px}'
+
+def page():
+    out = []
+    for e in sorted(ENT, key=lambda x: x['id'], reverse=True):
+        links = ' · '.join('<a href="../elections/%s/">%s</a>' % (r, esc(r)) for r in e['races'])
+        out.append('<article class="e" id="%s"><p class="m">%s · %s · %s (%s)</p><h2>%s</h2><p><b>What was wrong.</b> %s</p><p><b>What we did.</b> %s</p><p><b>How we will catch it.</b> %s</p><p class="m">Pages: %s · Found by: %s</p></article>' % (
+            e['id'], esc(e['id']), esc(e['date']), esc(ST[e['status']]), esc(e['severity']), esc(e['title']), esc(e['wrong']), esc(e['done']), esc(e['prevent']), links, esc(e['found_by'])))
+    c = contact()
+    where = '<a class="btn" href="%s">Report an error</a>' % esc(report_url()) + ('<p class="m">Or write to <a href="mailto:%s">%s</a>.</p>' % (c, c) if c else '')
+    return '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Corrections</title><link rel="alternate" type="application/atom+xml" title="Corrections" href="feed.xml"><style>%s</style></head><body><main><p><a href="../">&larr; All elections</a></p><h1>Corrections</h1><p class="sub">We list every error we find in our own pages, what we did, and how we will catch the next one. Entries are never deleted. <a href="feed.xml">Feed</a></p>%s%s<p class="m">Policy: severity levels and response times are in docs/CORRECTIONS.md in the repository.</p></main></body></html>' % (CSS, where, ''.join(out))
+
+def feed():
+    ent = ''.join('<entry><id>tag:fovea,2026:errata:%s</id><title>%s</title><updated>%sT12:00:00Z</updated><link href="%serrata/#%s"/><summary>%s</summary></entry>' % (
+        e['id'], esc(e['id'] + ' ' + e['title']), e['date'], SITE, e['id'], esc('%s. %s' % (ST[e['status']], e['wrong']))) for e in sorted(ENT, key=lambda x: x['id'], reverse=True))
+    upd = max(e['date'] for e in ENT)
+    return '<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom"><id>tag:fovea,2026:errata</id><title>Corrections</title><updated>%sT12:00:00Z</updated><link rel="self" href="%serrata/feed.xml"/><link href="%serrata/"/>%s</feed>\n' % (upd, SITE, SITE, ent)
+
+def md():
+    s = '# Corrections\n\nGenerated from `errata/errata.json`. Do not edit by hand.\n\n'
+    for e in sorted(ENT, key=lambda x: x['id'], reverse=True):
+        s += '## %s %s\n\n%s · %s (%s) · pages: %s\n\n**Wrong.** %s\n\n**Done.** %s\n\n**Catch.** %s\n\n' % (e['id'], e['title'], e['date'], ST[e['status']], e['severity'], ', '.join(e['races']), e['wrong'], e['done'], e['prevent'])
+    return s
+
+def inject():
+    n = 0
+    for r in races:
+        p = os.path.join(ROOT, 'elections', r, 'index.html'); t = t0 = open(p).read()
+        cnt = sum(r in e['races'] for e in ENT)
+        c = contact()
+        blk = '<!--corr--><p class="corr"><a style="display:inline-block;padding:10px 0;color:inherit" href="%s">Report an error</a> · <a style="display:inline-block;padding:10px 0;color:inherit" href="../../errata/">Corrections%s</a>%s</p><!--/corr-->' % (
+            esc(report_url(r)), (' (%d for this page)' % cnt) if cnt else '', (' · <a style="display:inline-block;padding:10px 0;color:inherit" href="mailto:%s">%s</a>' % (c, c)) if c else '')
+        if '<!--corr-->' in t: t = re.sub(r'<!--corr-->.*?<!--/corr-->', lambda m: blk, t, count=1, flags=re.S)
+        else: t = t.replace('<p>', '<p>', 0); t = re.sub(r'(<div class="foot">.*?)(</div>)', lambda m: m.group(1) + blk + m.group(2), t, count=1, flags=re.S)
+        if t != t0: open(p, 'w').write(t); n += 1
+    return n
+
+if __name__ == '__main__':
+    cmd = sys.argv[1] if len(sys.argv) > 1 else 'check'
+    bad = check()
+    if bad: print('\n'.join('FAIL ' + b for b in bad)); sys.exit(1)
+    if cmd == 'build':
+        open(os.path.join(ROOT, 'errata', 'index.html'), 'w').write(page())
+        open(os.path.join(ROOT, 'errata', 'feed.xml'), 'w').write(feed())
+        open(os.path.join(ROOT, 'ERRATA.md'), 'w').write(md())
+        print('wrote errata page, feed, ERRATA.md; footer link on', inject(), 'page(s)')
+    else: print('check ok:', len(ENT), 'entries,', len(races), 'pages')
