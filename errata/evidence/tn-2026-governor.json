@@ -26,6 +26,33 @@
     "Vic Scoggin (Independent)",
     "Karl Smithson (Independent)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Tennessee Secretary of State",
+   "url": "https://elections.tn.gov/categories/governor/offices",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 15,
+   "names": [
+    "Marsha Blackburn",
+    "Jerri Green",
+    "David Hatley (Independent)",
+    "Lauren Pinkston (Independent)",
+    "Dean Brewer (Independent)",
+    "Ray Brown (Independent)",
+    "Wendell Jackson (Independent)",
+    "Eddie Lee Murphy (Independent)",
+    "Robert C. Vick (Independent)",
+    "Misam Abidi (Independent)",
+    "Charles Van Morgan (Independent)",
+    "L. Webb Taylor (Independent)",
+    "Dave Seeman (Independent)",
+    "Victor L. Scoggin (Independent)",
+    "Karl Knox Smithson (Independent)"
+   ],
+   "exhaustive": true,
+   "caveat": "Final unofficial results, 95 of 95 counties."
   }
  ]
 }

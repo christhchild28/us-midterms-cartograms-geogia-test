@@ -594,29 +594,31 @@
   "sc-2026-governor": {
    "total": 4,
    "omitted": [
-    "Michael A. Addison (United Citizens)",
-    "Walid N. Hakim (Green)"
+    "Michael Addison (United Citizens)",
+    "Walid Hakim (Green)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/SC",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://www.enr-scvotes.org/SC/127300/web.345435/#/summary",
+   "publisher": "South Carolina Election Commission",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-10",
    "retrieved": "2026-11-12",
+   "caveat": "Official results page, 46 of 46 counties reporting; candidates are those listed on the results, plus write-ins.",
    "conflicts": []
   },
   "sc-2026-senate": {
    "total": 4,
    "omitted": [
-    "Kathryn \"Kasie\" Whitener (Libertarian)",
-    "Mark J. Hackett (Constitution)"
+    "Kasie Whitener (Libertarian)",
+    "Mark Hackett (Constitution)"
    ],
-   "src": "https://www.thegreenpapers.com/G26/SC",
-   "publisher": "The Green Papers",
-   "tier": 2,
-   "confidence": "reported",
-   "as_of": "2026-11-12",
+   "src": "https://www.enr-scvotes.org/SC/127300/web.345435/#/summary",
+   "publisher": "South Carolina Election Commission",
+   "tier": 1,
+   "confidence": "confirmed",
+   "as_of": "2026-11-10",
    "retrieved": "2026-11-12",
+   "caveat": "Official results page, 46 of 46 counties reporting; candidates are those listed on the results, plus write-ins.",
    "conflicts": [
     {
      "publisher": "Ballotpedia",

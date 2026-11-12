@@ -21,6 +21,28 @@
     "Yoshi Matthews (Independent)",
     "James Macon (Independent)"
    ]
+  },
+  {
+   "tier": 1,
+   "publisher": "Tennessee Secretary of State",
+   "url": "https://elections.tn.gov/categories/congressional/offices",
+   "as_of": "2026-11-12",
+   "retrieved": "2026-11-12",
+   "total": 10,
+   "names": [
+    "Bill Hagerty",
+    "Marquita Bradshaw",
+    "Robert Jones (Independent)",
+    "Tharon Chandler (Independent)",
+    "Andrew Gerena (Independent)",
+    "Barcy Whitson (Independent)",
+    "Jeremy Dean Hearn (Independent)",
+    "David Sutman, Jr. (Independent)",
+    "Yoshi D. Matthews (Independent)",
+    "James William Macon III (Independent)"
+   ],
+   "exhaustive": true,
+   "caveat": "Final unofficial results, 95 of 95 counties."
   }
  ]
 }
