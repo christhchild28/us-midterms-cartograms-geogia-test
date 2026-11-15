@@ -8,7 +8,7 @@ Interactive county maps that show election results two ways: by land area, and b
 
 - This is **version 1**. It is frozen on the `v1-final` branch. A second, stricter version (typed data model, stable unit IDs, stronger checks) is planned in a separate repository.
 - **54 pages** are built, one per race (listed below). One more race, Virginia Senate, has a config and data but **no page**: the layout step stalls on its 133 counties and independent cities.
-- All results are **unofficial** unless a page says otherwise. Each page names its source and the date of its numbers in the footer. One race (Kansas governor) was uncalled when built; that page says "leads", not "won". Mississippi Senate was uncalled when first built and was updated after the AP call (Nov 11).
+- All results are **unofficial** unless a page says otherwise. Each page names its source and the date of its numbers in the footer. Two races (Kansas governor, Mississippi Senate) were uncalled when first built; both were updated after they were called, so no page now says "leads".
 - The scheduled results refresh on Dec 12 can still add commits to `main`.
 
 ## What a page shows
@@ -55,7 +55,7 @@ Generated from the `elections/*/config.json` files on 2026-11-11. Candidate A us
 | Illinois | Senate | Stratton vs Tracy | NBC News / AP | 10,000 | [open](elections/il-2026-senate/) |
 | Iowa | Governor | Sand vs Lahn | NBC News / AP | 10,000 | [open](elections/ia-2026-governor/) |
 | Iowa | Senate | Turek vs Hinson | NBC News / AP | 10,000 | [open](elections/ia-2026-senate/) |
-| Kansas | Governor (uncalled) | Holscher vs Masterson | NBC News / AP | 3,000 | [open](elections/ks-2026-governor/) |
+| Kansas | Governor | Holscher vs Masterson | NBC News / AP | 3,000 | [open](elections/ks-2026-governor/) |
 | Kentucky | Senate | Booker vs Barr | NBC News / AP | 5,000 | [open](elections/ky-2026-senate/) |
 | Louisiana | Senate | Davis vs Letlow | NBC News / AP | 5,000 | [open](elections/la-2026-senate/) |
 | Michigan | Governor | Benson vs James | Michigan SoS | 10,000 | [open](elections/mi-2026-governor/) |
