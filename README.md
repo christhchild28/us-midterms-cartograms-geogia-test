@@ -8,7 +8,7 @@ Interactive county maps that show election results two ways: by land area, and b
 
 - This is **version 1**. It is frozen on the `v1-final` branch. A second, stricter version (typed data model, stable unit IDs, stronger checks) is planned in a separate repository.
 - **54 pages** are built, one per race (listed below). One more race, Virginia Senate, has a config and data but **no page**: the layout step stalls on its 133 counties and independent cities.
-- All results are **unofficial** unless a page says otherwise. Each page names its source and the date of its numbers in the footer. Two races (Kansas governor, Mississippi Senate) were uncalled when built; those pages say "leads", not "won".
+- All results are **unofficial** unless a page says otherwise. Each page names its source and the date of its numbers in the footer. One race (Kansas governor) was uncalled when built; that page says "leads", not "won". Mississippi Senate was uncalled when first built and was updated after the AP call (Nov 11).
 - The scheduled results refresh on Dec 12 can still add commits to `main`.
 
 ## What a page shows
@@ -62,7 +62,7 @@ Generated from the `elections/*/config.json` files on 2026-11-11. Candidate A us
 | Michigan | Senate | El-Sayed vs Rogers | Michigan SoS | 10,000 | [open](elections/mi-2026-senate/) |
 | Minnesota | Governor | Klobuchar vs Demuth | NBC News / AP | 10,000 | [open](elections/mn-2026-governor/) |
 | Minnesota | Senate | Flanagan vs Tafoya | NBC News / AP | 10,000 | [open](elections/mn-2026-senate/) |
-| Mississippi | Senate (uncalled) | Colom vs Hyde-Smith | NBC News / AP | 3,000 | [open](elections/ms-2026-senate/) |
+| Mississippi | Senate | Colom vs Hyde-Smith | NBC News / AP | 3,000 | [open](elections/ms-2026-senate/) |
 | Montana | Senate | Bodnar vs Alme | NBC News / AP | 10,000 | [open](elections/mt-2026-senate/) |
 | Nebraska | Governor | Walz vs Pillen | NBC News / AP | 10,000 | [open](elections/ne-2026-governor/) |
 | Nebraska | Senate | Osborn vs Ricketts | NBC News / AP | 10,000 | [open](elections/ne-2026-senate/) |
